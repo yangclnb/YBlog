@@ -17,6 +17,7 @@ ul {
   --mainFontColor: black;
   --secondaryFontColor: #AAB5CB;
   --themeColor: #06a6ff;
+  --backGroundColor:white;
 }
 
 /*---滚动条默认显示样式--*/

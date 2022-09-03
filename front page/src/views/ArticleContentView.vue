@@ -1,12 +1,12 @@
-
-    <script setup>
-import { onMounted, onBeforeMount, ref } from "vue";
+<script setup>
+import { onMounted, onBeforeMount, ref, onDeactivated, onUnmounted } from "vue";
 import router from "../router";
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 import hljs from "highlight.js"; // 引入高亮模块
 import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/atom-one-light.css"; //引入一种语法的高亮
 import { getArticleByID } from "../api/artical.js"; // 读取文章信息
+import { computed } from "@vue/reactivity";
 
 let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
 let articleInfo = ref([]);
@@ -47,19 +47,39 @@ onMounted(() => {
           index,
           tag: "title" + node.tagName,
           text: node.textContent,
-          active: false,
+          active: id == 0 ? true : false, // 初始化时高亮第一条数据
         });
         id++;
       }
       index++;
     }
-    console.log("titleArr :>> ", titleArr.value);
+
+    // 若是 摘要列表中存在内容 则添加滚动事件
+    if (titleArr.value.length > 0) {
+      window.addEventListener("scroll", DigestHighLightByScroll);
+    }
   }, 200);
+});
+
+// 关闭页面时清楚绑定的scroll事件
+onUnmounted(() => {
+  window.removeEventListener("scroll", DigestHighLightByScroll);
+});
+
+/**
+ * @function:
+ * @description: 格式化发布时间事件
+ * @param {*} computed
+ * @return {*}
+ * @author: Banana
+ */
+let articleReleaseTime = computed(() => {
+  return articleInfo.value.pubtime.split("T")[0]
 });
 
 /**
  * @function navigateToNode
- * @description: 点击后，滚动到 文章中 该标题的位置，并且高亮点击的摘要 
+ * @description: 点击后，滚动到 文章中 该标题的位置，并且高亮点击的摘要
  * @param {*} articleNodeIndex 文章中的节点索引
  * @param {*} digestIndex 摘要中的节点索引
  * @return {void}
@@ -68,18 +88,21 @@ onMounted(() => {
 function navigateToArticleNode(articleNodeIndex, digestIndex) {
   clearDigestHighLight();
   let content = document.querySelector("#articleContent").children;
-  content[articleNodeIndex].scrollIntoView({ behavior: "smooth" });
+  content[articleNodeIndex].scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
   titleArr.value[digestIndex].active = true;
 }
 
 /**
- * @function: 
+ * @function:
  * @description: 滚动页面改变最顶端的标题后，定位到这个标题对应的摘要位置，并且高亮他
  * @param {*} currentDigest 当前摘要对象
  * @return {*}
  * @author: Banana
  */
-function navigateToDigestNode(currentDigest){
+function navigateToDigestNode(currentDigest) {
   let digestList = document.querySelector("#digestList").children;
   currentDigest.active = true;
   // console.log('digestList[currentDigest.id] :>> ', digestList[currentDigest.id]);
@@ -98,345 +121,385 @@ function clearDigestHighLight() {
   }
 }
 
-/**
- * @description: 每次滚动条改变，判断当前那个标题元素处于最顶部，在摘要中高亮显示他
- * @author: Banana
- */
-window.addEventListener("scroll",()=>{
+function DigestHighLightByScroll() {
   let content = document.querySelector("#articleContent").children;
   clearDigestHighLight();
   // TODO 添加防抖
   for (const item of titleArr.value) {
     const currentNodePosition = content[item.index].getBoundingClientRect();
-    if(currentNodePosition.bottom > 0){
+    if (currentNodePosition.bottom > 0) {
       navigateToDigestNode(item);
       return;
     }
-    
   }
-})
+  // 若是遍历完之后没有标题在屏幕中，则高亮最后一条摘要
+  navigateToDigestNode(titleArr.value[titleArr.value.length - 1]);
+}
 </script>
 
 
 <template>
-  <div id="articlebox">
-    <div id="digest">
-      <ul id="digestList">
-        <li
-          v-for="item in titleArr"
-          :key="item.id"
-          @click="navigateToArticleNode(item.index, item.id)"
-          :class="{ active: item.active }"
-        >
-          {{ item.text }}
-        </li>
-      </ul>
-    </div>
-    <div id="articlePart">
-      <img v-if="articleInfo.titleImg" :src="articleInfo.titleImg" alt="" />
-      <div id="articleInfo">
-        <h1>{{ articleInfo.title }}</h1>
-        <br />
-        <span>{{ articleInfo.pubtime }}</span>
-        <span class="typeBox">每日一题</span> <span class="typeBox">算法</span>
-        <br />
+  <div id="articleContentViewBox">
+    <div id="pageTitle">
+      <div>
+        <router-link to="/home"
+          ><img src="../assets/back.svg" width="30" alt=""
+        /></router-link>
+        <div id="articleInfo">
+          <p id="articleTitle">{{ articleInfo.title }}</p>
+          <div>
+            <span id="articleReleaseTime">{{ articleReleaseTime }}</span>
+            <span class="typeBox">每日一题</span>
+            <span class="typeBox">算法</span>
+          </div>
+        </div>
       </div>
-      <hr />
-      <div id="articleContent" v-html="articleInfo.content"></div>
+
+      <img src="../assets/logo.svg" width="120" alt="" />
+    </div>
+    <div id="articlebox">
+      <div id="digest">
+        <ul id="digestList">
+          <li
+            v-for="item in titleArr"
+            :key="item.id"
+            @click="navigateToArticleNode(item.index, item.id)"
+            :class="{ active: item.active }"
+          >
+            {{ item.text }}
+          </li>
+        </ul>
+      </div>
+      <div id="articlePart">
+        <img v-if="articleInfo.titleImg" :src="articleInfo.titleImg" alt="" />
+        <div id="articleContent" v-html="articleInfo.content"></div>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="less">
-#articlebox {
-  margin: 0 auto;
-  max-width: 1600px;
+#articleContentViewBox {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
-  #digest {
-    min-width: 270px;
+  #pageTitle {
+    height: 55px;
+    border-bottom: 1px solid var(--secondaryFontColor);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--backGroundColor);
+    z-index: 9;
+    position: sticky;
+    top: 0;
 
-    ul {
-      height: 100vh;
-      display: block;
-      padding: 0 10px;
-      border: 1px solid var(--secondaryFontColor);
-      overflow: auto;
-      position: sticky;
-      top: 0;
+    div {
+      display: flex;
+      align-items: center;
 
-      li {
-        margin-bottom: 10px;
-        padding: 5px 0;
+      #articleInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        #articleTitle {
+          font-size: 20px;
+        }
+
+        div {
+          font-size: 15px;
+          color: var(--secondaryFontColor);
+        }
       }
-
-      .active {
-        color: var(--themeColor);
-      }
-    }
-
-    @media (max-width: 1000px) {
-      display: none;
     }
   }
 
-  #articlePart {
-    img:nth-child(1) {
-      width: 100%;
-    }
+  #articlebox {
+    margin: 0 auto;
+    max-width: 1600px;
+    display: flex;
+    flex-direction: row;
 
-    #articleInfo {
-      padding: 10px;
+    #digest {
+      min-width: 300px;
 
-      .typeBox {
-        background-color: beige;
-        padding: 4px 10px;
-        border-radius: 20px;
-      }
-    }
+      ul {
+        height: calc(~'100vh - 70px');
+        display: block;
+        padding: 0 10px;
+        border-right: 1px solid var(--secondaryFontColor);
+        overflow: auto;
+        // background-color: #ececec;
+        position: sticky;
+        top: 55px;
 
-    #articleContent {
-      max-width: 77vw;
-      padding: 10px;
-      overflow: hidden;
-      word-wrap: break-word;
-      word-break: break-all;
-      white-space: normal;
+        li {
+          margin-bottom: 10px;
+          padding: 5px 0 5px 5px;
+          border-left: 3px solid var(--backGroundColor);
+          transition: 0.5s all;
+          cursor: pointer;
+        }
 
-      @media screen and (max-width: 1000px) {
-        max-width: 95vw;
-      }
-
-      .md-image {
-        margin: 24px auto;
-        border-radius: 4px;
-      }
-
-      .md-image img {
-        border-radius: 4px;
-        border-top: 1px solid #ccc;
-        border-right: 1px solid #666;
-        border-bottom: 2px solid #999;
-        border-left: 1px solid #ccc;
-        padding: 7px;
-      }
-
-      /* 当 “![shadow-随便写]()”写时，会有阴影 */
-
-      .md-image img[alt|="shadow"] {
-        box-shadow: #84a1a8 0px 10px 15px;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        position: relative;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        line-height: 1.4;
-        cursor: text;
-      }
-
-      h1:hover a.anchor,
-      h2:hover a.anchor,
-      h3:hover a.anchor,
-      h4:hover a.anchor,
-      h5:hover a.anchor,
-      h6:hover a.anchor {
-        text-decoration: none;
-      }
-
-      h1 tt,
-      h1 code {
-        font-size: inherit !important;
-      }
-
-      h2 tt,
-      h2 code {
-        font-size: inherit !important;
-      }
-
-      h3 tt,
-      h3 code {
-        font-size: inherit !important;
-      }
-
-      h4 tt,
-      h4 code {
-        font-size: inherit !important;
-      }
-
-      h5 tt,
-      h5 code {
-        font-size: inherit !important;
-      }
-
-      h6 tt,
-      h6 code {
-        font-size: inherit !important;
-      }
-
-      h2 a,
-      h3 a {
-        color: #34495e;
-      }
-
-      h1 {
-        padding-bottom: 0.3em;
-        font-size: 2.2em;
-        line-height: 1.2;
-        margin: 2.4em auto 1.2em;
-        color: var(--main-10);
-
-        // h1标签下划线
-        // &:after {
-        //   content: "";
-        //   display: block;
-        //   margin: 0.2em auto 0;
-        //   width: 1200px;
-        //   height: 2px;
-        //   border-bottom: 2px solid var(--themeColor);
-        // }
-      }
-
-      h2 {
-        margin: 2em auto 1.4em;
-        line-height: 1.4;
-        font-size: 1.8em;
-        // border-bottom: 1px solid var(--themeColor);
-
-        &::before {
-          content: "# " !important;
+        .active {
+          border-left: 3px solid var(--themeColor);
           color: var(--themeColor);
         }
       }
 
-      h3 {
-        font-size: 1.4em;
-        line-height: 1.43;
-        margin: 1.6em auto 1.2em;
-        padding-left: 9px;
-        border-left: 5px solid var(--themeColor);
+      @media (max-width: 1000px) {
+        display: none;
+      }
+    }
+
+    #articlePart {
+      img:nth-child(1) {
+        width: 100%;
       }
 
-      h4 {
-        margin-top: 1.3em;
-        font-size: 1.2em;
-        padding-left: 6px;
-        padding-right: 6px;
-        display: inline-block;
-        border: 1px solid var(--themeColor);
-        border-top: 4px solid var(--themeColor);
-      }
-
-      p,
-      blockquote,
-      ul,
-      ol,
-      dl,
-      table {
-        margin: 0.8em 0;
-      }
-
-      blockquote {
-        margin-left: 1.75px;
-        margin-right: 0px;
-        border-left: 4px solid var(--themeColor);
-        padding: 10px 14px 7px 22px;
-      }
-
-      ul {
-        list-style: circle;
-        margin-left: 1.75px;
-        margin-right: 0px;
-        padding: 10px 14px 7px 22px;
-      }
-
-      ol {
-        margin-left: 1.75px;
-        margin-right: 0px;
-        padding: 10px 14px 7px 22px;
-      }
-
-      ul > li {
-        margin: 0.8em 0;
-      }
-
-      li > ol,
-      li > ul {
-        margin: 0 0;
-      }
-
-      table {
-        padding: 0;
-        word-break: initial;
-        border-collapse: collapse;
-        border-top: 1px solid var(--themeColor);
-        tr {
-          margin: 0;
-          padding: 0;
-        }
-        tr:nth-child(2n),
-        thead {
-          background-color: #fafafa;
-        }
-      }
-
-      table tr th {
-        font-weight: bold;
-        border: 1px solid var(--themeColor);
-        border-bottom: 0;
-        text-align: left;
-        margin: 0;
-        padding: 6px 13px;
-      }
-
-      table tr td {
-        border: 1px solid var(--themeColor);
-        text-align: left;
-        margin: 0;
-        padding: 6px 13px;
-      }
-
-      table tr th:first-child,
-      table tr td:first-child {
-        margin-top: 0;
-      }
-
-      table tr th:last-child,
-      table tr td:last-child {
-        margin-bottom: 0;
-      }
-
-      @media print {
-        html {
-          font-size: 12px;
-        }
-
-        table,
-        pre {
-          page-break-inside: avoid;
-        }
-
-        pre {
-          word-wrap: break-word;
-        }
-      }
-
-      pre {
-        font-size: 16px;
+      #articleContent {
+        max-width: calc(~'100vw - 350px');
         padding: 10px;
-        width: 90%;
-        margin: 0 auto;
-        background-color: #ececec;
-        text-overflow: ellipsis;
-        overflow-x: auto;
-        border-radius: 10px;
+        overflow: hidden;
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+
+        @media screen and (max-width: 1000px) {
+          max-width: 90vw;
+        }
+
+        .md-image {
+          margin: 24px auto;
+          border-radius: 4px;
+        }
+
+        .md-image img {
+          border-radius: 4px;
+          border-top: 1px solid #ccc;
+          border-right: 1px solid #666;
+          border-bottom: 2px solid #999;
+          border-left: 1px solid #ccc;
+          padding: 7px;
+        }
+
+        /* 当 “![shadow-随便写]()”写时，会有阴影 */
+
+        .md-image img[alt|="shadow"] {
+          box-shadow: #84a1a8 0px 10px 15px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          position: relative;
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+          font-weight: bold;
+          line-height: 1.4;
+          cursor: text;
+        }
+
+        h1:hover a.anchor,
+        h2:hover a.anchor,
+        h3:hover a.anchor,
+        h4:hover a.anchor,
+        h5:hover a.anchor,
+        h6:hover a.anchor {
+          text-decoration: none;
+        }
+
+        h1 tt,
+        h1 code {
+          font-size: inherit !important;
+        }
+
+        h2 tt,
+        h2 code {
+          font-size: inherit !important;
+        }
+
+        h3 tt,
+        h3 code {
+          font-size: inherit !important;
+        }
+
+        h4 tt,
+        h4 code {
+          font-size: inherit !important;
+        }
+
+        h5 tt,
+        h5 code {
+          font-size: inherit !important;
+        }
+
+        h6 tt,
+        h6 code {
+          font-size: inherit !important;
+        }
+
+        h2 a,
+        h3 a {
+          color: #34495e;
+        }
+
+        h1 {
+          padding-bottom: 0.3em;
+          font-size: 2.2em;
+          line-height: 1.2;
+          margin: 2.4em auto 1.2em;
+          color: var(--main-10);
+
+          // h1标签下划线
+          // &:after {
+          //   content: "";
+          //   display: block;
+          //   margin: 0.2em auto 0;
+          //   width: 1200px;
+          //   height: 2px;
+          //   border-bottom: 2px solid var(--themeColor);
+          // }
+        }
+
+        h2 {
+          margin: 2em auto 1.4em;
+          line-height: 1.4;
+          font-size: 1.8em;
+          // border-bottom: 1px solid var(--themeColor);
+
+          &::before {
+            content: "# " !important;
+            color: var(--themeColor);
+          }
+        }
+
+        h3 {
+          font-size: 1.4em;
+          line-height: 1.43;
+          margin: 1.6em auto 1.2em;
+          padding-left: 9px;
+          border-left: 5px solid var(--themeColor);
+        }
+
+        h4 {
+          margin-top: 1.3em;
+          font-size: 1.2em;
+          padding-left: 6px;
+          padding-right: 6px;
+          display: inline-block;
+          border: 1px solid var(--themeColor);
+          border-top: 4px solid var(--themeColor);
+        }
+
+        p,
+        blockquote,
+        ul,
+        ol,
+        dl,
+        table {
+          margin: 0.8em 0;
+        }
+
+        blockquote {
+          margin-left: 1.75px;
+          margin-right: 0px;
+          border-left: 4px solid var(--themeColor);
+          padding: 10px 14px 7px 22px;
+        }
+
+        ul {
+          list-style: circle;
+          margin-left: 1.75px;
+          margin-right: 0px;
+          padding: 10px 14px 7px 22px;
+        }
+
+        ol {
+          margin-left: 1.75px;
+          margin-right: 0px;
+          padding: 10px 14px 7px 22px;
+        }
+
+        ul > li {
+          margin: 0.8em 0;
+        }
+
+        li > ol,
+        li > ul {
+          margin: 0 0;
+        }
+
+        table {
+          padding: 0;
+          word-break: initial;
+          border-collapse: collapse;
+          border-top: 1px solid var(--themeColor);
+          tr {
+            margin: 0;
+            padding: 0;
+          }
+          tr:nth-child(2n),
+          thead {
+            background-color: #fafafa;
+          }
+        }
+
+        table tr th {
+          font-weight: bold;
+          border: 1px solid var(--themeColor);
+          border-bottom: 0;
+          text-align: left;
+          margin: 0;
+          padding: 6px 13px;
+        }
+
+        table tr td {
+          border: 1px solid var(--themeColor);
+          text-align: left;
+          margin: 0;
+          padding: 6px 13px;
+        }
+
+        table tr th:first-child,
+        table tr td:first-child {
+          margin-top: 0;
+        }
+
+        table tr th:last-child,
+        table tr td:last-child {
+          margin-bottom: 0;
+        }
+
+        @media print {
+          html {
+            font-size: 12px;
+          }
+
+          table,
+          pre {
+            page-break-inside: avoid;
+          }
+
+          pre {
+            word-wrap: break-word;
+          }
+        }
+
+        pre {
+          font-size: 16px;
+          padding: 10px;
+          width: 90%;
+          margin: 0 auto;
+          background-color: #ececec;
+          text-overflow: ellipsis;
+          overflow-x: auto;
+          border-radius: 10px;
+        }
       }
     }
   }

@@ -1,22 +1,22 @@
 <template>
   <div id="articalList">
-    <div v-for="(item, i) of currentArticalList" :key="i">
-      <router-link
-        :to="getCurrentURL(item.blogId)"
-        class="articialInfo"
-        style="box-shadow: var(--el-box-shadow)"
-      >
-        <img v-if="item.titleImg" :src="item.titleImg" alt="" />
-        <div class="content">
-          <h1>{{ item.title }}</h1>
-          <p class="pageDescribe">{{ item.content }}</p>
-          <div class="timebox">
-            <IconDate width="20" />{{ item.pubtime.split("T")[0] }}
+      <div v-for="(item, i) of currentArticalList" :key="i">
+        <router-link
+          :to="getCurrentURL(item.blogId)"
+          class="articialInfo"
+          style="box-shadow: var(--el-box-shadow)"
+        >
+          <img v-if="item.titleImg" :src="item.titleImg" alt="" />
+          <div class="content">
+            <h1>{{ item.title }}</h1>
+            <p class="pageDescribe">{{ item.content }}</p>
+            <div class="timebox">
+              <IconDate width="20" />{{ item.pubtime.split("T")[0] }}
+            </div>
           </div>
-        </div>
-      </router-link>
-      <hr />
-    </div>
+        </router-link>
+        <hr />
+      </div>
     <div @click="loadingNewArtical" id="loadingMore">加载更多文章</div>
   </div>
 </template>
@@ -92,7 +92,7 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
-  word-break:break-all;
+  word-break: break-all;
   max-height: 40px;
 }
 
