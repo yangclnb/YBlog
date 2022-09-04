@@ -86,6 +86,7 @@ nav {
 }
 
 div > svg:nth-child(1) {
+  transition: all 0.5s;
   z-index: 5;
   position: relative;
   left: 15px;
