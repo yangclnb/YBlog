@@ -35,6 +35,25 @@ function getArticleSection(req, res, resultNums, offset) {
 }
 
 /**
+ * @function:
+ * @description: 根据文章发布时间排序
+ * @param {*} req
+ * @param {*} res
+ * @return {*}
+ * @author: Banana
+ */
+function getArticleTotalTimeLine(req, res) {
+  query(
+    "select pubtime,title from blog ORDER BY pubtime DESC",
+    [],
+    (err, results) => {
+      if (err) throw err;
+      res.json({ code: 200, data: results });
+    }
+  );
+}
+
+/**
  * @function addarticle
  * @description: 添加文章
  * @param {String} title 文章标题
@@ -60,6 +79,7 @@ function updateArticle(articleID, title, article) {}
 module.exports = {
   getArticleByID,
   getArticleSection,
+  getArticleTotalTimeLine,
   addarticle,
   updateArticle,
 };

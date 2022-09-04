@@ -1,22 +1,22 @@
 <template>
   <div id="articalList">
-      <div v-for="(item, i) of currentArticalList" :key="i">
-        <router-link
-          :to="getCurrentURL(item.blogId)"
-          class="articialInfo"
-          style="box-shadow: var(--el-box-shadow)"
-        >
-          <img v-if="item.titleImg" :src="item.titleImg" alt="" />
-          <div class="content">
-            <h1>{{ item.title }}</h1>
-            <p class="pageDescribe">{{ item.content }}</p>
-            <div class="timebox">
-              <IconDate width="20" />{{ item.pubtime.split("T")[0] }}
-            </div>
+    <div v-for="(item, i) of currentArticalList" :key="i">
+      <router-link
+        :to="getCurrentURL(item.blogId)"
+        class="articialInfo"
+        style="box-shadow: var(--el-box-shadow)"
+      >
+        <img v-if="item.titleImg" :src="item.titleImg" alt="" />
+        <div class="content">
+          <h1>{{ item.title }}</h1>
+          <p class="pageDescribe">{{ item.content }}</p>
+          <div class="timebox">
+            <IconDate width="20" />{{ item.pubtime.split("T")[0] }}
           </div>
-        </router-link>
-        <hr />
-      </div>
+        </div>
+      </router-link>
+      <hr />
+    </div>
     <div @click="loadingNewArtical" id="loadingMore">加载更多文章</div>
   </div>
 </template>
@@ -35,7 +35,8 @@ export default {
     };
   },
   components: { IconDate },
-  mounted() {
+
+  beforeMount() {
     // 项目组件加载时 向api请求 4 条数据用于展示
     getArtical(4, this.currentCount).then((data) => {
       this.currentArticalList = data.data;

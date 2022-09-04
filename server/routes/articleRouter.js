@@ -1,12 +1,18 @@
 var express = require("express");
-var { getArticleByID, getArticleSection } = require("../controller/article");
+var {
+  getArticleByID,
+  getArticleSection,
+  getArticleTotalTimeLine,
+} = require("../controller/article");
 var router = express.Router();
 
 // TODO 文章访问数量，依照次排序推荐列表 (api/article/visitorRead/文章ID)
 router.get("/visitorRead/:articleID", (req, res, next) => {});
 
 // TODO 返回完整的时间列表（api/article/timeline）
-router.get("/timeline", (req, res, next) => {});
+router.get("/timeline", (req, res, next) => {
+  getArticleTotalTimeLine(req, res);
+});
 
 router.get("/:articleID", (req, res, next) => {
   // 按照文章 ID 查询

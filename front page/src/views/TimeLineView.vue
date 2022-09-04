@@ -1,23 +1,36 @@
+<script setup>
+import { ElTimeline, ElTimelineItem, ElCard } from "element-plus";
+import { getArticleTimeLine } from "@/api/artical.js";
+import { computed, onBeforeMount, ref } from "vue";
+
+let timeline = ref([]);
+
+onBeforeMount(() => {
+  getArticleTimeLine().then((result) => {
+    timeline.value = result.data;
+    console.log("result.data :>> ", timeline);
+  });
+});
+
+let getTime = function computed(time) {
+  return time.split("T")[0];
+};
+</script>
+
+
 <template>
   <div>
     <div id="timelinebox">
       <el-timeline>
-        <el-timeline-item timestamp="2018/4/12" placement="top">
+        <el-timeline-item
+          v-for="item in timeline"
+          :key="item"
+          :timestamp="getTime(item.pubtime)"
+          placement="top"
+        >
           <el-card>
-            <h4>Update Github template</h4>
-            <p>Tom committed 2018/4/12 20:46</p>
-          </el-card>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2018/4/3" placement="top">
-          <el-card>
-            <h4>Update Github template</h4>
-            <p>Tom committed 2018/4/3 20:46</p>
-          </el-card>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2018/4/2" placement="top">
-          <el-card>
-            <h4>Update Github template</h4>
-            <p>Tom committed 2018/4/2 20:46</p>
+            <h4>{{ item.title }}</h4>
+            <p>{{ getTime(item.pubtime) }}</p>
           </el-card>
         </el-timeline-item>
       </el-timeline>
@@ -26,9 +39,6 @@
 </template>
 
 
-<script setup>
-import { ElTimeline, ElTimelineItem, ElCard } from "element-plus";
-</script>
 
 
 <style>

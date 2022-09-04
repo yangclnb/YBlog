@@ -1,12 +1,15 @@
 <script setup>
 import { onMounted, onBeforeMount, ref, onDeactivated, onUnmounted } from "vue";
+import { computed } from "@vue/reactivity";
 import router from "../router";
+import { getArticleByID } from "../api/artical.js"; // 读取文章信息
+
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 import hljs from "highlight.js"; // 引入高亮模块
 import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/atom-one-light.css"; //引入一种语法的高亮
-import { getArticleByID } from "../api/artical.js"; // 读取文章信息
-import { computed } from "@vue/reactivity";
+
+
 
 let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
 let articleInfo = ref([]);
@@ -127,7 +130,7 @@ function DigestHighLightByScroll() {
   // TODO 添加防抖
   for (const item of titleArr.value) {
     const currentNodePosition = content[item.index].getBoundingClientRect();
-    if (currentNodePosition.bottom > 0) {
+    if (currentNodePosition.bottom > 55) {
       navigateToDigestNode(item);
       return;
     }
@@ -223,6 +226,7 @@ function DigestHighLightByScroll() {
 
     #digest {
       min-width: 300px;
+      
 
       ul {
         height: calc(~'100vh - 70px');
