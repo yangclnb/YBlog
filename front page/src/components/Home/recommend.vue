@@ -1,24 +1,34 @@
+<script setup>
+import { getRecommendList } from "@/api/artical.js";
+import { ref } from "@vue/reactivity";
+import { computed } from "vue";
+let recommendList = ref([]);
+
+getRecommendList().then((results) => {
+  recommendList.value = results.data;
+});
+
+let getRouter = function computed(blogID) {
+  return "/articlePage/" + blogID;
+};
+</script>
+
+
 <template>
-  <div id="recommend" style="box-shadow: var(--el-box-shadow);">
+  <div id="recommend">
     <div id="title">推荐阅读</div>
     <ul>
-      <li>asdasdasdasd</li>
-      <li>正圆方程</li>
-      <li>asdasdasdasd</li>
-      <li>各类间断点的区别</li>
-      <li>常数项级数笔记</li>
-      <li>test123</li>
+      <li v-for="item in recommendList" :key="item">
+        <router-link :to="getRouter(item.blogid)">{{ item.title }}</router-link>
+      </li>
     </ul>
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style scoped>
 #recommend {
   min-width: 20vw;
+  box-shadow: var(--el-box-shadow);
 }
 
 #title {

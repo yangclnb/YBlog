@@ -54,6 +54,48 @@ function getArticleTotalTimeLine(req, res) {
 }
 
 /**
+ * @function addVisitorInfo
+ * @description: 在文章阅读列表中添加当前ID的博客访问信息
+ * @param {*} req
+ * @param {*} res
+ * @param {*} blogID
+ * @param {*} ipAddress
+ * @return {*}
+ * @author: Banana
+ */
+function addVisitorInfo(req, res, blogID, ipAddress) {
+  query(
+    "insert into visitor values (null,now(),?,?)",
+    [ipAddress, blogID],
+    (err) => {
+      if (err) throw err;
+      res.json({ code: 200, data: "add success!" });
+    }
+  );
+}
+
+/**
+ * @function getArticalByVisitorInfo
+ * @description: 通过文章访问量返回推荐列表
+ * @param {*} res
+ * @param {*} req
+ * @return {*}
+ * @author: Banana
+ */
+function getArticalByVisitorInfo(req, res) {
+  query(
+    `select v.blogid , COUNT(v.blogid) num,b.title 
+  from visitor v INNER JOIN blog b ON v.blogid = b.blogId 
+  GROUP BY v.blogid ORDER BY num DESC`,
+    [],
+    (err, results) => {
+      if (err) throw err;
+      res.json({ code: 200, data: results });
+    }
+  );
+}
+
+/**
  * @function addarticle
  * @description: 添加文章
  * @param {String} title 文章标题
@@ -78,8 +120,10 @@ function updateArticle(articleID, title, article) {}
 
 module.exports = {
   getArticleByID,
+  getArticalByVisitorInfo,
   getArticleSection,
   getArticleTotalTimeLine,
   addarticle,
+  addVisitorInfo,
   updateArticle,
 };

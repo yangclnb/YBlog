@@ -1,26 +1,37 @@
 var express = require("express");
 var {
   getArticleByID,
+  getArticalByVisitorInfo,
   getArticleSection,
   getArticleTotalTimeLine,
+  addVisitorInfo,
 } = require("../controller/article");
 var router = express.Router();
 
-// TODO 文章访问数量，依照次排序推荐列表 (api/article/visitorRead/文章ID)
-router.get("/visitorRead/:articleID", (req, res, next) => {});
+// 文章访问数量，依照次排序推荐列表 (api/article/recommendList)
+router.get("/recommendList", (req, res, next) => {
+  getArticalByVisitorInfo(req, res);
+});
 
-// TODO 返回完整的时间列表（api/article/timeline）
+// 根据文章ID增加文章的访问量 (api/article/addVisitorInfo/文章ID)
+router.get("/addVisitorInfo/:articleID", (req, res, next) => {
+  let articleID = req.params.articleID; // 当前读取的文章ID
+  let currentIP = req.header["x-forwarded-for"] || req.socket.remoteAddress;
+  console.log("currentIP :>> ", currentIP);
+  addVisitorInfo(req, res, articleID, currentIP);
+});
+
 router.get("/timeline", (req, res, next) => {
   getArticleTotalTimeLine(req, res);
 });
 
-router.get("/:articleID", (req, res, next) => {
+router.get("/getArticle/:articleID", (req, res, next) => {
   // 按照文章 ID 查询
   console.log("文章 id 为:", req.params.articleID);
   getArticleByID(req, res, req.params.articleID);
 });
 
-router.get("/:articleNums/:setoff", (req, res, next) => {
+router.get("/getArticle/:articleNums/:setoff", (req, res, next) => {
   // 查询从 setoff 开始的 articleNums 条文章数据
   console.log("get 请求 获取文章", req.url);
   getArticleSection(req, res, req.params.articleNums, req.params.setoff);

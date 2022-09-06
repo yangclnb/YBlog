@@ -1,6 +1,6 @@
 export async function getArtical(num, deviation) {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/${num}/${deviation}`,
+    `http://127.0.0.1:3085/api/article/getArticle/${num}/${deviation}`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -15,9 +15,9 @@ export async function getArtical(num, deviation) {
   return data;
 }
 
-export async function getArticleByID(userID){
+export async function getArticleByID(userID) {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/${userID}`,
+    `http://127.0.0.1:3085/api/article/getArticle/${userID}`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -32,10 +32,21 @@ export async function getArticleByID(userID){
   return data;
 }
 
+export async function getArticleTimeLine() {
+  let respone = await fetch(`http://127.0.0.1:3085/api/article/timeline`, {
+    headers: {
+      "user-agent": "PostmanRuntime/7.29.2",
+      "content-type": "application/json",
+    },
+    method: "get",
+  });
+  let data = respone.json();
+  return data;
+}
 
-export async function getArticleTimeLine(){
+export async function addVisitorInfo(articleID) {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/timeline`,
+    `http://127.0.0.1:3085/api/article/addVisitorInfo/${articleID}`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -44,8 +55,22 @@ export async function getArticleTimeLine(){
       method: "get",
     }
   );
-
   let data = respone.json();
+  return data;
+}
 
+
+export async function getRecommendList(articleID) {
+  let respone = await fetch(
+    `http://127.0.0.1:3085/api/article/recommendList`,
+    {
+      headers: {
+        "user-agent": "PostmanRuntime/7.29.2",
+        "content-type": "application/json",
+      },
+      method: "get",
+    }
+  );
+  let data = respone.json();
   return data;
 }

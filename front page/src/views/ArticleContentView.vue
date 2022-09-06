@@ -2,22 +2,22 @@
 import { onMounted, onBeforeMount, ref, onDeactivated, onUnmounted } from "vue";
 import { computed } from "@vue/reactivity";
 import router from "../router";
-import { getArticleByID } from "../api/artical.js"; // 读取文章信息
+import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
 
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 import hljs from "highlight.js"; // 引入高亮模块
 import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/atom-one-light.css"; //引入一种语法的高亮
 
-
-
 let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
 let articleInfo = ref([]);
 let titleArr = ref([]);
 
+// 记录访客信息
+addVisitorInfo(currentID);
+
 // 请求文章信息并存入 articleInfo 中
-onBeforeMount(() => {
-  getArticleByID(currentID).then((data) => {
+getArticleByID(currentID).then((data) => {
     // 文章内容 markdown 格式化  | 代码高亮
     let md = new MarkdownIt({
       html: true,
@@ -35,7 +35,9 @@ onBeforeMount(() => {
     articleInfo.value = data.data[0];
     console.log("data.data[0] :>> ", data.data[0]);
   });
-});
+
+
+
 
 onMounted(() => {
   setTimeout(() => {
@@ -77,7 +79,7 @@ onUnmounted(() => {
  * @author: Banana
  */
 let articleReleaseTime = computed(() => {
-  return articleInfo.value.pubtime.split("T")[0]
+  return articleInfo.value.pubtime.split("T")[0];
 });
 
 /**
@@ -226,10 +228,9 @@ function DigestHighLightByScroll() {
 
     #digest {
       min-width: 300px;
-      
 
       ul {
-        height: calc(~'100vh - 70px');
+        height: calc(~"100vh - 70px");
         display: block;
         padding: 0 10px;
         border-right: 1px solid var(--secondaryFontColor);
@@ -263,7 +264,7 @@ function DigestHighLightByScroll() {
       }
 
       #articleContent {
-        max-width: calc(~'100vw - 350px');
+        max-width: calc(~"100vw - 350px");
         padding: 10px;
         overflow: hidden;
         word-wrap: break-word;
