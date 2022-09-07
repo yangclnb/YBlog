@@ -70,7 +70,9 @@ import ActiveIconSearcgVue from "./icons/active/IconSearcg.vue";
 import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
 </script>
 
-<style scoped>
+
+
+<style  scoped>
 nav {
   display: flex;
   flex-direction: column;
@@ -83,6 +85,17 @@ nav {
 
   position: sticky;
   top: 0;
+
+  animation: playBar 0.5s;
+}
+
+@keyframes playBar {
+  from{
+    transform: translateX(-400px);
+  }
+  to{
+    transform: translateX(0px);
+  }
 }
 
 div > svg:nth-child(1) {

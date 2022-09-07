@@ -1,11 +1,7 @@
 <template>
   <div id="articalList">
     <div v-for="(item, i) of currentArticalList" :key="i">
-      <router-link
-        :to="getCurrentURL(item.blogId)"
-        class="articialInfo"
-        style="box-shadow: var(--el-box-shadow)"
-      >
+      <router-link :to="getCurrentURL(item.blogId)" class="articialInfo">
         <img v-if="item.titleImg" :src="item.titleImg" alt="" />
         <div class="content">
           <h1>{{ item.title }}</h1>
@@ -27,6 +23,7 @@
 import { getArtical } from "@/api/artical.js";
 import IconDate from "../icons/IconDate.vue";
 import { ElNotification } from "element-plus";
+
 export default {
   data() {
     return {
@@ -59,13 +56,13 @@ export default {
         if (currentFetchData.length === 0) {
           this.onMore();
         }
-        console.log("data :>> ", currentFetchData);
+        // console.log("data :>> ", currentFetchData);
 
         for (const item of currentFetchData) {
           this.currentArticalList.push(item);
         }
         this.currentCount += currentFetchData.length;
-        console.log("currentCount :>> ", this.currentCount);
+        // console.log("currentCount :>> ", this.currentCount);
       });
     },
     onMore() {
@@ -107,12 +104,26 @@ a {
   color: black;
 }
 
+#articalList{
+  animation:playArticle 0.75s ;
+}
+
+@keyframes playArticle {
+  from{
+    transform: translateY(400px);
+  }
+  to{
+    transform: translateY(0px);
+  }
+}
+
 .articialInfo {
   /* background-color: bisque; */
   /* border: 1px solid #aab5cb; */
   cursor: pointer;
   transition: 0.5s linear;
   display: flex;
+  box-shadow: var(--el-box-shadow);
 }
 
 .articialInfo:hover {

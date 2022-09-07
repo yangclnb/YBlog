@@ -18,26 +18,23 @@ addVisitorInfo(currentID);
 
 // 请求文章信息并存入 articleInfo 中
 getArticleByID(currentID).then((data) => {
-    // 文章内容 markdown 格式化  | 代码高亮
-    let md = new MarkdownIt({
-      html: true,
-      linkify: true,
-      typographer: true,
-      highlight: function (str, lang) {
-        // 得到经过highlight.js之后的html代码
-        const code = hljs.highlight(lang, str, true).value;
-        return code;
-      },
-    });
-    let result = md.render(data.data[0].content);
-    data.data[0].content = result;
-    // 替换更改后的内容
-    articleInfo.value = data.data[0];
-    console.log("data.data[0] :>> ", data.data[0]);
+  // 文章内容 markdown 格式化  | 代码高亮
+  let md = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+      // 得到经过highlight.js之后的html代码
+      const code = hljs.highlight(lang, str, true).value;
+      return code;
+    },
   });
-
-
-
+  let result = md.render(data.data[0].content);
+  data.data[0].content = result;
+  // 替换更改后的内容
+  articleInfo.value = data.data[0];
+  console.log("data.data[0] :>> ", data.data[0]);
+});
 
 onMounted(() => {
   setTimeout(() => {
@@ -147,9 +144,9 @@ function DigestHighLightByScroll() {
   <div id="articleContentViewBox">
     <div id="pageTitle">
       <div>
-        <router-link to="/home"
-          ><img src="../assets/back.svg" width="30" alt=""
-        /></router-link>
+        <router-link to="/home">
+          <img src="../assets/back.svg" width="30" alt="" />
+        </router-link>
         <div id="articleInfo">
           <p id="articleTitle">{{ articleInfo.title }}</p>
           <div>
@@ -229,6 +226,25 @@ function DigestHighLightByScroll() {
     #digest {
       min-width: 300px;
 
+      .dispalyBar(@name) {
+        @keyframes @name {
+          0% {
+            transform: translateX(-400px);
+          }
+          100% {
+            transform: translateX(0px);
+          }
+        }
+      }
+
+      .dispalyBar(testDisplayBar);
+
+      .animation(@animation-name,@animation-duration) {
+        animation: @arguments;
+      }
+
+      .animation(testDisplayBar,1s);
+
       ul {
         height: calc(~"100vh - 70px");
         display: block;
@@ -271,9 +287,28 @@ function DigestHighLightByScroll() {
         word-break: break-all;
         white-space: normal;
 
+        .dispalyArticle(@name) {
+          @keyframes @name {
+            0% {
+              transform: translateY(400px);
+            }
+            100% {
+              transform: translateY(0px);
+            }
+          }
+        };
+
+        .dispalyArticle(testDisplayArticle);
+
+        .animation(@animation-name,@animation-duration) {
+          animation: @arguments;
+        };
+
+        .animation(testDisplayArticle,1s);
+
         @media screen and (max-width: 1000px) {
           max-width: 90vw;
-        }
+        };
 
         .md-image {
           margin: 24px auto;

@@ -86,7 +86,7 @@ function getArticalByVisitorInfo(req, res) {
   query(
     `select v.blogid , COUNT(v.blogid) num,b.title 
   from visitor v INNER JOIN blog b ON v.blogid = b.blogId 
-  GROUP BY v.blogid ORDER BY num DESC`,
+  GROUP BY v.blogid ORDER BY num DESC LIMIT 0,7`,
     [],
     (err, results) => {
       if (err) throw err;

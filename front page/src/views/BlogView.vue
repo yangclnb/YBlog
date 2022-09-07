@@ -8,8 +8,8 @@
         <navigationBarVue />
         <div id="rightBox">
           <div id="logo">
-            <img src="../assets/logo.svg" width="150" alt="" />
-            <a href="https://github.com/yangclnb"><img src="../assets/github.svg" width="100" alt=""/></a>
+            <img src="../assets/logo.svg" width="120" alt="" />
+            <a href="https://github.com/yangclnb"><img src="../assets/github.svg" width="55" alt=""/></a>
           </div>
           <RouterView id="content" />
         </div>
@@ -24,6 +24,7 @@
       flex: 3;
     }
     #logo {
+      height: 55px;
       display: flex;
       justify-content: space-between;
       align-content: center;
