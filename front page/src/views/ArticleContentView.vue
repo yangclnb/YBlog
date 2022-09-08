@@ -33,7 +33,7 @@ getArticleByID(currentID).then((data) => {
   data.data[0].content = result;
   // 替换更改后的内容
   articleInfo.value = data.data[0];
-  console.log("data.data[0] :>> ", data.data[0]);
+  // console.log("data.data[0] :>> ", data.data[0]);
 });
 
 onMounted(() => {
@@ -145,7 +145,7 @@ function DigestHighLightByScroll() {
     <div id="pageTitle">
       <div>
         <router-link to="/home">
-          <img src="../assets/back.svg" width="30" alt="" />
+          <img id="backButton" src="../assets/back.svg" width="30" alt="" />
         </router-link>
         <div id="articleInfo">
           <p id="articleTitle">{{ articleInfo.title }}</p>
@@ -199,6 +199,13 @@ function DigestHighLightByScroll() {
     div {
       display: flex;
       align-items: center;
+
+      #backButton {
+        padding: 10px;
+        // background-color: rgb(238, 238, 238);
+        border-radius: 10px;
+        margin-right: 20px;
+      }
 
       #articleInfo {
         display: flex;
@@ -296,19 +303,19 @@ function DigestHighLightByScroll() {
               transform: translateY(0px);
             }
           }
-        };
+        }
 
         .dispalyArticle(testDisplayArticle);
 
         .animation(@animation-name,@animation-duration) {
           animation: @arguments;
-        };
+        }
 
         .animation(testDisplayArticle,1s);
 
         @media screen and (max-width: 1000px) {
           max-width: 90vw;
-        };
+        }
 
         .md-image {
           margin: 24px auto;
