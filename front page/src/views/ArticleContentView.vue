@@ -542,10 +542,9 @@ function DigestHighLightByScroll() {
           padding: 10px;
           width: 90%;
           margin: 0 auto;
-          background-color: #ececec;
+          background-color: #f6f6f6;
           text-overflow: ellipsis;
           overflow-x: auto;
-          border-radius: 10px;
         }
       }
     }
