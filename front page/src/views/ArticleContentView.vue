@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onBeforeMount, ref, onDeactivated, onUnmounted } from "vue";
+import { onMounted, ref, onUnmounted } from "vue";
 import { computed } from "@vue/reactivity";
 import router from "../router";
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
