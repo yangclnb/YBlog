@@ -25,7 +25,10 @@ getArticleByID(currentID).then((data) => {
     typographer: true,
     highlight: function (str, lang) {
       // 得到经过highlight.js之后的html代码
-      const code = hljs.highlight(lang, str, true).value;
+      const code = hljs.highlight(str, {
+        language: lang,
+        ignoreIllegals: true,
+      }).value;
       return code;
     },
   });
@@ -69,7 +72,6 @@ onUnmounted(() => {
 });
 
 /**
- * @function:
  * @description: 格式化发布时间事件
  * @param {*} computed
  * @return {*}
@@ -123,19 +125,30 @@ function clearDigestHighLight() {
   }
 }
 
+let time = null;
+/**
+ * @function DigestHighLightByScroll
+ * @description: 防抖 | 当页面内容滚动到指定位置时高亮对应的摘要
+ * @return {void}
+ * @author: Banana
+ */
 function DigestHighLightByScroll() {
-  let content = document.querySelector("#articleContent").children;
-  clearDigestHighLight();
-  // TODO 添加防抖
-  for (const item of titleArr.value) {
-    const currentNodePosition = content[item.index].getBoundingClientRect();
-    if (currentNodePosition.bottom > 55) {
-      navigateToDigestNode(item);
-      return;
+  // 页面防抖
+  if (time !== null) clearTimeout(time);
+  time = setTimeout(() => {
+    let content = document.querySelector("#articleContent").children;
+    clearDigestHighLight();
+    // TODO 添加防抖
+    for (const item of titleArr.value) {
+      const currentNodePosition = content[item.index].getBoundingClientRect();
+      if (currentNodePosition.bottom > 55) {
+        navigateToDigestNode(item);
+        return;
+      }
     }
-  }
-  // 若是遍历完之后没有标题在屏幕中，则高亮最后一条摘要
-  navigateToDigestNode(titleArr.value[titleArr.value.length - 1]);
+    // 若是遍历完之后没有标题在屏幕中，则高亮最后一条摘要
+    navigateToDigestNode(titleArr.value[titleArr.value.length - 1]);
+  }, 200);
 }
 </script>
 
