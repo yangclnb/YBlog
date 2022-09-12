@@ -5,6 +5,7 @@ var pool = mysql.createPool({
   user: "root",
   password: "123456",
   database: "yblog",
+  connectionLimit: 0,
 }); //创建一个pool连接池
 
 /**
@@ -21,8 +22,8 @@ function query(sql, params = [], callback) {
       callback(err, null);
     } else {
       connection.query(sql, params, function (err, results) {
-        callback(err, results); //结果回调
         connection.release(); //释放连接回连接池
+        callback(err, results); //结果回调
       });
     }
   });
