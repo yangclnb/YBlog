@@ -2,6 +2,26 @@ const { query } = require("../db/mysqlConnectPool");
 const express = require("express");
 
 /**
+ * @function getAllArticle
+ * @description: 读取发送所有的文章
+ * @return {void}
+ * @author: Banana
+ */
+function getAllArticle(req, res) {
+  query("select * from blog", (err, results) => {
+    if (err) throw err;
+    res.json({ code: 200, data: results });
+  });
+}
+
+function getArticalNums(req, res) {
+  query("SELECT COUNT(blogId) nums FROM blog", (err, results) => {
+    if (err) throw err;
+    res.json({ code: 200, data: results });
+  });
+}
+
+/**
  * @function getArticleByID
  * @description: 根据 返回数量和偏移量 获取文章列表
  * @param {Number} articalID 文章ID
@@ -119,6 +139,8 @@ function addarticle(title, article, typeID, createTime) {}
 function updateArticle(articleID, title, article) {}
 
 module.exports = {
+  getAllArticle,
+  getArticalNums,
   getArticleByID,
   getArticalByVisitorInfo,
   getArticleSection,

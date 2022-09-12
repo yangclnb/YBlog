@@ -148,7 +148,7 @@ function DigestHighLightByScroll() {
     }
     // 若是遍历完之后没有标题在屏幕中，则高亮最后一条摘要
     navigateToDigestNode(titleArr.value[titleArr.value.length - 1]);
-  }, 200);
+  }, 100);
 }
 </script>
 

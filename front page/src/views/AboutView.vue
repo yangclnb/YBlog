@@ -9,10 +9,8 @@ let content = ref("");
 
 getAbout().then((results) => {
   let data = results.data[0].PersonalIntroduction;
-  console.log('data :>> ', data);
   let md = new MarkdownIt();
   content.value = md.render(data);
-  console.log('content.value :>> ', content.value);
 });
 </script>
 

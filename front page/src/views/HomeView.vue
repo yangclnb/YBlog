@@ -1,3 +1,12 @@
+<script setup>
+import articalListVue from "../components/Home/articalList.vue";
+import recommendVue from "../components/Home/recommend.vue";
+import chartsVue from "../components/Home/charts.vue";
+import {addArticleCache} from "../cache/cache.js"
+
+addArticleCache();
+</script>
+
 <template>
   <div id="content">
     <articalListVue />
@@ -9,22 +18,6 @@
   </div>
 </template>
 
-
-<script>
-import articalListVue from "../components/Home/articalList.vue";
-import recommendVue from "../components/Home/recommend.vue";
-import chartsVue from "../components/Home/charts.vue";
-export default {
-  data() {
-    return {};
-  },
-  components: {
-    articalListVue,
-    recommendVue,
-    chartsVue,
-  },
-};
-</script>
 
 <style scoped>
 hr {
@@ -43,6 +36,16 @@ hr {
 
 #homeRightBar {
   margin-left: 20px;
+  animation: 0.75s displayRightBar;
+}
+
+@keyframes displayRightBar {
+  from{
+    transform: translateY(400px);
+  }
+  to{
+    transform: translateY(0px);
+  }
 }
 
 @media screen and (max-width: 768px) {
