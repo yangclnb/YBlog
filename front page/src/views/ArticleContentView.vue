@@ -3,6 +3,7 @@ import { onMounted, ref, onUnmounted } from "vue";
 import { computed } from "@vue/reactivity";
 import router from "../router";
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
+import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
 
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 import hljs from "highlight.js"; // 引入高亮模块
@@ -10,34 +11,41 @@ import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/atom-one-light.css"; //引入一种语法的高亮
 
 let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
+let md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: function (str, lang) {
+    // 得到经过highlight.js之后的html代码
+    const code = hljs.highlight(str, {
+      language: lang,
+      ignoreIllegals: true,
+    }).value;
+    return code;
+  },
+}); // 文章内容 markdown 格式化  | 代码高亮
 let articleInfo = ref([]);
 let titleArr = ref([]);
 
 // 记录访客信息
 addVisitorInfo(currentID);
-
-// 请求文章信息并存入 articleInfo 中
-getArticleByID(currentID).then((data) => {
-  // 文章内容 markdown 格式化  | 代码高亮
-  let md = new MarkdownIt({
-    html: true,
-    linkify: true,
-    typographer: true,
-    highlight: function (str, lang) {
-      // 得到经过highlight.js之后的html代码
-      const code = hljs.highlight(str, {
-        language: lang,
-        ignoreIllegals: true,
-      }).value;
-      return code;
-    },
+// 从缓存中获取数据
+let BlogData = getBlogByCache(currentID);
+if (BlogData == null) {
+  // 从服务器中获取文章数据
+  getArticleByID(currentID).then((data) => {
+    let result = md.render(data.data[0].content);
+    data.data[0].content = result;
+    // 替换更改后的内容
+    articleInfo.value = data.data[0];
+    console.log("fetchData :>> ", data.data[0]);
   });
-  let result = md.render(data.data[0].content);
-  data.data[0].content = result;
-  // 替换更改后的内容
-  articleInfo.value = data.data[0];
-  // console.log("data.data[0] :>> ", data.data[0]);
-});
+} else {
+  // 直接返回缓存中的数据
+  BlogData.content = md.render(BlogData.content);
+  articleInfo.value = BlogData;
+  console.log("cacheData :>> ", BlogData);
+}
 
 onMounted(() => {
   setTimeout(() => {

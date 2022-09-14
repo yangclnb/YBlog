@@ -1,7 +1,10 @@
 <template>
   <div id="articalList">
     <div v-for="(item, i) of currentArticalList" :key="i">
-      <router-link :to="getCurrentURL(item.blogId)" class="articialInfo">
+      <router-link
+        :to="{ name: 'articleContent', params: { articleID: item.blogId } }"
+        class="articialInfo"
+      >
         <img v-if="item.titleImg" :src="item.titleImg" alt="" />
         <div class="content">
           <h1>{{ item.title }}</h1>
@@ -23,6 +26,7 @@
 import { getArtical } from "@/api/artical.js";
 import IconDate from "../icons/IconDate.vue";
 import { ElNotification } from "element-plus";
+import { getBlogList } from "../../cache/cache.js";
 
 export default {
   data() {
@@ -34,14 +38,19 @@ export default {
   components: { IconDate },
 
   beforeMount() {
-    // 项目组件加载时 向api请求 4 条数据用于展示
-    getArtical(4, this.currentCount).then((data) => {
-      this.currentArticalList = data.data;
-      // currentCount 为
+    // 项目组件加载时 读取本地 4 条数据用于展示，若为空则请求服务器数据用于展示
+    this.currentArticalList = getBlogList(this.currentCount, 4);
+
+    if (this.currentArticalList.length === 0) {
+      getArtical(4, this.currentCount).then((data) => {
+        this.currentArticalList = data.data;
+        this.currentCount += this.currentArticalList.length;
+        console.log("fetch data :>> ", data.data);
+      });
+    } else {
+      // 下次需要从服务器或是缓存中获取的第一条数据的索引
       this.currentCount += this.currentArticalList.length;
-      console.log("data :>> ", data.data);
-      console.log("currentCount :>> ", this.currentCount);
-    });
+    }
   },
   methods: {
     /**
@@ -50,20 +59,31 @@ export default {
      * @author: Banana
      */
     loadingNewArtical() {
-      getArtical(4, this.currentCount).then((data) => {
-        let currentFetchData = data.data;
+      let currentCatchData = getBlogList(this.currentCount, 4);
+      console.log("cacheData :>> ", currentCatchData);
 
-        if (currentFetchData.length === 0) {
-          this.onMore();
-        }
-        // console.log("data :>> ", currentFetchData);
+      currentCatchData.length === 0 && this.onMore();
 
-        for (const item of currentFetchData) {
-          this.currentArticalList.push(item);
-        }
-        this.currentCount += currentFetchData.length;
-        // console.log("currentCount :>> ", this.currentCount);
-      });
+      for (const item of currentCatchData) {
+        this.currentArticalList.push(item);
+      }
+
+      this.currentCount += currentCatchData.length;
+
+      // getArtical(4, this.currentCount).then((data) => {
+      //   let currentFetchData = data.data;
+
+      //   if (currentFetchData.length === 0) {
+      //     this.onMore();
+      //   }
+      //   // console.log("data :>> ", currentFetchData);
+
+      //   for (const item of currentFetchData) {
+      //     this.currentArticalList.push(item);
+      //   }
+      //   this.currentCount += currentFetchData.length;
+      //   // console.log("currentCount :>> ", this.currentCount);
+      // });
     },
     onMore() {
       ElNotification({
@@ -71,9 +91,6 @@ export default {
         message: "没有更多文章了捏...",
         type: "warning",
       });
-    },
-    getCurrentURL(id) {
-      return "/articlePage/" + id;
     },
   },
 };
@@ -104,15 +121,15 @@ a {
   color: black;
 }
 
-#articalList{
-  animation:playArticle 0.75s ;
+#articalList {
+  animation: playArticle 0.75s;
 }
 
 @keyframes playArticle {
-  from{
+  from {
     transform: translateY(400px);
   }
-  to{
+  to {
     transform: translateY(0px);
   }
 }

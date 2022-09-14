@@ -50,16 +50,59 @@ export function addArticleCache() {
   getArticalNums().then((results) => {
     // 存在则向服务器中查询文章的数量 与本地的数量对比
     const currentNums = JSON.parse(localStorage.getItem("blogData")).length;
-    const blogNums = results.data[0].nums; 
-    console.log('currentNums,blogNums :>> ', currentNums,blogNums);
+    const blogNums = results.data[0].nums;
+    console.log("currentNums,blogNums :>> ", currentNums, blogNums);
     if (currentNums != blogNums) {
-      console.log('更新博客缓存');
+      console.log("更新博客缓存");
       getAllArtical().then((results) => {
         // console.log(JSON.stringify(results.data));
         localStorage.setItem("blogData", JSON.stringify(results.data));
       });
-    }else{
-      console.log('当前博客数量与服务器相同');
+    } else {
+      console.log("当前缓存为最新状态");
     }
   });
+}
+
+/**
+ * @function getBlogList
+ * @description: 获取博客列表，读取到数据返回当前范围内的数据，否则返回null
+ * @param {*} start 起始列表索引
+ * @param {*} step 返回的博客数量
+ * @return {Array}
+ * @author: Banana
+ */
+export function getBlogList(start, step) {
+  let blogCatch = JSON.parse(localStorage.getItem("blogData"))?.reverse();
+  let currentStep = 0;
+  let newArr = [];
+  // 页面首次加载时，获取缓存的请求几乎都会优先于写入数据到缓存
+  if (blogCatch == undefined) {
+    // 出现这种情况需直接返回null让
+    return newArr;
+  } else {
+    for (let i = start; i < blogCatch.length; i++) {
+      if (step == currentStep) break;
+      newArr[currentStep] = blogCatch[i];
+      currentStep++;
+    }
+    return newArr;
+  }
+}
+
+/**
+ * @function getBlogById
+ * @description: 根据博客ID返回当前博客内容
+ * @param {*} blogID 需要读取的博客ID
+ * @return {Object} 返回读取到的对象，若如无数据返回null
+ * @author: Banana
+ */
+export function getBlogByCache(blogID) {
+  let blogCatch = JSON.parse(localStorage.getItem("blogData")) || [];
+
+  for (let item of blogCatch) {
+    if (item.blogId == blogID) return item;
+  }
+
+  return null;
 }
