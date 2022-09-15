@@ -73,22 +73,31 @@ export function addArticleCache() {
  * @author: Banana
  */
 export function getBlogList(start, step) {
-  let blogCatch = JSON.parse(localStorage.getItem("blogData"))?.reverse();
+  // 页面首次加载时，获取缓存的请求几乎都会优先于写入数据到缓存，若缓存无数据直接返回空数组
+  let blogCatch = JSON.parse(localStorage.getItem("blogData"))?.reverse() || [];
   let currentStep = 0;
   let newArr = [];
-  // 页面首次加载时，获取缓存的请求几乎都会优先于写入数据到缓存
-  if (blogCatch == undefined) {
-    // 出现这种情况需直接返回null让
-    return newArr;
-  } else {
-    for (let i = start; i < blogCatch.length; i++) {
-      if (step == currentStep) break;
-      newArr[currentStep] = blogCatch[i];
-      currentStep++;
-    }
-    return newArr;
+
+  for (let i = start; i < blogCatch.length; i++) {
+    if (step == currentStep) break;
+    newArr[currentStep] = blogCatch[i];
+    currentStep++;
   }
+  return newArr;
 }
+
+/**
+ * @function getAllBlog
+ * @description: 返回所有的博客
+ * @return {Array} blogCache 若缓存中没数据返回空列表
+ * @author: Banana
+ */
+export function getAllBlog(){
+  // 页面首次加载时，获取缓存的请求几乎都会优先于写入数据到缓存，若缓存无数据直接返回空数组
+  let blogCatch = JSON.parse(localStorage.getItem("blogData"))?.reverse() || [];
+  return blogCatch;
+}
+
 
 /**
  * @function getBlogById

@@ -1,19 +1,26 @@
 <script setup>
 import { ElTimeline, ElTimelineItem, ElCard } from "element-plus";
 import { getArticleTimeLine } from "@/api/artical.js";
+import { getAllBlog } from "../cache/cache.js";
 import { computed, onBeforeMount, ref } from "vue";
 
 let timeline = ref([]);
 
 onBeforeMount(() => {
-  getArticleTimeLine().then((result) => {
-    timeline.value = result.data;
-    console.log("result.data :>> ", timeline);
-  });
+  timeline.value = getAllBlog();
+  if (timeline.value.length == 0) {
+    getArticleTimeLine().then((result) => {
+      timeline.value = result.data;
+      console.log("fetch :>> ", timeline);
+    });
+  }
 });
 
 let getTime = function computed(time) {
-  return time.split("T")[0];
+  let releaseTime = new Date(Date.parse(time));
+  return `${releaseTime.getFullYear()}-${
+    releaseTime.getMonth() + 1
+  }-${releaseTime.getDate()}`;
 };
 </script>
 
@@ -30,7 +37,6 @@ let getTime = function computed(time) {
         >
           <el-card>
             <h4>{{ item.title }}</h4>
-            <p>{{ getTime(item.pubtime) }}</p>
           </el-card>
         </el-timeline-item>
       </el-timeline>
