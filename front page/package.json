@@ -12,6 +12,7 @@
     "github-markdown-css": "^5.1.0",
     "highlight.js": "^11.6.0",
     "markdown-it": "^13.0.1",
+    "pinia": "^2.0.22",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
   },

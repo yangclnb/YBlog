@@ -54,7 +54,7 @@ onMounted(() => {
     let index = 0; //文章内节点的索引
     let id = 0; //摘要中的索引
     for (const node of contentBox) {
-      if (node.tagName.indexOf("H") != -1) {
+      if (node.tagName.indexOf("H") != -1 && node.tagName != "HR") {
         titleArr.value.push({
           id,
           index,
@@ -67,9 +67,12 @@ onMounted(() => {
       index++;
     }
 
-    // 若是 摘要列表中存在内容 则添加滚动事件
+    // 若是 摘要列表中存在内容 则添加滚动高亮摘要的事件
     if (titleArr.value.length > 0) {
       window.addEventListener("scroll", DigestHighLightByScroll);
+    } else {
+      // 没有标签关闭标签栏
+      document.querySelector("#digest").style.display = "none";
     }
   }, 200);
 });
@@ -86,7 +89,12 @@ onUnmounted(() => {
  * @author: Banana
  */
 let articleReleaseTime = computed(() => {
-  return articleInfo.value.pubtime.split("T")[0];
+  let dateParse = Date.parse(articleInfo.value.pubtime);
+  let date = new Date(dateParse);
+
+  return (
+    date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+  );
 });
 
 /**
@@ -133,6 +141,16 @@ function clearDigestHighLight() {
   }
 }
 
+// TODO 添加滚动隐藏title事件
+/**
+ * @function:
+ * @description:
+ * @return {*}
+ * @author: Banana
+ */
+function changeTitleStatus() {}
+
+// 防抖计时器
 let time = null;
 /**
  * @function DigestHighLightByScroll
@@ -149,14 +167,14 @@ function DigestHighLightByScroll() {
     // TODO 添加防抖
     for (const item of titleArr.value) {
       const currentNodePosition = content[item.index].getBoundingClientRect();
-      if (currentNodePosition.bottom > 55) {
+      if (currentNodePosition.bottom > 0) {
         navigateToDigestNode(item);
         return;
       }
     }
     // 若是遍历完之后没有标题在屏幕中，则高亮最后一条摘要
     navigateToDigestNode(titleArr.value[titleArr.value.length - 1]);
-  }, 100);
+  }, 50);
 }
 </script>
 
@@ -214,8 +232,8 @@ function DigestHighLightByScroll() {
     align-items: center;
     background-color: var(--backGroundColor);
     z-index: 9;
-    position: sticky;
-    top: 0;
+    // position: sticky;
+    // top: 0;
 
     div {
       display: flex;
@@ -274,14 +292,14 @@ function DigestHighLightByScroll() {
       .animation(testDisplayBar,1s);
 
       ul {
-        height: calc(~"100vh - 70px");
+        height: 100vh;
         display: block;
         padding: 0 10px;
         border-right: 1px solid var(--secondaryFontColor);
         overflow: auto;
         // background-color: #ececec;
         position: sticky;
-        top: 55px;
+        top: 0;
 
         li {
           margin-bottom: 10px;
