@@ -4,10 +4,12 @@ import { GridComponent } from "echarts/components";
 import { LineChart } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
 import { SVGRenderer } from "echarts/renderers";
-import { onMounted, onUpdated } from "vue";
+import { onMounted } from "vue";
+import { getVisitorData } from "../../api/artical.js";
 import { mcy } from "markdown-it/lib/common/entities";
 
 echarts.use([GridComponent, LineChart, SVGRenderer, UniversalTransition]);
+
 let option = {
   xAxis: {
     type: "category",
@@ -24,13 +26,32 @@ let option = {
     },
   ],
 };
-
+let chartDom;
 let myChart;
 
 onMounted(() => {
-  let chartDom = document.getElementById("chart");
+  chartDom = document.getElementById("chart");
   myChart = echarts.init(chartDom, null, { renderer: "svg" });
+});
+
+getVisitorData().then((results) => {
+  let fetchData = results.data;
+
+  let date = [];
+  let data = [];
+
+  for (const item of fetchData) {
+    let timeData = item.time.split("-");
+    data.push(item.count);
+    date.push(timeData[1] + "-" + timeData[2]);
+  }
+
+  option.xAxis.data = date;
+  option.series[0].data = data;
+
   option && myChart.setOption(option);
+
+  console.log("option :>> ", option);
 });
 
 // 改变页面大小时重新渲染chart && 页面防抖
@@ -38,10 +59,7 @@ let time = null;
 window.addEventListener("resize", () => {
   if (time !== null) clearTimeout(time);
   time = setTimeout(() => {
-
-
-    myChart.resize()
-
+    myChart.resize();
   }, 500);
 });
 </script>

@@ -7,13 +7,19 @@ var {
   getArticleSection,
   getArticleTotalTimeLine,
   addVisitorInfo,
+  getVisitorData,
 } = require("../controller/article");
 var router = express.Router();
 
 // 获取文章数量
-router.get("/getArticalNums",(req,res,next)=>{
-  getArticalNums(req,res);
-})
+router.get("/getArticalNums", (req, res, next) => {
+  getArticalNums(req, res);
+});
+
+// 获取最近七天的访问数据
+router.get("/visitorData", (req, res, next) => {
+  getVisitorData(req, res);
+});
 
 // 文章访问数量，依照次排序推荐列表 (api/article/recommendList)
 router.get("/recommendList", (req, res, next) => {

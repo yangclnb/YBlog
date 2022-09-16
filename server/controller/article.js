@@ -14,11 +14,37 @@ function getAllArticle(req, res) {
   });
 }
 
+/**
+ * @function getArticalNums
+ * @description: 获取数据库中博客的数量
+ * @return {*}
+ * @author: Banana
+ */
 function getArticalNums(req, res) {
   query("SELECT COUNT(blogId) nums FROM blog", (err, results) => {
     if (err) throw err;
     res.json({ code: 200, data: results });
   });
+}
+
+/**
+ * @function getVisitorData
+ * @description: 获取过去七天的访问数据
+ * @return {*}
+ * @author: Banana
+ */
+function getVisitorData(req, res) {
+  query(
+    `SELECT LEFT ( pubtime, 10 ) time, 
+  COUNT( blogid ) count 
+  FROM visitor GROUP BY LEFT ( pubtime, 10 ) 
+  DESC LIMIT 0,7`,
+    [],
+    (err, results) => {
+      if (err) throw err;
+      res.json({ code: 200, data: results });
+    }
+  );
 }
 
 /**
@@ -148,4 +174,5 @@ module.exports = {
   addarticle,
   addVisitorInfo,
   updateArticle,
+  getVisitorData,
 };
