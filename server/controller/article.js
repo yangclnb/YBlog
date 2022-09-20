@@ -8,7 +8,7 @@ const express = require("express");
  * @author: Banana
  */
 function getAllArticle(req, res) {
-  query("select * from blog", (err, results) => {
+  query("select * from blog b INNER JOIN type t on t.typeId = b.typeId", (err, results) => {
     if (err) throw err;
     res.json({ code: 200, data: results });
   });
@@ -55,7 +55,7 @@ function getVisitorData(req, res) {
  * @author: Banana
  */
 function getArticleByID(req, res, articalID) {
-  query("select * from blog where blogId = ?", [articalID], (err, results) => {
+  query("select * from blog b INNER JOIN type t on t.typeId = b.typeId where blogId = ?", [articalID], (err, results) => {
     if (err) throw err;
     // 返回数据
     res.json({ code: 200, data: results });
@@ -71,7 +71,7 @@ function getArticleByID(req, res, articalID) {
  */
 function getArticleSection(req, res, resultNums, offset) {
   query(
-    "select * from blog ORDER BY pubtime DESC limit ?,?",
+    "select * from blog  b INNER JOIN type t on t.typeId = b.typeId ORDER BY pubtime DESC limit ?,?",
     [parseInt(offset), parseInt(resultNums)],
     (err, results) => {
       if (err) throw err;

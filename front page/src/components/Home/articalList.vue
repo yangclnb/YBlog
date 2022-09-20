@@ -99,6 +99,8 @@ function onMore() {
           <p class="pageDescribe">{{ item.content }}</p>
           <div class="timebox">
             <IconDate width="20" />{{ item.pubtime.split("T")[0] }}
+            &nbsp;
+            <span class="typeBox">{{ item.typeName }}</span>
           </div>
         </div>
       </router-link>
@@ -183,6 +185,18 @@ a {
 }
 .timebox > svg {
   margin-right: 4px;
+}
+
+.typeBox {
+  border: 1px solid var(--secondaryFontColor);
+  border-radius: 10px;
+  padding: 2px 5px;
+  transition: 0.5s linear;
+}
+
+.typeBox:hover {
+  border: 1px solid var(--themeColor);
+  color: var(--themeColor);
 }
 
 #loadingMore {

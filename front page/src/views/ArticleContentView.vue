@@ -190,8 +190,8 @@ function DigestHighLightByScroll() {
           <p id="articleTitle">{{ articleInfo.title }}</p>
           <div>
             <span id="articleReleaseTime">{{ articleReleaseTime }}</span>
-            <span class="typeBox">每日一题</span>
-            <span class="typeBox">算法</span>
+            &nbsp;|&nbsp;
+            <span class="typeBox">{{ articleInfo.typeName }}</span>
           </div>
         </div>
       </div>

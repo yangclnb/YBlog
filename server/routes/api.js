@@ -1,6 +1,7 @@
 var express = require("express");
 var articleRouter = require("./articleRouter");
 var aboutRouter = require("./aboutRouter");
+var friednRouter = require("./friendRouter");
 var { commentFunc } = require("../controller/comment");
 var { typeFunc } = require("../controller/type");
 
@@ -16,6 +17,9 @@ router.use("/article", articleRouter);
 
 // 处理about请求
 router.use("/about", aboutRouter);
+
+// 处理friend请求
+router.use("/friend", friednRouter);
 
 // 处理 comment 请求
 router.get("/comment", (req, res, next) => {
