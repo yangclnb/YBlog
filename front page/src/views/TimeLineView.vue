@@ -52,6 +52,18 @@ let getTime = function computed(time) {
   max-width: 600px;
   /* margin: 0 50px; */
   margin: 0 auto;
+  animation: playTimeLine 0.75s;
+}
+
+@keyframes playTimeLine {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 
 @media screen and (max-width: 576px) {
