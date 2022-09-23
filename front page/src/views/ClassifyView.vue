@@ -1,40 +1,79 @@
+<script setup>
+import { ref } from "@vue/reactivity";
+import { getAllBlog, addArticleCache } from "../cache/cache.js";
+import { getAllArtical } from "../api/artical";
+
+let typeData = ref([]);
+
+// 更新本地存储
+addArticleCache();
+
+// 从缓存中读取数据
+let cacheData = getAllBlog();
+// 读取为空则表示缓存中没数据 开始请求服务器数据
+if (cacheData.length === 0) {
+  getAllArtical().then((results) => {
+    cacheData = results.data;
+    console.log("fetch data =>", results.data);
+    typeData.value = handleData(cacheData);
+  });
+} else {
+  typeData.value = handleData(cacheData);
+}
+
+/**
+ * @function handleData
+ * @description: 处理文章数据，提取关键信息并分类
+ * @return {Object} 返回处理好的对象
+ * @author: Banana
+ */
+function handleData(data) {
+  let typeObject = {};
+  for (const item of data) {
+    if (typeObject[item.typeId]) {
+      // 获取map中先前存放的列表，并且添加当前项
+      let currentList = typeObject[item.typeId].list;
+      currentList.push({ name: item.title, id: item.blogId });
+
+      typeObject[item.typeId].list = currentList;
+    } else {
+      typeObject[item.typeId] = {};
+      typeObject[item.typeId].className = item.typeName;
+      typeObject[item.typeId].displayMore = false;
+      typeObject[item.typeId].list = [{ name: item.title, id: item.blogId }];
+    }
+  }
+  console.log("typeObject :>> ", typeObject);
+  return typeObject;
+}
+</script>
+
 <template>
   <div id="content">
-    <div class="classBox">
+    <div class="classBox" v-for="(item, i) of typeData" :key="i">
       <div class="classTitle">
-        <h4>算法</h4>
-        <span>2</span>
+        <div class="classTitle_badge">
+          <h3>{{ item.className }}</h3>
+          <span>{{ item.list.length }}</span>
+        </div>
       </div>
       <ul>
-        <li>test1</li>
-        <li>test2</li>
-      </ul>
-    </div>
-    <div class="classBox">
-      <div class="classTitle">
-        <h4>算法</h4>
-        <span>1</span>
-      </div>
-      <ul>
-        <li>test1</li>
-        <li>test2</li>
-      </ul>
-    </div>
-    <div class="classBox">
-      <div class="classTitle">
-        <h4>算法</h4>
-        <span>3</span>
-      </div>
-      <ul>
-        <li>test1</li>
-        <li>test2</li>
+        <template v-for="(list, j) of item.list" :key="j">
+          <router-link :to="{ name: 'articleContent', params: { articleID: list.id } }"
+            v-if="j < 4 || item.displayMore">
+            <li>
+              <ArrowRightBold style="width: 1em; height: 1em; margin-right: 8px" />{{ list.name }}
+            </li>
+          </router-link>
+        </template>
+        <li v-if="item.list.length > 4 && !item.displayMore" @click="item.displayMore = !item.displayMore"
+          style="justify-content: center">
+          <Plus style="width: 1em; height: 1em; margin-right: 8px" />展示更多
+        </li>
       </ul>
     </div>
   </div>
 </template>
-
-<script setup>
-</script>
 
 <style lang="less" scoped>
 #content {
@@ -42,61 +81,74 @@
   max-width: 1000px;
   display: flex;
   flex-wrap: wrap;
-  // background-color: aqua;
 
   // animation ----------------------------
   .dispalyFriendChain(@name) {
     @keyframes @name {
       0% {
         transform: translateY(400px);
-        opacity:0;
+        opacity: 0;
       }
+
       100% {
         transform: translateY(0px);
-        opacity:1;
+        opacity: 1;
       }
     }
   }
 
   .dispalyFriendChain(testDisplayFriendChain);
 
-  .animation(@animation-name,@animation-duration) {
+  .animation(@animation-name, @animation-duration) {
     animation: @arguments;
   }
 
-  .animation(testDisplayFriendChain,1s);
+  .animation(testDisplayFriendChain, 1s);
 
   // animation ----------------------------
 
   .classBox {
     width: 45%;
+    min-height: 220px;
     margin: 10px;
+    box-shadow: var(--el-box-shadow);
 
     // background-color: antiquewhite;
-    border: 1px solid var(--secondaryFontColor);
-    border-radius: 10px;
+    // border-radius: 10px;
 
     .classTitle {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 10px;
-      border-bottom: 1px solid var(--secondaryFontColor);
-      span {
-        color: white;
-        display: inline-block;
-        background-color: var(--themeColor);
-        border-radius: 10px;
-        padding: 1px 5px;
+      margin: 0 10px;
+      padding: 10px 0;
+      border-bottom: 0.5px solid var(--secondaryFontColor);
+
+      .classTitle_badge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+
+        span::before {
+          content: "";
+          padding: 2px;
+        }
+
+        span {
+          display: inline-block;
+          // color: var(--themeColor);
+          transform: translateY(-10px);
+        }
       }
     }
 
     ul {
       li {
         transition: 0.5s all;
-        padding: 5px 10px;
+        padding: 5px 30px;
+        display: flex;
+        align-items: center;
+
         &:hover {
-          background-color: #e7eaf0;
+          color: var(--themeColor);
         }
       }
     }

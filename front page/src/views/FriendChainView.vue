@@ -13,15 +13,12 @@ getFriendChain().then((results) => {
 
 <template>
   <div id="content">
-    <div class="friendBox" v-for="(item, i) of friendChainArray" :key="i">
-      <img
-        src="@/assets/62ae7273c1c30be3fe326fa15af8ae8034718dc0.jpg"
-        v-if="item.photo == null"
-      />
+    <a class="friendBox" v-for="(item, i) of friendChainArray" :key="i" :href="'http://'+item.url">
+      <img src="@/assets/62ae7273c1c30be3fe326fa15af8ae8034718dc0.jpg" v-if="item.photo == null" />
       <img :src="item.photo" v-else />
       <h3>{{ item.name }}</h3>
       <p>{{ item.describe }}</p>
-    </div>
+    </a>
   </div>
 </template>
 
@@ -34,28 +31,28 @@ getFriendChain().then((results) => {
   flex-wrap: wrap;
   // background-color: aqua;
 
-
   // animation ----------------------------
   .dispalyFriendChain(@name) {
     @keyframes @name {
       0% {
         transform: translateY(400px);
-        opacity:0;
+        opacity: 0;
       }
+
       100% {
         transform: translateY(0px);
-        opacity:1;
+        opacity: 1;
       }
     }
   }
 
   .dispalyFriendChain(testDisplayFriendChain);
 
-  .animation(@animation-name,@animation-duration) {
+  .animation(@animation-name, @animation-duration) {
     animation: @arguments;
   }
 
-  .animation(testDisplayFriendChain,1s);
+  .animation(testDisplayFriendChain, 1s);
 
   // animation ----------------------------
 
@@ -69,11 +66,13 @@ getFriendChain().then((results) => {
     align-items: center;
     transition: 0.5s all;
     background-color: var(--backGroundColor);
+
     img {
       width: 100px;
       border-radius: 50px;
       border: 1px solid var(--secondaryFontColor);
     }
+
     &:hover {
       transform: scale(1.1, 1.1);
       box-shadow: var(--el-box-shadow);

@@ -19,7 +19,10 @@ let getRouter = function computed(blogID) {
     <div id="title">推荐阅读</div>
     <ul>
       <li v-for="item in recommendList" :key="item">
-        <router-link :to="getRouter(item.blogid)">{{ item.title }}</router-link>
+        <router-link
+        :to="{ name: 'articleContent', params: { articleID: item.blogid } }"
+          >{{ item.title }}</router-link
+        >
       </li>
     </ul>
   </div>
