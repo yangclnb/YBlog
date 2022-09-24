@@ -81,7 +81,8 @@ nav {
   min-width: 60px;
   height: 100vh;
   text-align: center;
-  border-right: 1px solid rgb(201, 201, 201);
+  box-shadow: var(--el-box-shadow);
+  /* border-right: 1px solid rgb(201, 201, 201); */
 
   position: sticky;
   top: 0;
