@@ -1,6 +1,8 @@
+import { apiAddress } from "./apiConfig";
+
 export async function getAbout() {
     let respone = await fetch(
-      `http://127.0.0.1:3085/api/about`,
+      `${apiAddress}/api/about`,
       {
         headers: {
           "user-agent": "PostmanRuntime/7.29.2",

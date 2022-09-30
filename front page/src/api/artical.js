@@ -1,6 +1,8 @@
+import { apiAddress } from "./apiConfig";
+
 export async function getAllArtical() {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/getAllArticle`,
+    `${apiAddress}/api/article/getAllArticle`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -17,7 +19,7 @@ export async function getAllArtical() {
 
 export async function getArticalNums() {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/getArticalNums`,
+    `${apiAddress}/api/article/getArticalNums`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -34,7 +36,7 @@ export async function getArticalNums() {
 
 export async function getArtical(num, deviation) {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/getArticle/${num}/${deviation}`,
+    `${apiAddress}/api/article/getArticle/${num}/${deviation}`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -51,7 +53,7 @@ export async function getArtical(num, deviation) {
 
 export async function getArticleByID(userID) {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/getArticle/${userID}`,
+    `${apiAddress}/api/article/getArticle/${userID}`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -67,7 +69,7 @@ export async function getArticleByID(userID) {
 }
 
 export async function getArticleTimeLine() {
-  let respone = await fetch(`http://127.0.0.1:3085/api/article/timeline`, {
+  let respone = await fetch(`${apiAddress}/api/article/timeline`, {
     headers: {
       "user-agent": "PostmanRuntime/7.29.2",
       "content-type": "application/json",
@@ -80,7 +82,7 @@ export async function getArticleTimeLine() {
 
 export async function addVisitorInfo(articleID) {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/addVisitorInfo/${articleID}`,
+    `${apiAddress}/api/article/addVisitorInfo/${articleID}`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -96,7 +98,7 @@ export async function addVisitorInfo(articleID) {
 
 export async function getRecommendList(articleID) {
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/recommendList`,
+    `${apiAddress}/api/article/recommendList`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
@@ -112,7 +114,7 @@ export async function getRecommendList(articleID) {
 
 export async function getVisitorData(){
   let respone = await fetch(
-    `http://127.0.0.1:3085/api/article/visitorData`,
+    `${apiAddress}/api/article/visitorData`,
     {
       headers: {
         "user-agent": "PostmanRuntime/7.29.2",
