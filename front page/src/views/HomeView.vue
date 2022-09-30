@@ -2,7 +2,7 @@
 import articalListVue from "../components/Home/articalList.vue";
 import recommendVue from "../components/Home/recommend.vue";
 import chartsVue from "../components/Home/charts.vue";
-import {addArticleCache} from "../cache/cache.js"
+import { addArticleCache } from "../cache/cache.js";
 
 addArticleCache();
 </script>
@@ -12,7 +12,7 @@ addArticleCache();
     <articalListVue />
     <div id="homeRightBar">
       <recommendVue />
-      <hr>
+      <hr />
       <chartsVue />
     </div>
   </div>
@@ -40,10 +40,10 @@ hr {
 }
 
 @keyframes displayRightBar {
-  from{
+  from {
     transform: translateY(400px);
   }
-  to{
+  to {
     transform: translateY(0px);
   }
 }
