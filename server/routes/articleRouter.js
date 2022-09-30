@@ -45,17 +45,21 @@ router.get("/getAllArticle", (req, res, next) => {
 });
 
 router.get("/getArticle/:articleID", (req, res, next) => {
-  // TODO 参数判断
   // 按照文章 ID 查询
   console.log("文章 id 为:", req.params.articleID);
-  getArticleByID(req, res, req.params.articleID);
+  // 参数判断
+  if (isNaN(req.params.articleID))
+    res.json({ code: 400, msg: "文章索引错误!" });
+  else getArticleByID(req, res, req.params.articleID);
 });
 
 router.get("/getArticle/:articleNums/:setoff", (req, res, next) => {
-  // TODO 参数判断
   // 查询从 setoff 开始的 articleNums 条文章数据
   console.log("get 请求 获取文章", req.url);
-  getArticleSection(req, res, req.params.articleNums, req.params.setoff);
+  // 参数判断
+  if (isNaN(req.params.articleNums) || isNaN(req.params.setoff))
+    res.json({ code: 400, msg: "参数错误!" });
+  else getArticleSection(req, res, req.params.articleNums, req.params.setoff);
 });
 
 // TODO 提交 POST 时增加文章 {title:"xxx",content:"xxx",pubtime:"xxx"}

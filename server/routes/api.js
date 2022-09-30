@@ -2,7 +2,8 @@ var express = require("express");
 var articleRouter = require("./articleRouter");
 var aboutRouter = require("./aboutRouter");
 var friednRouter = require("./friendRouter");
-var { commentFunc } = require("../controller/comment");
+var commentRouter = require("./commentRouter");
+
 var { typeFunc } = require("../controller/type");
 
 var router = express.Router();
@@ -22,10 +23,7 @@ router.use("/about", aboutRouter);
 router.use("/friend", friednRouter);
 
 // 处理 comment 请求
-router.get("/comment", (req, res, next) => {
-  console.log("/comment :>> ", req.url);
-  res.json({ code: 200, message: "success" });
-});
+router.use("/comment",commentRouter);
 
 // 处理 type 请求
 router.get("/type", (req, res, next) => {

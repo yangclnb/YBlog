@@ -1,6 +1,5 @@
-function commentFunc(req, res, next) {
-  // TODO 链接数据库
-}
+const { query } = require("../db/mysqlConnectPool");
+const express = require("express");
 
 /**
  * @function getCurrentArticleComment
@@ -8,16 +7,21 @@ function commentFunc(req, res, next) {
  * @return {Number} ArticleID
  * @author: Banana
  */
-function getCurrentArticleComment(ArticleID) {}
+function getCurrentArticleComment(ArticleID, req, res) {
+  query(`select * from comment where blogId = ?`, [ArticleID], (err, results) => {
+    if (err) throw err;
+    res.json({ code: 200, data: results });
+  });
+}
 
 /**
  * @function setCurrentArticleComment
  * @description: 设置当前评论的内容
- * @param {Number} commentID 
+ * @param {Number} commentID
  * @param {String} newComment
  * @author: Banana
  */
-function setCurrentArticleComment(commentID,newComment) {}
+function setCurrentArticleComment(commentID, newComment) {}
 
 /**
  * @function deleteCurrentArticleComment
@@ -26,3 +30,5 @@ function setCurrentArticleComment(commentID,newComment) {}
  * @author: Banana
  */
 function deleteCurrentArticleComment(commentID) {}
+
+module.exports = { getCurrentArticleComment };
