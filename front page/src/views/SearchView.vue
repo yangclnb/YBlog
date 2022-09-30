@@ -19,6 +19,9 @@ import articalListVue from "../components/Home/articalList.vue";
   margin: 0 auto;
   padding: 10px;
   max-width: 1200px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 #searchBox {

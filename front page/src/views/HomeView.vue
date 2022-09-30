@@ -14,6 +14,8 @@ addArticleCache();
       <recommendVue />
       <hr />
       <chartsVue />
+      <hr />
+      <p id="pageInfo">粤ICP备2022015715号-1</p>
     </div>
   </div>
 </template>
@@ -37,6 +39,11 @@ hr {
 #homeRightBar {
   margin-left: 20px;
   animation: 0.75s displayRightBar;
+}
+
+#pageInfo{
+  color: var(--secondaryFontColor);
+  text-align: center;
 }
 
 @keyframes displayRightBar {

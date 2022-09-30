@@ -22,7 +22,7 @@ onUnmounted(() => {
           ><img src="../assets/github.svg" width="55" alt=""
         /></a>
       </div>
-      <RouterView id="content" />
+      <RouterView />
     </div>
   </div>
 </template>
