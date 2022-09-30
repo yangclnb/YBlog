@@ -126,4 +126,52 @@ function DigestHighLightByScroll() {
   </ul>
 </template>
 
-<style></style>
+<style lang="less" scoped>
+/* 侧边栏 大纲 各个标题的格式 */
+ul {
+  padding: 0 20px;
+
+  animation: displayDigest 1s;
+
+  li {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    margin-bottom: 10px;
+  }
+
+  .active {
+    color: var(--themeColor);
+  }
+
+  .t2::before {
+    content: "";
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .t3::before {
+    content: "";
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .t4::before {
+    content: "";
+    display: inline-block;
+    margin-left: 30px;
+  }
+
+  .t5::before {
+    content: "";
+    display: inline-block;
+    margin-left: 40px;
+  }
+
+  .t6::before {
+    content: "";
+    display: inline-block;
+    margin-left: 50px;
+  }
+}
+</style>

@@ -3,6 +3,7 @@ import { onMounted, ref, onUnmounted } from "vue";
 import { computed } from "@vue/reactivity";
 import router from "../router";
 import articleDigestVue from "../components/article/articleDigest.vue"; // 引入文章摘要模块
+import articleCommentVue from "../components/article/articleComment.vue"; // 引入文章评论模块
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
 import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
 
@@ -27,6 +28,7 @@ let md = new MarkdownIt({
 }); // 文章内容 markdown 格式化  | 代码高亮
 let articleInfo = ref([]);
 let titleArr = ref([]);
+let currentSider = ref("digest");
 
 // 记录访客信息
 addVisitorInfo(currentID);
@@ -47,7 +49,6 @@ if (BlogData == null) {
   articleInfo.value = BlogData;
   console.log("cacheData :>> ", BlogData);
 }
-
 
 onMounted(() => {
   // 添加收缩侧边栏
@@ -86,15 +87,17 @@ let articleReleaseTime = computed(() => {
   );
 });
 
+function changeSiderContent(event){
+  
+  // 清除所有active类的样式
+  document.querySelector("#siderBar_title").childNodes.forEach(node=>{
+    node.classList.toggle("active");
+  })
 
-// TODO 添加滚动隐藏title事件
-/**
- * @function:
- * @description:
- * @return {*}
- * @author: Banana
- */
-function changeTitleStatus() {}
+  // event.target.classList.toggle("active");
+  if(currentSider.value === 'comment') currentSider.value = 'digest';
+  else currentSider.value = 'comment';
+}
 </script>
 
 
@@ -102,29 +105,28 @@ function changeTitleStatus() {}
   <div id="container">
     <div id="sideBar" class="displaySideBar">
       <div id="siderBar_title">
-        <div>大纲</div>
-        <div>评论</div>
+        <div class="active" @click="changeSiderContent">大纲</div>
+        <div @click="changeSiderContent">评论</div>
       </div>
       <!-- 摘要模块 -->
-      <articleDigestVue />
+      <articleDigestVue v-show="currentSider=='digest'" />
       <!-- 评论模块 -->
-      <div class="comment">
-        <h3 class="comment_title">BananaKing</h3>
-        <p class="comment_content">
-          在今天水代码的过程中，在自适应布局的情况下碰到了改变窗口尺寸而Echarts并不能填充父元素的情况...
-        </p>
-        <span class="comment_time">2021-02-04</span>
-      </div>
+      <articleCommentVue v-show="currentSider=='comment'" />
     </div>
     <div id="rightContent">
-      <img v-if="articleInfo.titleImg" style="width:100%" :src="articleInfo.titleImg" alt="" />
+      <img
+        v-if="articleInfo.titleImg"
+        style="width: 100%"
+        :src="articleInfo.titleImg"
+        alt=""
+      />
       <div id="articleContent" v-html="articleInfo.content"></div>
       <div id="toolBar">
         <p id="controlSideBarDisplay">
           <DArrowLeft style="width: 1em; height: 1em; margin-right: 8px" />
         </p>
-        <p>{{articleInfo.title}}</p>
-        <p>{{articleInfo.content.length}}词</p>
+        <p>{{ articleInfo.title }}</p>
+        <p>{{ articleInfo.content.length }}词</p>
       </div>
     </div>
   </div>
@@ -170,93 +172,13 @@ function changeTitleStatus() {}
       align-items: center;
     }
 
-    #siderBar_title div:nth-child(1)::after {
+    #siderBar_title .active::after {
       content: "";
       display: block;
       width: 100%;
       height: 3px;
       margin-top: 3px;
       background-color: var(--themeColor);
-    }
-
-    /* 侧边栏 大纲 各个标题的格式 */
-    ul {
-      padding: 0 20px;
-
-      animation: displayDigest 1s;
-
-      li {
-        word-wrap: break-word;
-        word-break: break-all;
-        white-space: normal;
-        margin-bottom: 10px;
-      }
-
-      .active {
-        color: var(--themeColor);
-      }
-
-      .t2::before {
-        content: "";
-        display: inline-block;
-        margin-left: 10px;
-      }
-
-      .t3::before {
-        content: "";
-        display: inline-block;
-        margin-left: 20px;
-      }
-
-      .t4::before {
-        content: "";
-        display: inline-block;
-        margin-left: 30px;
-      }
-
-      .t5::before {
-        content: "";
-        display: inline-block;
-        margin-left: 40px;
-      }
-
-      .t6::before {
-        content: "";
-        display: inline-block;
-        margin-left: 50px;
-      }
-    }
-  }
-
-  /* 评论模块 */
-  .comment {
-    margin: 10px;
-    padding: 10px;
-    background-color: rgb(241, 241, 241);
-    border-radius: 10px;
-
-    display: flex;
-    flex-direction: column;
-
-    animation: displayComment 1s;
-
-    .comment_title {
-      font-size: large;
-      font-style: italic;
-      font-weight: 600;
-      padding-bottom: 5px;
-    }
-
-    .comment_content {
-      font-size: medium;
-      font-weight: 300;
-      padding-bottom: 5px;
-    }
-
-    .comment_time {
-      font-size: medium;
-      font-weight: 300;
-      align-self: flex-end;
     }
   }
 
