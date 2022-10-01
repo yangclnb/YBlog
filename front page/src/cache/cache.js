@@ -42,6 +42,9 @@ export function addArticleCache() {
   if (localStorage.getItem("blogData") === null) {
     getAllArtical().then((results) => {
       // console.log(JSON.stringify(results.data));
+      let newArr = results.data;
+      newArr.sort((a, b) => a.blogId - b.blogId);
+
       localStorage.setItem("blogData", JSON.stringify(results.data));
     });
     return;
@@ -92,12 +95,11 @@ export function getBlogList(start, step) {
  * @return {Array} blogCache 若缓存中没数据返回空列表
  * @author: Banana
  */
-export function getAllBlog(){
+export function getAllBlog() {
   // 页面首次加载时，获取缓存的请求几乎都会优先于写入数据到缓存，若缓存无数据直接返回空数组
   let blogCatch = JSON.parse(localStorage.getItem("blogData"))?.reverse() || [];
   return blogCatch;
 }
-
 
 /**
  * @function getBlogById
