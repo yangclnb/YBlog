@@ -22,7 +22,7 @@ ul {
 
 /*---滚动条默认显示样式--*/
 ::-webkit-scrollbar-thumb {
-  background-color: var(--themeColor);
+  background-color: var(--secondaryFontColor);
   height: 50px;
   outline-offset: -2px;
   outline: 2px solid #fff;
