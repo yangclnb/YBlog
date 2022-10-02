@@ -20,7 +20,7 @@ let md = new MarkdownIt({
   highlight: function (str, lang) {
     // 得到经过highlight.js之后的html代码
     const code = hljs.highlight(str, {
-      language: lang||"javascript",
+      language: lang || "javascript",
       ignoreIllegals: true,
     }).value;
     return code;
@@ -51,6 +51,8 @@ if (BlogData == null) {
 }
 
 onMounted(() => {
+  // 滚动至顶部
+  window.scrollTo(0, 0);
   // 添加收缩侧边栏
   let SideBar = document.querySelector("#sideBar");
   document
@@ -87,16 +89,15 @@ let articleReleaseTime = computed(() => {
   );
 });
 
-function changeSiderContent(event){
-  
+function changeSiderContent(event) {
   // 清除所有active类的样式
-  document.querySelector("#siderBar_title").childNodes.forEach(node=>{
+  document.querySelector("#siderBar_title").childNodes.forEach((node) => {
     node.classList.toggle("active");
-  })
+  });
 
   // event.target.classList.toggle("active");
-  if(currentSider.value === 'comment') currentSider.value = 'digest';
-  else currentSider.value = 'comment';
+  if (currentSider.value === "comment") currentSider.value = "digest";
+  else currentSider.value = "comment";
 }
 </script>
 
@@ -109,9 +110,9 @@ function changeSiderContent(event){
         <div @click="changeSiderContent">评论</div>
       </div>
       <!-- 摘要模块 -->
-      <articleDigestVue v-show="currentSider=='digest'" />
+      <articleDigestVue v-show="currentSider == 'digest'" />
       <!-- 评论模块 -->
-      <articleCommentVue v-show="currentSider=='comment'" />
+      <articleCommentVue v-show="currentSider == 'comment'" />
     </div>
     <div id="rightContent">
       <img
@@ -199,6 +200,8 @@ function changeSiderContent(event){
       // @media screen and (max-width: 789px) {
       //   max-width: 100vw;
       // }
+
+      animation: displayArticleContent 0.75s;
 
       .md-image {
         margin: 24px auto;
@@ -455,6 +458,17 @@ function changeSiderContent(event){
 
 .hiddenSideBar {
   animation: hiddenBar 0.3s linear;
+}
+
+@keyframes displayArticleContent {
+  0% {
+    transform: translateY(400px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }
 
 @keyframes displayBar {
