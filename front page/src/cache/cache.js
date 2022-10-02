@@ -59,7 +59,9 @@ export function addArticleCache() {
       console.log("更新博客缓存");
       getAllArtical().then((results) => {
         // console.log(JSON.stringify(results.data));
-        localStorage.setItem("blogData", JSON.stringify(results.data));
+        let newArr = results.data;
+        newArr.sort((a, b) => a.blogId - b.blogId);
+        localStorage.setItem("blogData", JSON.stringify(newArr));
       });
     } else {
       console.log("当前缓存为最新状态");
