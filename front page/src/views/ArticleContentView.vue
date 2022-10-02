@@ -20,7 +20,7 @@ let md = new MarkdownIt({
   highlight: function (str, lang) {
     // 得到经过highlight.js之后的html代码
     const code = hljs.highlight(str, {
-      language: lang,
+      language: lang||"javascript",
       ignoreIllegals: true,
     }).value;
     return code;
