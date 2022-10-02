@@ -45,7 +45,7 @@ export function addArticleCache() {
       let newArr = results.data;
       newArr.sort((a, b) => a.blogId - b.blogId);
 
-      localStorage.setItem("blogData", JSON.stringify(results.data));
+      localStorage.setItem("blogData", JSON.stringify(newArr));
     });
     return;
   }
