@@ -63,5 +63,18 @@ getCurrentArticalComment(currentID).then((results) => {
 
 #commentInfo {
   text-align: center;
+  animation: displayComment 1s;
+}
+
+@keyframes displayComment {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
 }
 </style>
