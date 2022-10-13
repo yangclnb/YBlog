@@ -362,6 +362,10 @@ function changeSiderContent(event) {
         margin: 0.8em 0;
       }
 
+      ol > li {
+        margin: 0.8em 0;
+      }
+
       li > ol,
       li > ul {
         margin: 0 0;
@@ -432,6 +436,7 @@ function changeSiderContent(event) {
         margin: 0 auto;
         background-color: #f6f6f6;
         overflow-x: auto;
+
       }
     }
 

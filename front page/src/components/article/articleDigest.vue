@@ -29,7 +29,7 @@ onMounted(() => {
 
     // 若是 摘要列表中存在内容 则添加滚动高亮摘要的事件
     if (titleArr.value.length > 0) {
-      window.addEventListener("scroll", DigestHighLightByScroll);
+      window.addEventListener("scroll", throttle());
     } else {
       // 没有标签关闭标签栏
       document.querySelector("#digest").style.display = "none";
@@ -39,7 +39,7 @@ onMounted(() => {
 
 // 关闭页面时清除绑定的scroll事件
 onUnmounted(() => {
-  window.removeEventListener("scroll", DigestHighLightByScroll);
+  window.removeEventListener("scroll", throttle());
 });
 
 /**
@@ -84,31 +84,44 @@ function clearDigestHighLight() {
   }
 }
 
-// 防抖计时器
-let time = null;
 /**
  * @function DigestHighLightByScroll
- * @description: 防抖 | 当页面内容滚动到指定位置时高亮对应的摘要
+ * @description: 当页面内容滚动到指定位置时高亮对应的摘要
  * @return {void}
  * @author: Banana
  */
 function DigestHighLightByScroll() {
-  // 页面防抖
-  if (time !== null) clearTimeout(time);
-  time = setTimeout(() => {
-    let content = document.querySelector("#articleContent").children;
-    clearDigestHighLight();
-    // TODO 添加防抖
-    for (const item of titleArr.value) {
-      const currentNodePosition = content[item.index].getBoundingClientRect();
-      if (currentNodePosition.bottom > 0) {
-        navigateToDigestNode(item);
-        return;
-      }
+  let content = document.querySelector("#articleContent").children;
+  clearDigestHighLight();
+  for (const item of titleArr.value) {
+    const currentNodePosition = content[item.index].getBoundingClientRect();
+    if (currentNodePosition.bottom > 0) {
+      navigateToDigestNode(item);
+      return;
     }
-    // 若是遍历完之后没有标题在屏幕中，则高亮最后一条摘要
-    navigateToDigestNode(titleArr.value[titleArr.value.length - 1]);
-  }, 50);
+  }
+  // 若是遍历完之后没有标题在屏幕中，则高亮最后一条摘要
+  navigateToDigestNode(titleArr.value[titleArr.value.length - 1]);
+}
+
+/**
+ * 节流函数 一个函数执行一次后，只有大于设定的执行周期才会执行第二次。有个需要频繁触发的函数，出于优化性能的角度，在规定时间内，只让函数触发的第一次生效，后面的不生效。
+ */
+function throttle() {
+  //记录上一次函数触发的时间
+  var lastTime = 0;
+  console.log('scoll ~');
+  return function () {
+    //记录当前函数触发的时间
+    var nowTime = Date.now();
+    if (nowTime - lastTime > 100) {
+      console.log('update ~');
+      //高亮摘要
+      DigestHighLightByScroll();
+      //同步执行结束时间
+      lastTime = nowTime;
+    }
+  };
 }
 </script>
 
@@ -144,33 +157,23 @@ ul {
     color: var(--themeColor);
   }
 
-  .t2::before {
-    content: "";
-    display: inline-block;
+  .t2 {
     margin-left: 10px;
   }
 
-  .t3::before {
-    content: "";
-    display: inline-block;
+  .t3 {
     margin-left: 20px;
   }
 
   .t4::before {
-    content: "";
-    display: inline-block;
     margin-left: 30px;
   }
 
-  .t5::before {
-    content: "";
-    display: inline-block;
+  .t5 {
     margin-left: 40px;
   }
 
-  .t6::before {
-    content: "";
-    display: inline-block;
+  .t6 {
     margin-left: 50px;
   }
 }
