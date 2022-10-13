@@ -429,14 +429,38 @@ function changeSiderContent(event) {
         }
       }
 
+      code {
+        padding: 2px 0.4em;
+        overflow-x: auto;
+        color: var(--themeColor);
+        font-weight: 700;
+        word-break: break-word;
+        font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+        background-color: #f1f1f1;
+      }
+
       pre {
         font-size: 16px;
         padding: 10px;
         width: 100%;
         margin: 0 auto;
-        background-color: #f6f6f6;
+        // background-color: #f6f6f6;
         overflow-x: auto;
 
+        code {
+          display: block;
+          padding: 1.5em;
+          word-break: normal;
+          font-size: 0.9em;
+          font-style: normal;
+          font-weight: 400;
+          font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+          line-height: 18px;
+          color: #f1f1f1;
+          background-color: #343434;
+          border-radius: 2px;
+          scroll-behavior: smooth;
+        }
       }
     }
 
