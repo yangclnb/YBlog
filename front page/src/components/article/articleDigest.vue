@@ -165,7 +165,7 @@ ul {
     margin-left: 20px;
   }
 
-  .t4::before {
+  .t4 {
     margin-left: 30px;
   }
 
