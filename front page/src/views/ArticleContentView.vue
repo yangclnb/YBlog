@@ -74,6 +74,17 @@ onMounted(() => {
     });
 });
 
+function changeSiderContent(event) {
+  // 清除所有active类的样式
+  document.querySelector("#siderBar_title").childNodes.forEach((node) => {
+    node.classList.toggle("active");
+  });
+
+  // event.target.classList.toggle("active");
+  if (currentSider.value === "comment") currentSider.value = "digest";
+  else currentSider.value = "comment";
+}
+
 /**
  * @description: 格式化发布时间事件
  * @param {*} computed
@@ -89,16 +100,12 @@ let articleReleaseTime = computed(() => {
   );
 });
 
-function changeSiderContent(event) {
-  // 清除所有active类的样式
-  document.querySelector("#siderBar_title").childNodes.forEach((node) => {
-    node.classList.toggle("active");
-  });
-
-  // event.target.classList.toggle("active");
-  if (currentSider.value === "comment") currentSider.value = "digest";
-  else currentSider.value = "comment";
-}
+let articleWordNums = computed(() => {
+  let wordNums = articleInfo.value.content.length;
+  if (wordNums > 1000) {
+    return (wordNums / 1000).toFixed(0) + "k";
+  }
+});
 </script>
 
 
@@ -121,13 +128,35 @@ function changeSiderContent(event) {
         :src="articleInfo.titleImg"
         alt=""
       />
-      <div id="articleContent" v-html="articleInfo.content"></div>
+      <div id="articleContent">
+        <h1>{{ articleInfo.title }}</h1>
+        <div id="articleInfoBox">
+          <p>
+            <Calendar style="width: 1em; height: 1em; margin-right: 8px" />
+            发布于：{{ articleReleaseTime }}
+          </p>
+          <p>
+            <CollectionTag style="width: 1em; height: 1em; margin-right: 8px" />
+            {{ articleInfo.typeName }}
+          </p>
+          <p>
+            <Paperclip style="width: 1em; height: 1em; margin-right: 8px" />
+            字数总计：{{ articleWordNums }}
+          </p>
+          <!-- <p>
+            <Magnet style="width: 1em; height: 1em; margin-right: 8px" />
+            阅读量:001
+          </p> -->
+        </div>
+
+        <hr />
+
+        <div id="contentBox" v-html="articleInfo.content"></div>
+      </div>
       <div id="toolBar">
         <p id="controlSideBarDisplay">
           <DArrowLeft style="width: 1em; height: 1em; margin-right: 8px" />
         </p>
-        <p>{{ articleInfo.title }}</p>
-        <p>{{ articleInfo.content.length }}词</p>
       </div>
     </div>
   </div>
@@ -200,6 +229,20 @@ function changeSiderContent(event) {
       // @media screen and (max-width: 789px) {
       //   max-width: 100vw;
       // }
+
+      #articleInfoBox {
+        display: flex;
+
+        p {
+          margin-right: 2em;
+          display: flex;
+          align-items: center;
+        }
+
+        @media screen and (max-width: 576px) {
+          flex-direction: column;
+        }
+      }
 
       animation: displayArticleContent 0.75s;
 
@@ -442,7 +485,7 @@ function changeSiderContent(event) {
       pre {
         font-size: 16px;
         padding: 10px;
-        width: 100%;
+        width: 95%;
         margin: 0 auto;
         // background-color: #f6f6f6;
         overflow-x: auto;

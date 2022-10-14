@@ -7,7 +7,7 @@ let titleArr = ref([]);
 onMounted(() => {
   setTimeout(() => {
     // 格式化 h 标签，并且存入数组中
-    let contentBox = document.querySelector("#articleContent").children;
+    let contentBox = document.querySelector("#contentBox").children;
     let index = 0; //文章内节点的索引
     let id = 0; //摘要中的索引
     for (const node of contentBox) {
@@ -52,7 +52,7 @@ onUnmounted(() => {
  */
 function navigateToArticleNode(articleNodeIndex, digestIndex) {
   clearDigestHighLight();
-  let content = document.querySelector("#articleContent").children;
+  let content = document.querySelector("#contentBox").children;
   content[articleNodeIndex].scrollIntoView({
     behavior: "smooth",
     block: "start",
@@ -91,7 +91,7 @@ function clearDigestHighLight() {
  * @author: Banana
  */
 function DigestHighLightByScroll() {
-  let content = document.querySelector("#articleContent").children;
+  let content = document.querySelector("#contentBox").children;
   clearDigestHighLight();
   for (const item of titleArr.value) {
     const currentNodePosition = content[item.index].getBoundingClientRect();
@@ -151,6 +151,7 @@ ul {
     word-break: break-all;
     white-space: normal;
     margin-bottom: 10px;
+    cursor: pointer;
   }
 
   .active {
