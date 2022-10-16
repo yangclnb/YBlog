@@ -83,7 +83,7 @@ nav {
   /* border-right: 1px solid rgb(201, 201, 201); */
 
   position: sticky;
-  bottom: 0;
+  top: 0;
 
   animation: playBarInHugeScreen 0.5s;
 }
@@ -143,7 +143,7 @@ hr {
     box-shadow: none;
 
     position:sticky;
-    top: 0;
+    bottom: 0;
 
     animation: playBarInSmallScreen 0.5s;
   }

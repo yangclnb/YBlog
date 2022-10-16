@@ -57,11 +57,11 @@ let getTime = function computed(time) {
 
 @keyframes playTimeLine {
   from {
-    transform: translateX(400px);
+    transform: translateY(400px);
     opacity: 0;
   }
   to {
-    transform: translateX(0px);
+    transform: translateY(0px);
     opacity: 1;
   }
 }
