@@ -10,6 +10,7 @@ const express = require("express");
 function getCurrentArticleComment(ArticleID, req, res) {
   query(`select * from comment where blogId = ?`, [ArticleID], (err, results) => {
     if (err) throw err;
+    res.setHeader('Cache-Control', 'max-age=3600');
     res.json({ code: 200, data: results });
   });
 }

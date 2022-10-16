@@ -23,6 +23,7 @@ function getAllArticle(req, res) {
 function getArticalNums(req, res) {
   query("SELECT COUNT(blogId) nums FROM blog", (err, results) => {
     if (err) throw err;
+    res.setHeader('Cache-Control', 'max-age=3600');
     res.json({ code: 200, data: results });
   });
 }
@@ -42,6 +43,7 @@ function getVisitorData(req, res) {
     [],
     (err, results) => {
       if (err) throw err;
+      res.setHeader('Cache-Control', 'max-age=3600');
       res.json({ code: 200, data: results });
     }
   );
@@ -49,7 +51,7 @@ function getVisitorData(req, res) {
 
 /**
  * @function getArticleByID
- * @description: 根据 返回数量和偏移量 获取文章列表
+ * @description: 根据 ID 返回对应的文章
  * @param {Number} articalID 文章ID
  * @return {Array} results
  * @author: Banana
@@ -58,6 +60,7 @@ function getArticleByID(req, res, articalID) {
   query("select * from blog b INNER JOIN type t on t.typeId = b.typeId where blogId = ?", [articalID], (err, results) => {
     if (err) throw err;
     // 返回数据
+    res.setHeader('Cache-Control', 'max-age=3600');
     res.json({ code: 200, data: results });
   });
 }
@@ -136,6 +139,7 @@ function getArticalByVisitorInfo(req, res) {
     [],
     (err, results) => {
       if (err) throw err;
+      res.setHeader('Cache-Control', 'max-age=3600');
       res.json({ code: 200, data: results });
     }
   );
