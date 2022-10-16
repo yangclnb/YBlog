@@ -50,7 +50,7 @@ button:hover {
 
 @media screen and (max-width: 576px) {
   input {
-    width: 300px;
+    width: 200px;
   }
 }
 </style>

@@ -27,6 +27,7 @@ getFriendChain().then((results) => {
   margin: 0 auto;
   padding: 10px;
   max-width: 1000px;
+  min-height: 100vh;
   display: flex;
   flex-wrap: wrap;
   // background-color: aqua;

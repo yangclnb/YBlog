@@ -3,16 +3,16 @@ import { onMounted, onUnmounted } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import navigationBarVue from "../components/navigationBar.vue";
 
-onMounted(() => {
-  console.log("页面加载");
-});
-// TODO 在页面关闭时加载
-onUnmounted(() => {
-  console.log("页面关闭");
-});
+// onMounted(() => {
+//   console.log("页面加载");
+// });
+// // TODO 在页面关闭时加载
+// onUnmounted(() => {
+//   console.log("页面关闭");
+// });
 </script>
-    
-    <template>
+
+<template>
   <div id="page">
     <navigationBarVue />
     <div id="rightBox">
@@ -26,19 +26,28 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-    
-    <style scoped>
+
+<style lang="less" scoped>
 #page {
   display: flex;
-}
-#rightBox {
-  flex: 3;
-}
-#logo {
-  height: 55px;
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
+
+  @media screen and (max-width: 576px) {
+    flex-direction: column;
+  }
+
+  #rightBox {
+    flex: 3;
+
+    @media screen and (max-width: 576px) {
+      order: -1;
+    }
+
+    #logo {
+      height: 55px;
+      display: flex;
+      justify-content: space-between;
+      align-content: center;
+    }
+  }
 }
 </style>
-    

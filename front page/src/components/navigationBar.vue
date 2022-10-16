@@ -1,3 +1,19 @@
+<script setup>
+import IconAboutVue from "./icons/IconAbout.vue";
+import IconClassifyVue from "./icons/IconClassify.vue";
+import IconFriendVue from "./icons/IconFriend.vue";
+import IconHomeVue from "./icons/IconHome.vue";
+import IconSearcgVue from "./icons/IconSearcg.vue";
+import IconTimeLineVue from "./icons/IconTimeLine.vue";
+
+import ActiveIconAboutVue from "./icons/active/IconAbout.vue";
+import ActiveIconClassifyVue from "./icons/active/IconClassify.vue";
+import ActiveIconFriendVue from "./icons/active/IconFriend.vue";
+import ActiveIconHomeVue from "./icons/active/IconHome.vue";
+import ActiveIconSearcgVue from "./icons/active/IconSearcg.vue";
+import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
+</script>
+
 <template>
   <nav>
     <div id="top_icon">
@@ -54,24 +70,6 @@
   </nav>
 </template>
 
-<script setup>
-import IconAboutVue from "./icons/IconAbout.vue";
-import IconClassifyVue from "./icons/IconClassify.vue";
-import IconFriendVue from "./icons/IconFriend.vue";
-import IconHomeVue from "./icons/IconHome.vue";
-import IconSearcgVue from "./icons/IconSearcg.vue";
-import IconTimeLineVue from "./icons/IconTimeLine.vue";
-
-import ActiveIconAboutVue from "./icons/active/IconAbout.vue";
-import ActiveIconClassifyVue from "./icons/active/IconClassify.vue";
-import ActiveIconFriendVue from "./icons/active/IconFriend.vue";
-import ActiveIconHomeVue from "./icons/active/IconHome.vue";
-import ActiveIconSearcgVue from "./icons/active/IconSearcg.vue";
-import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
-</script>
-
-
-
 <style  scoped>
 nav {
   display: flex;
@@ -85,18 +83,9 @@ nav {
   /* border-right: 1px solid rgb(201, 201, 201); */
 
   position: sticky;
-  top: 0;
+  bottom: 0;
 
-  animation: playBar 0.5s;
-}
-
-@keyframes playBar {
-  from{
-    transform: translateX(-400px);
-  }
-  to{
-    transform: translateX(0px);
-  }
+  animation: playBarInHugeScreen 0.5s;
 }
 
 div > svg:nth-child(1) {
@@ -119,8 +108,8 @@ div > svg:nth-child(2) {
   z-index: 9;
 }
 
-a{
-  color: #AAB5CB;
+a {
+  color: #aab5cb;
 }
 
 a:hover > div {
@@ -144,7 +133,46 @@ hr {
 
 @media screen and (max-width: 576px) {
   nav {
+    flex-direction: row;
+    justify-content: center;
+
+    width: 100vw;
+    height: auto;
+    z-index: 9;
+    background-color: white;
+    box-shadow: none;
+
+    position:sticky;
+    top: 0;
+
+    animation: playBarInSmallScreen 0.5s;
+  }
+
+  nav > div {
+    display: flex;
+    align-items: center;
+  }
+
+  a > div > p {
     display: none;
   }
 }
-</style>
+
+@keyframes playBarInHugeScreen {
+  from {
+    transform: translateX(-400px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes playBarInSmallScreen {
+  from {
+    transform: translateY(400px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+</style> 
