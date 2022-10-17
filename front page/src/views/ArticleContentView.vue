@@ -149,8 +149,6 @@ let articleWordNums = computed(() => {
           </p> -->
         </div>
 
-        <hr />
-
         <div id="contentBox" v-html="articleInfo.content"></div>
       </div>
       <div id="toolBar">
@@ -227,16 +225,22 @@ let articleWordNums = computed(() => {
       margin: 0 auto;
 
       h1 {
-        padding: 10px 0 20px 0;
+        padding: 10px 0 10px 0;
+        border-bottom: var(--secondaryFontColor) 1px solid;
       }
 
       #articleInfoBox {
+        padding-top: 10px;
         display: flex;
-        
+
         p {
-          margin: 1em 2em 1em 0 ;
+          margin: 1em 2em 1em 0;
           display: flex;
           align-items: center;
+
+          @media screen and (max-width: 576px) {
+            margin: 0.2em 2em 0.2em 0;
+          }
         }
 
         @media screen and (max-width: 576px) {
