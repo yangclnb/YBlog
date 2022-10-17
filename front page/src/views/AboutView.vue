@@ -1,4 +1,5 @@
 <script setup>
+import { ElSkeleton, ElSkeletonItem } from "element-plus";
 import { getAbout } from "@/api/about.js";
 import { ref } from "@vue/reactivity";
 import { onBeforeMount } from "vue";
@@ -6,43 +7,36 @@ import { onBeforeMount } from "vue";
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 
 let content = ref("");
+let loading = ref(true);
 
 getAbout().then((results) => {
   let data = results.data[0].PersonalIntroduction;
   let md = new MarkdownIt();
   content.value = md.render(data);
+  loading.value = false;
 });
 </script>
 
 <template>
   <div class="about">
-    <div id="aboutBox" v-html="content"></div>
+    <el-skeleton :rows="10" :loading="loading" animated :count="5" :throttle="500"> 
+      <template #default>
+        <div id="aboutBox" v-html="content"></div>
+      </template>
+    </el-skeleton>
+
   </div>
 </template>
 
 <style lang="less">
 .about {
+  min-height: 100vh;
   padding: 40px;
-  .dispalyAbout(@name) {
-    @keyframes @name {
-      0% {
-        transform: translateY(400px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0px);
-        opacity: 1;
-      }
-    }
+  animation: displayAbout 0.5s;
+
+  @media screen and (max-width:576px) {
+    animation: none;
   }
-
-  .dispalyAbout(testDisplayAbout);
-
-  .animation(@animation-name,@animation-duration) {
-    animation: @arguments;
-  }
-
-  .animation(testDisplayAbout,1s);
 
   #aboutBox {
     overflow: hidden;
@@ -286,4 +280,15 @@ getAbout().then((results) => {
     }
   }
 }
+
+@keyframes displayAbout {
+      0% {
+        transform: translateY(400px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+    }
 </style>

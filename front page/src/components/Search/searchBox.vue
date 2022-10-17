@@ -1,12 +1,19 @@
+<script setup>
+import { ElMessage } from 'element-plus'
+
+const searchError = () => {
+  ElMessage.error("Features are still under development");
+};
+</script>
+
 <template>
-  <div></div>
-  <div id="searchBox">
-    <input type="text" name="searchInfo" id="" /> <button>YBlog一下</button>
+  <div>
+    <div></div>
+    <div id="searchBox">
+      <input type="text" name="searchInfo" id="" /> <button @click="searchError">YBlog一下</button>
+    </div>
   </div>
 </template>
-
-<script setup>
-</script>
 
 <style scoped>
 input {

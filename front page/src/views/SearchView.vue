@@ -4,13 +4,15 @@ import articalListVue from "../components/Home/articalList.vue";
 </script>
 
 <template>
-  <div id="container">
-    <div id="searchBox">
-      <searchBoxVue />
+  <div>
+    <div id="container">
+      <div id="searchBox">
+        <searchBoxVue />
+      </div>
+      <articalListVue />
     </div>
-    <articalListVue />
+    <div></div>
   </div>
-  <div></div>
 </template>
 
 

@@ -145,7 +145,8 @@ hr {
     position:sticky;
     bottom: 0;
 
-    animation: playBarInSmallScreen 0.5s;
+    animation: none;
+    transition: none;
   }
 
   nav > div {

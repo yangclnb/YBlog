@@ -1,11 +1,15 @@
 <script setup>
 import { getRecommendList } from "@/api/artical.js";
+import { ElSkeleton, ElSkeletonItem } from "element-plus";
 import { ref } from "@vue/reactivity";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 let recommendList = ref([]);
+let loading = ref(true);
+
 
 getRecommendList().then((results) => {
   recommendList.value = results.data;
+  loading.value = false;
 });
 
 let getRouter = function computed(blogID) {
@@ -17,14 +21,29 @@ let getRouter = function computed(blogID) {
 <template>
   <div id="recommend">
     <div id="title">推荐阅读</div>
-    <ul>
-      <li v-for="item in recommendList" :key="item">
-        <router-link
-        :to="{ name: 'articleContent', params: { articleID: item.blogid } }"
-          >{{ item.title }}</router-link
-        >
-      </li>
-    </ul>
+    <el-skeleton :loading="loading" animated :count="5" :throttle="500">
+      <template #template>
+        <div style="padding: 14px">
+          <el-skeleton-item
+            variant="h3"
+            style="width: 80%; text-align: center"
+          />
+        </div>
+      </template>
+      <template #default>
+        <ul>
+          <li v-for="item in recommendList" :key="item">
+            <router-link
+              :to="{
+                name: 'articleContent',
+                params: { articleID: item.blogid },
+              }"
+              >{{ item.title }}</router-link
+            >
+          </li>
+        </ul>
+      </template>
+    </el-skeleton>
   </div>
 </template>
 
@@ -51,6 +70,11 @@ ul > li {
   font-size: 15px;
   cursor: pointer;
   transition: 0.5s linear;
+}
+
+ul > li > a {
+  /* background-color: antiquewhite; */
+  display: block;
 }
 
 ul > li:hover {
