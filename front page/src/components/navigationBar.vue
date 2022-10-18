@@ -101,7 +101,7 @@ div > svg:nth-child(2) {
 }
 
 .router-link-exact-active > div {
-  color: #06a6ff;
+  color: var(--themeColor);
 }
 
 .router-link-exact-active > div > svg:nth-child(2) {
@@ -142,7 +142,7 @@ hr {
     background-color: white;
     box-shadow: none;
 
-    position:sticky;
+    position: sticky;
     bottom: 0;
 
     animation: none;
@@ -152,6 +152,10 @@ hr {
   nav > div {
     display: flex;
     align-items: center;
+  }
+
+  a:hover > div {
+    background-color: white;
   }
 
   a > div > p {
