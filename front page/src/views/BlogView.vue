@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import navigationBarVue from "../components/navigationBar.vue";
+import settingButtonVue from "../components/settingButton/settingButton.vue"
 
 // onMounted(() => {
 //   console.log("页面加载");
@@ -24,6 +25,7 @@ import navigationBarVue from "../components/navigationBar.vue";
       </div>
       <RouterView />
     </div>
+    <settingButtonVue/>
   </div>
 </template>
 

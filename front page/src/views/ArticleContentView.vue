@@ -4,6 +4,7 @@ import { computed } from "@vue/reactivity";
 import router from "../router";
 import articleDigestVue from "../components/article/articleDigest.vue"; // 引入文章摘要模块
 import articleCommentVue from "../components/article/articleComment.vue"; // 引入文章评论模块
+import settingButtonVue from "../components/settingButton/settingButton.vue" // 引入侧边按钮框
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
 import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
 
@@ -157,6 +158,7 @@ let articleWordNums = computed(() => {
         </p>
       </div>
     </div>
+    <settingButtonVue/>
   </div>
 </template>
 
@@ -198,6 +200,7 @@ let articleWordNums = computed(() => {
       display: flex;
       flex-direction: column;
       align-items: center;
+      cursor: pointer;
     }
 
     #siderBar_title .active::after {
