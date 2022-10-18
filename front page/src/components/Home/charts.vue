@@ -74,6 +74,8 @@ window.addEventListener("resize", () => {
 #chartBox {
   display: block;
   min-width: 20vw;
+  background-color: var(--contentGroundColor);
+  border-radius: 5px;
   box-shadow: var(--el-box-shadow);
   height: 300px;
   #chart {

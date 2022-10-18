@@ -96,7 +96,7 @@ function onMore() {
         <img v-if="item.titleImg" :src="item.titleImg" alt="" />
         <div class="content">
           <h1>{{ item.title }}</h1>
-          <p class="pageDescribe">{{ item.content }}</p>
+          <p class="pageDescribe">{{ item.content.slice(0,150) }}</p>
           <div class="timebox">
             <IconDate width="20" />{{ item.pubtime.split("T")[0] }}
             &nbsp;
@@ -157,7 +157,10 @@ a {
   cursor: pointer;
   transition: 0.5s linear;
   display: flex;
+  background-color: var(--contentGroundColor);
   box-shadow: var(--el-box-shadow);
+
+  border-radius: 5px;
 }
 
 .articialInfo:hover {

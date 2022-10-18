@@ -13,6 +13,7 @@ const predefineColors = ref([
   "#00ced1",
   "#c71585",
 ]);
+let currentSteeingState = true;
 
 document.documentElement.style.setProperty("--themeColor", color.value);
 
@@ -22,6 +23,7 @@ document.documentElement.style.setProperty("--themeColor", color.value);
  * @author: Banana
  */
 function changeColor() {
+  color.value = color.value || "#06a6ff"; // 防止用户输入为空
   document.documentElement.style.setProperty("--themeColor", color.value);
   localStorage.setItem("currentColor", color.value);
 }
@@ -50,7 +52,7 @@ function backTop() {
 }
 
 /**
- * @function: 
+ * @function:
  * @description: 切换 白天/夜间 模式
  * @return {*}
  * @author: Banana
@@ -62,7 +64,7 @@ function changeDisplayModle() {
 }
 
 /**
- * @function: 
+ * @function:
  * @description: 向下滚动展示按钮框
  * @return {*}
  * @author: Banana
@@ -71,16 +73,38 @@ function changeDisplayModle() {
 //     console.warn("hellow")
 // })
 
-// TODO 点击setting按钮 向上弹出 改变主题色和切换模式按钮
+/**
+ * @function: settingOperation
+ * @description: 点击setting按钮 向上弹出 改变主题色和切换模式按钮
+ * @return {*}
+ * @author: Banana
+ */
+function settingOperation() {
+  let dom = document.querySelectorAll(".setting_operation");
+  for (const node of dom) {
+    node.classList.toggle("showAnimation");
+    node.classList.toggle("hiddenAnimation");
+
+    if (currentSteeingState) node.style.visibility = "visible";
+    else setTimeout(() => {
+      node.style.visibility = "hidden";
+    }, 300); // 等待三毫秒 执行完动画后再隐藏元素
+  }
+  currentSteeingState = !currentSteeingState;
+}
 </script>
 
 <template>
   <div id="right_side_button_box">
-    <div id="change_modle" @click="changeDisplayModle">
+    <div
+      id="change_modle"
+      @click="changeDisplayModle"
+      class="setting_operation hiddenAnimation"
+    >
       <el-icon :size="25" color="white"><Sunny /></el-icon>
       <el-icon :size="25" color="white" class="hidden"><Moon /></el-icon>
     </div>
-    <div id="change_theme">
+    <div id="change_theme" class="setting_operation hiddenAnimation">
       <el-color-picker
         v-model="color"
         size="small"
@@ -88,7 +112,7 @@ function changeDisplayModle() {
         @change="changeColor"
       />
     </div>
-    <div id="seting_button">
+    <div id="seting_button" @click="settingOperation">
       <el-icon :size="25" color="white" class="is-loading"><Setting /></el-icon>
     </div>
     <div id="back_top" @click="backTop">
@@ -100,6 +124,18 @@ function changeDisplayModle() {
 <style>
 .hidden {
   display: none;
+}
+
+.setting_operation {
+  visibility: hidden;
+  /* visibility: visible; */
+}
+
+.showAnimation {
+  animation: show_right_button 0.5s;
+}
+.hiddenAnimation {
+  animation: hidden_right_button 0.5s;
 }
 
 #right_side_button_box {

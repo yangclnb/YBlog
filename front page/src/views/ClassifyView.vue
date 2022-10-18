@@ -59,15 +59,22 @@ function handleData(data) {
       </div>
       <ul>
         <template v-for="(list, j) of item.list" :key="j">
-          <router-link :to="{ name: 'articleContent', params: { articleID: list.id } }"
-            v-if="j < 4 || item.displayMore">
+          <router-link
+            :to="{ name: 'articleContent', params: { articleID: list.id } }"
+            v-if="j < 4 || item.displayMore"
+          >
             <li>
-              <ArrowRightBold style="width: 1em; height: 1em; margin-right: 8px" />{{ list.name }}
+              <ArrowRightBold
+                style="width: 1em; height: 1em; margin-right: 8px"
+              />{{ list.name }}
             </li>
           </router-link>
         </template>
-        <li v-if="item.list.length > 4 && !item.displayMore" @click="item.displayMore = !item.displayMore"
-          style="justify-content: center">
+        <li
+          v-if="item.list.length > 4 && !item.displayMore"
+          @click="item.displayMore = !item.displayMore"
+          style="justify-content: center"
+        >
           <Plus style="width: 1em; height: 1em; margin-right: 8px" />展示更多
         </li>
       </ul>
@@ -112,20 +119,19 @@ function handleData(data) {
     min-height: 220px;
     margin: 10px;
     box-shadow: var(--el-box-shadow);
-
-    // background-color: antiquewhite;
-    // border-radius: 10px;
+    background-color: var(--contentGroundColor);
+    border-radius: 5px;
 
     .classTitle {
       margin: 0 10px;
       padding: 10px 0;
-      border-bottom: 0.5px solid var(--secondaryFontColor);
 
       .classTitle_badge {
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 10px;
+        border-bottom: 2px solid var(--backGroundColor);
 
         span::before {
           content: "";
@@ -134,7 +140,6 @@ function handleData(data) {
 
         span {
           display: inline-block;
-          // color: var(--themeColor);
           transform: translateY(-10px);
         }
       }
@@ -146,6 +151,7 @@ function handleData(data) {
         padding: 5px 30px;
         display: flex;
         align-items: center;
+        cursor: pointer;
 
         &:hover {
           color: var(--themeColor);

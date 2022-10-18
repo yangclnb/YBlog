@@ -4,7 +4,7 @@
 }
 
 a {
-  color:var(--mainFontColor);
+  color: var(--mainFontColor);
   text-decoration: none;
   transition: 0.4s;
 }
@@ -17,7 +17,9 @@ ul {
   --mainFontColor: black;
   --secondaryFontColor: #AAB5CB;
   --themeColor: #06a6ff;
-  --backGroundColor:white;
+  --backGroundColor: #f4f5f5;
+  --contentGroundColor: white;
+  --fontColor:rgb(75, 75, 75);
 }
 
 /*---滚动条默认显示样式--*/

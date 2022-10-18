@@ -34,8 +34,9 @@ let getTime = function computed(time) {
           :key="item"
           :timestamp="getTime(item.pubtime)"
           placement="top"
+          color="var(--contentGroundColor)"
         >
-          <el-card>
+          <el-card :body-style="{ 'background-color': 'var(--contentGroundColor)' }">
             <h4>{{ item.title }}</h4>
           </el-card>
         </el-timeline-item>

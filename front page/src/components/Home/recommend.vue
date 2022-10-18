@@ -50,6 +50,8 @@ let getRouter = function computed(blogID) {
 <style scoped>
 #recommend {
   min-width: 20vw;
+  background-color: var(--contentGroundColor);
+  border-radius: 5px;
   box-shadow: var(--el-box-shadow);
 }
 

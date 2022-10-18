@@ -32,6 +32,7 @@ import settingButtonVue from "../components/settingButton/settingButton.vue"
 <style lang="less" scoped>
 #page {
   display: flex;
+  background-color: var(--backGroundColor);
 
   @media screen and (max-width: 576px) {
     flex-direction: column;

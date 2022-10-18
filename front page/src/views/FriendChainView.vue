@@ -60,13 +60,13 @@ getFriendChain().then((results) => {
   .friendBox {
     width: 24.5%;
     height: 240px;
-    border: 1px solid var(--secondaryFontColor);
+    border: 1px solid var(--backGroundColor);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     transition: 0.5s all;
-    background-color: var(--backGroundColor);
+    background-color: var(--contentGroundColor);
 
     img {
       width: 100px;

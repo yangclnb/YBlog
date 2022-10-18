@@ -76,6 +76,8 @@ nav {
   flex-direction: column;
   justify-content: space-between;
 
+  background-color: var(--contentGroundColor);
+
   min-width: 60px;
   height: 100vh;
   text-align: center;
@@ -139,7 +141,6 @@ hr {
     width: 100vw;
     height: auto;
     z-index: 9;
-    background-color: white;
     box-shadow: none;
 
     position: sticky;
