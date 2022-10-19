@@ -1,6 +1,6 @@
 <script setup>
+import { ElIcon } from "element-plus";
 import { getArtical } from "@/api/artical.js";
-import IconDate from "../icons/IconDate.vue";
 import { ElNotification } from "element-plus";
 import { getBlogList } from "../../cache/cache.js";
 import { useStore } from "../../store/pinia.js";
@@ -96,11 +96,15 @@ function onMore() {
         <img v-if="item.titleImg" :src="item.titleImg" alt="" />
         <div class="content">
           <h1>{{ item.title }}</h1>
-          <p class="pageDescribe">{{ item.content.slice(0,150) }}</p>
-          <div class="timebox">
-            <IconDate width="20" />{{ item.pubtime.split("T")[0] }}
-            &nbsp;
-            <span class="typeBox">{{ item.typeName }}</span>
+          <p class="pageDescribe">{{ item.content.slice(0, 150) }}</p>
+          <div class="articleInfoBox">
+            <div class="timebox">
+              <el-icon><Calendar /></el-icon>&nbsp;{{
+                item.pubtime.split("T")[0]
+              }}
+              
+            </div>
+            <router-link to="/classify" class="typeBox"><el-icon><CollectionTag /></el-icon>&nbsp;{{ item.typeName }}</router-link>
           </div>
         </div>
       </router-link>
@@ -183,24 +187,27 @@ a {
   margin: 30px 0;
 }
 
+.articleInfoBox{
+  display: flex;
+}
+
 .timebox {
   display: flex;
   align-items: center;
   color: #aab5cb;
 }
-.timebox > svg {
-  margin-right: 4px;
-}
 
 .typeBox {
-  border: 1px solid var(--secondaryFontColor);
+  display: flex;
+  align-items: center;
+  color: #aab5cb;
   border-radius: 10px;
   padding: 2px 5px;
   transition: 0.5s linear;
 }
 
 .typeBox:hover {
-  border: 1px solid var(--themeColor);
+  /* border: 1px solid var(--themeColor); */
   color: var(--themeColor);
 }
 

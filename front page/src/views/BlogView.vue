@@ -2,7 +2,8 @@
 import { onMounted, onUnmounted } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import navigationBarVue from "../components/navigationBar.vue";
-import settingButtonVue from "../components/settingButton/settingButton.vue"
+import settingButtonVue from "../components/settingButton/settingButton.vue";
+import IconGitVue from "../components/icons/iconGit.vue";
 
 // onMounted(() => {
 //   console.log("页面加载");
@@ -19,13 +20,13 @@ import settingButtonVue from "../components/settingButton/settingButton.vue"
     <div id="rightBox">
       <div id="logo">
         <img src="../assets/logo.svg" width="120" alt="" />
-        <a href="https://github.com/yangclnb"
-          ><img src="../assets/github.svg" width="55" alt=""
-        /></a>
+        <a href="https://github.com/yangclnb" target="_blank">
+          <IconGitVue width="55" height="55" />
+        </a>
       </div>
       <RouterView />
     </div>
-    <settingButtonVue/>
+    <settingButtonVue />
   </div>
 </template>
 
@@ -50,6 +51,11 @@ import settingButtonVue from "../components/settingButton/settingButton.vue"
       display: flex;
       justify-content: space-between;
       align-content: center;
+      
+
+      svg{
+        color: var(--themeColor);
+      }
     }
   }
 }

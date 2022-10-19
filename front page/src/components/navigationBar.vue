@@ -3,15 +3,8 @@ import IconAboutVue from "./icons/IconAbout.vue";
 import IconClassifyVue from "./icons/IconClassify.vue";
 import IconFriendVue from "./icons/IconFriend.vue";
 import IconHomeVue from "./icons/IconHome.vue";
-import IconSearcgVue from "./icons/IconSearcg.vue";
+import IconSearchVue from "./icons/IconSearch.vue";
 import IconTimeLineVue from "./icons/IconTimeLine.vue";
-
-import ActiveIconAboutVue from "./icons/active/IconAbout.vue";
-import ActiveIconClassifyVue from "./icons/active/IconClassify.vue";
-import ActiveIconFriendVue from "./icons/active/IconFriend.vue";
-import ActiveIconHomeVue from "./icons/active/IconHome.vue";
-import ActiveIconSearcgVue from "./icons/active/IconSearcg.vue";
-import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
 </script>
 
 <template>
@@ -20,15 +13,13 @@ import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
       <RouterLink to="/home">
         <div>
           <IconHomeVue width="30" />
-          <ActiveIconHomeVue width="30" />
           <p>首页</p>
         </div>
       </RouterLink>
 
       <RouterLink to="/search">
         <div>
-          <IconSearcgVue width="30" />
-          <ActiveIconSearcgVue width="30" />
+          <IconSearchVue width="30" />
           <p>搜索</p>
         </div>
       </RouterLink>
@@ -36,7 +27,6 @@ import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
       <RouterLink to="/classify">
         <div>
           <IconClassifyVue width="30" />
-          <ActiveIconClassifyVue width="30" />
           <p>分类</p>
         </div>
       </RouterLink>
@@ -46,7 +36,6 @@ import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
       <RouterLink to="/about">
         <div>
           <IconAboutVue width="30" />
-          <ActiveIconAboutVue width="30" />
           <p>关于</p>
         </div>
       </RouterLink>
@@ -54,7 +43,6 @@ import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
       <RouterLink to="/friendChain">
         <div>
           <IconFriendVue width="30" />
-          <ActiveIconFriendVue width="30" />
           <p>友链</p>
         </div>
       </RouterLink>
@@ -62,7 +50,6 @@ import ActiveIconTimeLineVue from "./icons/active/IconTimeLine.vue";
       <RouterLink to="/timeLine">
         <div>
           <IconTimeLineVue width="30" />
-          <ActiveIconTimeLineVue width="30" />
           <p>归档</p>
         </div>
       </RouterLink>
@@ -90,24 +77,8 @@ nav {
   animation: playBarInHugeScreen 0.5s;
 }
 
-div > svg:nth-child(1) {
-  transition: all 0.5s;
-  z-index: 5;
-  position: relative;
-  left: 15px;
-}
-
-div > svg:nth-child(2) {
-  position: relative;
-  right: 15px;
-}
-
 .router-link-exact-active > div {
   color: var(--themeColor);
-}
-
-.router-link-exact-active > div > svg:nth-child(2) {
-  z-index: 9;
 }
 
 a {
@@ -136,7 +107,7 @@ hr {
 @media screen and (max-width: 576px) {
   nav {
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
 
     width: 100vw;
     height: auto;
@@ -151,13 +122,16 @@ hr {
   }
 
   nav > div {
+    width: 41vw;
     display: flex;
+    justify-content: space-between;
     align-items: center;
   }
 
   a:hover > div {
     background-color: white;
   }
+
 
   a > div > p {
     display: none;
