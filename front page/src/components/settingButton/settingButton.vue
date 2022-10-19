@@ -26,6 +26,8 @@ function changeColor() {
   color.value = color.value || "#06a6ff"; // 防止用户输入为空
   document.documentElement.style.setProperty("--themeColor", color.value);
   localStorage.setItem("currentColor", color.value);
+
+  ElMessage.success("主题色更改成功");
 }
 
 /**
@@ -35,6 +37,7 @@ function changeColor() {
  */
 function backTop() {
   document.documentElement.scrollTop = 0;
+  ElMessage.info("返回顶部");
 
   //   scrollToptimer = setInterval(function () {
   //     console.log("定时循环回到顶部");
@@ -81,11 +84,17 @@ function changeDisplayModle() {
  */
 function settingOperation() {
   let dom = document.querySelectorAll(".setting_operation");
+
+  currentSteeingState && ElMessage.info("显示更改按钮");
+  !currentSteeingState && ElMessage.info("隐藏更改按钮");
+
   for (const node of dom) {
     node.classList.toggle("showAnimation");
     node.classList.toggle("hiddenAnimation");
 
-    if (currentSteeingState) node.style.visibility = "visible";
+    if (currentSteeingState){
+      node.style.visibility = "visible";
+    } 
     else setTimeout(() => {
       node.style.visibility = "hidden";
     }, 300); // 等待三毫秒 执行完动画后再隐藏元素

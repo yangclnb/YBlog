@@ -543,7 +543,7 @@ let articleWordNums = computed(() => {
 
 @keyframes displayArticleContent {
   0% {
-    transform: translateY(400px);
+    transform: translateY(100px);
     opacity: 0;
   }
   100% {

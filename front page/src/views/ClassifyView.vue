@@ -93,7 +93,7 @@ function handleData(data) {
   .dispalyFriendChain(@name) {
     @keyframes @name {
       0% {
-        transform: translateY(400px);
+        transform: translateY(100px);
         opacity: 0;
       }
 
@@ -110,7 +110,7 @@ function handleData(data) {
     animation: @arguments;
   }
 
-  .animation(testDisplayFriendChain, 1s);
+  .animation(testDisplayFriendChain, 0.75s);
 
   // animation ----------------------------
 

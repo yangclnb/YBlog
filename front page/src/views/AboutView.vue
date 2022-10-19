@@ -32,11 +32,8 @@ getAbout().then((results) => {
 .about {
   min-height: 100vh;
   padding: 40px;
-  animation: displayAbout 0.5s;
+  animation: displayAbout 0.75s;
 
-  @media screen and (max-width:576px) {
-    animation: none;
-  }
 
   #aboutBox {
     overflow: hidden;
@@ -283,7 +280,7 @@ getAbout().then((results) => {
 
 @keyframes displayAbout {
       0% {
-        transform: translateY(400px);
+        transform: translateY(100px);
         opacity: 0;
       }
       100% {

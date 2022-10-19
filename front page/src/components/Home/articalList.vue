@@ -146,7 +146,7 @@ a {
 
 @keyframes playArticle {
   from {
-    transform: translateY(400px);
+    transform: translateY(100px);
     opacity: 0;
   }
   to {

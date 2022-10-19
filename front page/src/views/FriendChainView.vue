@@ -13,7 +13,7 @@ getFriendChain().then((results) => {
 
 <template>
   <div id="content">
-    <a class="friendBox" v-for="(item, i) of friendChainArray" :key="i" :href="'http://'+item.url">
+    <a class="friendBox" v-for="(item, i) of friendChainArray" :key="i" :href="'http://'+item.url" target="_blank">
       <img src="@/assets/62ae7273c1c30be3fe326fa15af8ae8034718dc0.jpg" v-if="item.photo == null" />
       <img :src="item.photo" v-else />
       <h3>{{ item.name }}</h3>
@@ -36,7 +36,7 @@ getFriendChain().then((results) => {
   .dispalyFriendChain(@name) {
     @keyframes @name {
       0% {
-        transform: translateY(400px);
+        transform: translateY(100px);
         opacity: 0;
       }
 

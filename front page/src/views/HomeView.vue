@@ -48,7 +48,7 @@ hr {
 
 @keyframes displayRightBar {
   from {
-    transform: translateY(400px);
+    transform: translateY(100px);
   }
   to {
     transform: translateY(0px);

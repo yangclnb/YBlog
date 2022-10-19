@@ -140,7 +140,7 @@ hr {
 
 @keyframes playBarInHugeScreen {
   from {
-    transform: translateX(-400px);
+    transform: translateX(-100px);
   }
   to {
     transform: translateX(0px);
@@ -149,7 +149,7 @@ hr {
 
 @keyframes playBarInSmallScreen {
   from {
-    transform: translateY(400px);
+    transform: translateY(100px);
   }
   to {
     transform: translateY(0px);
