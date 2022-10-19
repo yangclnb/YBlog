@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import { ElIcon, ElColorPicker, ElMessage } from "element-plus";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 
 const color = ref(localStorage.getItem("currentColor") || "#06a6ff");
 const predefineColors = ref([
@@ -13,9 +13,19 @@ const predefineColors = ref([
   "#00ced1",
   "#c71585",
 ]);
-let currentSteeingState = true;
+let currentSteeingState = true; // 点击设置弹出的按钮状态
+let currentButtonGroupState = false; // 退回顶部按钮组的状态 true 显示
+
+// if(!currentButtonGroupState) document.querySelector("#right_side_button_box").style.visibility = "hidden"
 
 document.documentElement.style.setProperty("--themeColor", color.value);
+
+onMounted(() => {
+  currentButtonGroupState =
+    document.documentElement.scrollTop <= 2 ? false : true;
+  if (!currentButtonGroupState)
+    document.querySelector("#back_top").style.visibility = "hidden";
+});
 
 /**
  * @function: changeColor
@@ -72,9 +82,53 @@ function changeDisplayModle() {
  * @return {*}
  * @author: Banana
  */
-// window.addEventListener("scroll",()=>{
-//     console.warn("hellow")
-// })
+window.addEventListener(
+  "scroll",
+  debounce(() => {
+    let currentScrollNum = document.documentElement.scrollTop;
+    console.log("currentScrollNum :>> ", currentScrollNum);
+
+    if (currentScrollNum <= 2 && currentButtonGroupState) {
+      let buttonNode = document.querySelector("#back_top");
+
+      buttonNode.classList.add("hiddenAnimation");
+      buttonNode.classList.remove("showAnimation");
+
+      currentButtonGroupState = false;
+
+      setTimeout(() => {
+        buttonNode.style.visibility = "hidden";
+      }, 300); // 等待三毫秒 执行完动画后再隐藏元素
+    } else if (currentScrollNum > 2 && !currentButtonGroupState) {
+      let buttonNode = document.querySelector("#back_top");
+
+      buttonNode.classList.add("showAnimation");
+      buttonNode.classList.remove("hiddenAnimation");
+
+      buttonNode.style.visibility = "visible";
+      currentButtonGroupState = true;
+    }
+  }, 100)
+);
+
+/**
+ * 防抖函数  一个需要频繁触发的函数，在规定时间内，只让最后一次生效，前面的不生效
+ * @param fn要被节流的函数
+ * @param delay规定的时间
+ */
+function debounce(fn, delay) {
+  //记录上一次的延时器
+  var timer = null;
+  return function () {
+    //清除上一次的演示器
+    clearTimeout(timer);
+    //重新设置新的延时器
+    timer = setTimeout(function () {
+      //修正this指向问题
+      fn.apply(this);
+    }, delay);
+  };
+}
 
 /**
  * @function: settingOperation
@@ -85,19 +139,19 @@ function changeDisplayModle() {
 function settingOperation() {
   let dom = document.querySelectorAll(".setting_operation");
 
-  currentSteeingState && ElMessage.info("显示更改按钮");
-  !currentSteeingState && ElMessage.info("隐藏更改按钮");
+  currentSteeingState && ElMessage.info("显示更多按钮");
+  !currentSteeingState && ElMessage.info("隐藏更多按钮");
 
   for (const node of dom) {
     node.classList.toggle("showAnimation");
     node.classList.toggle("hiddenAnimation");
 
-    if (currentSteeingState){
+    if (currentSteeingState) {
       node.style.visibility = "visible";
-    } 
-    else setTimeout(() => {
-      node.style.visibility = "hidden";
-    }, 300); // 等待三毫秒 执行完动画后再隐藏元素
+    } else
+      setTimeout(() => {
+        node.style.visibility = "hidden";
+      }, 300); // 等待三毫秒 执行完动画后再隐藏元素
   }
   currentSteeingState = !currentSteeingState;
 }
@@ -124,7 +178,7 @@ function settingOperation() {
     <div id="seting_button" @click="settingOperation">
       <el-icon :size="25" color="white" class="is-loading"><Setting /></el-icon>
     </div>
-    <div id="back_top" @click="backTop">
+    <div id="back_top" class="hiddenAnimation" @click="backTop">
       <el-icon :size="25" color="white"><CaretTop /></el-icon>
     </div>
   </div>
@@ -152,7 +206,6 @@ function settingOperation() {
   right: 20px;
   bottom: 100px;
 
-  animation: show_right_button 0.5s;
   /* translate: 1s; */
 }
 
