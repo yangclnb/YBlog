@@ -85,14 +85,16 @@ a {
   color: #aab5cb;
 }
 
-a:hover > div {
-  background-color: #e7eaf0;
+@media (any-hover: hover) {
+  a:hover > div {
+    filter: contrast(180%);
+  }
 }
 
 a > div {
   cursor: pointer;
   padding: 10px 0 10px 0;
-  transition: 0.5s linear;
+  transition: 0.3s linear;
 }
 
 p {
@@ -127,11 +129,6 @@ hr {
     justify-content: space-between;
     align-items: center;
   }
-
-  a:hover > div {
-    background-color: white;
-  }
-
 
   a > div > p {
     display: none;
