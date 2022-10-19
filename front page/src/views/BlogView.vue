@@ -4,6 +4,7 @@ import { RouterLink, RouterView } from "vue-router";
 import navigationBarVue from "../components/navigationBar.vue";
 import settingButtonVue from "../components/settingButton/settingButton.vue";
 import IconGitVue from "../components/icons/iconGit.vue";
+import IconLogoVue from "../components/icons/iconLogo.vue";
 
 // onMounted(() => {
 //   console.log("页面加载");
@@ -19,7 +20,7 @@ import IconGitVue from "../components/icons/iconGit.vue";
     <navigationBarVue />
     <div id="rightBox">
       <div id="logo">
-        <img src="../assets/logo.svg" width="120" alt="" />
+        <div><IconLogoVue width="120" height="50" style="padding-left:10px"/></div>
         <a href="https://github.com/yangclnb" target="_blank">
           <IconGitVue width="55" height="55" />
         </a>
