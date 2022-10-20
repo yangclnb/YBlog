@@ -15,16 +15,20 @@ const predefineColors = ref([
 ]);
 let currentSteeingState = true; // 点击设置弹出的按钮状态
 let currentButtonGroupState = false; // 退回顶部按钮组的状态 true 显示
+let hasSideBar = ref(null); // DOM中存在文章访问页面的侧边栏
 
-// if(!currentButtonGroupState) document.querySelector("#right_side_button_box").style.visibility = "hidden"
-
+// 启动时更改 主题色
 document.documentElement.style.setProperty("--themeColor", color.value);
 
 onMounted(() => {
+  // dom加载完成后检测滚动的距离 判断是否显示放回顶部的按钮
   currentButtonGroupState =
     document.documentElement.scrollTop <= 2 ? false : true;
   if (!currentButtonGroupState)
     document.querySelector("#back_top").style.visibility = "hidden";
+
+  // DOM是否存在 文章访问页面的侧边栏 有就位该元素 否则为空
+  hasSideBar.value = document.querySelector("#sideBar") || null;
 });
 
 /**
@@ -71,8 +75,7 @@ function backTop() {
  * @author: Banana
  */
 function changeDisplayModle() {
-  // document.body.style.filter = "invert(1)";
-  document.documentElement.style.setProperty("--backGroundColor", "black");
+  // document.documentElement.style.setProperty("--backGroundColor", "black");
   ElMessage.error("Features are still under development");
 }
 
@@ -139,9 +142,6 @@ function debounce(fn, delay) {
 function settingOperation() {
   let dom = document.querySelectorAll(".setting_operation");
 
-  currentSteeingState && ElMessage.info("显示更多按钮");
-  !currentSteeingState && ElMessage.info("隐藏更多按钮");
-
   for (const node of dom) {
     node.classList.toggle("showAnimation");
     node.classList.toggle("hiddenAnimation");
@@ -154,6 +154,29 @@ function settingOperation() {
       }, 300); // 等待三毫秒 执行完动画后再隐藏元素
   }
   currentSteeingState = !currentSteeingState;
+}
+
+function toggleSideBar() {
+  let buttonNode = document.querySelector("#display_side_bar > i");
+  buttonNode.classList.toggle("showSideBarIcon");
+  buttonNode.classList.toggle("hiddenSideBarIcon");
+
+  let SideBar = hasSideBar.value;
+  let currentIsDisplay = getComputedStyle(SideBar).display;
+
+  if (currentIsDisplay === 'block') {
+    SideBar.classList.add("hiddenSideBar");
+    SideBar.classList.remove("displaySideBar");
+    setTimeout(() => {
+      SideBar.style.display = "none";
+    }, 200);
+  } else {
+    SideBar.classList.add("displaySideBar");
+    SideBar.classList.remove("hiddenSideBar");
+    setTimeout(() => {
+      SideBar.style.display = "block";
+    }, 200);
+  }
 }
 </script>
 
@@ -178,6 +201,15 @@ function settingOperation() {
     <div id="seting_button" @click="settingOperation">
       <el-icon :size="25" color="white" class="is-loading"><Setting /></el-icon>
     </div>
+    <div
+      id="display_side_bar"
+      @click="toggleSideBar"
+      v-show="hasSideBar != null"
+    >
+      <el-icon class="showSideBarIcon" :size="25" color="white"
+        ><Download
+      /></el-icon>
+    </div>
     <div id="back_top" class="hiddenAnimation" @click="backTop">
       <el-icon :size="25" color="white"><CaretTop /></el-icon>
     </div>
@@ -201,6 +233,13 @@ function settingOperation() {
   animation: hidden_right_button 0.5s;
 }
 
+.showSideBarIcon {
+  transform: rotate(-90deg);
+}
+.hiddenSideBarIcon {
+  transform: rotate(90deg);
+}
+
 #right_side_button_box {
   position: fixed;
   right: 20px;
@@ -218,6 +257,10 @@ function settingOperation() {
 
   display: flex;
   align-items: center;
+}
+
+#display_side_bar > i {
+  transition: all 0.5s;
 }
 
 @keyframes show_right_button {

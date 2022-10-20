@@ -1,10 +1,11 @@
 <script setup>
 import { onMounted, ref, onUnmounted } from "vue";
+import { ElDescriptions, ElDescriptionsItem } from "element-plus";
 import { computed } from "@vue/reactivity";
 import router from "../router";
 import articleDigestVue from "../components/article/articleDigest.vue"; // 引入文章摘要模块
 import articleCommentVue from "../components/article/articleComment.vue"; // 引入文章评论模块
-import settingButtonVue from "../components/settingButton/settingButton.vue" // 引入侧边按钮框
+import settingButtonVue from "../components/settingButton/settingButton.vue"; // 引入侧边按钮框
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
 import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
 
@@ -54,25 +55,6 @@ if (BlogData == null) {
 onMounted(() => {
   // 滚动至顶部
   window.scrollTo(0, 0);
-  // 添加收缩侧边栏
-  let SideBar = document.querySelector("#sideBar");
-  document
-    .querySelector("#controlSideBarDisplay")
-    .addEventListener("click", () => {
-      if (SideBar.classList.contains("displaySideBar")) {
-        SideBar.classList.add("hiddenSideBar");
-        SideBar.classList.remove("displaySideBar");
-        setTimeout(() => {
-          SideBar.style.display = "none";
-        }, 200);
-      } else {
-        SideBar.classList.add("displaySideBar");
-        SideBar.classList.remove("hiddenSideBar");
-        setTimeout(() => {
-          SideBar.style.display = "block";
-        }, 200);
-      }
-    });
 });
 
 function changeSiderContent(event) {
@@ -132,6 +114,7 @@ let articleWordNums = computed(() => {
       <div id="articleContent">
         <h1>{{ articleInfo.title }}</h1>
         <div id="articleInfoBox">
+         
           <p>
             <Calendar style="width: 1em; height: 1em; margin-right: 8px" />
             发布于：{{ articleReleaseTime }}
@@ -148,17 +131,13 @@ let articleWordNums = computed(() => {
             <Magnet style="width: 1em; height: 1em; margin-right: 8px" />
             阅读量:001
           </p> -->
+         
         </div>
 
         <div id="contentBox" v-html="articleInfo.content"></div>
       </div>
-      <div id="toolBar">
-        <p id="controlSideBarDisplay">
-          <DArrowLeft style="width: 1em; height: 1em; margin-right: 8px" />
-        </p>
-      </div>
     </div>
-    <settingButtonVue/>
+    <settingButtonVue />
   </div>
 </template>
 
@@ -514,21 +493,6 @@ let articleWordNums = computed(() => {
           }
         }
       }
-    }
-
-    /* 工具栏 */
-    #toolBar {
-      background-color: white;
-      width: 100%;
-      max-height: 20px;
-      padding: 5px;
-      box-shadow: var(--el-box-shadow);
-
-      display: flex;
-      justify-content: space-between;
-
-      position: fixed;
-      bottom: 0;
     }
   }
 }
