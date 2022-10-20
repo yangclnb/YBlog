@@ -114,24 +114,22 @@ let articleWordNums = computed(() => {
       <div id="articleContent">
         <h1>{{ articleInfo.title }}</h1>
         <div id="articleInfoBox">
-         
-          <p>
+          <div>
             <Calendar style="width: 1em; height: 1em; margin-right: 8px" />
             发布于：{{ articleReleaseTime }}
-          </p>
-          <p>
+          </div>
+          <div>
             <CollectionTag style="width: 1em; height: 1em; margin-right: 8px" />
             {{ articleInfo.typeName }}
-          </p>
-          <p>
+          </div>
+          <div>
             <Paperclip style="width: 1em; height: 1em; margin-right: 8px" />
             字数总计：{{ articleWordNums }}
-          </p>
+          </div>
           <!-- <p>
             <Magnet style="width: 1em; height: 1em; margin-right: 8px" />
             阅读量:001
           </p> -->
-         
         </div>
 
         <div id="contentBox" v-html="articleInfo.content"></div>
@@ -207,21 +205,24 @@ let articleWordNums = computed(() => {
       margin: 0 auto;
 
       h1 {
-        padding: 10px 0 10px 0;
+        padding: 0 0 10px 0;
         border-bottom: var(--secondaryFontColor) 1px solid;
       }
 
       #articleInfoBox {
         padding-top: 10px;
+        // padding-bottom: 20px;
         display: flex;
+        
 
-        p {
-          margin: 1em 2em 1em 0;
+
+        div {
+          padding-right: 15px;
           display: flex;
           align-items: center;
 
           @media screen and (max-width: 576px) {
-            margin: 0.2em 2em 0.2em 0;
+            padding-bottom: 5px;
           }
         }
 
