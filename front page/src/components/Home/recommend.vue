@@ -26,7 +26,7 @@ let getRouter = function computed(blogID) {
         <div style="padding: 14px">
           <el-skeleton-item
             variant="h3"
-            style="width: 80%; text-align: center"
+            style="width: 100%; text-align: center"
           />
         </div>
       </template>
@@ -49,7 +49,7 @@ let getRouter = function computed(blogID) {
 
 <style scoped>
 #recommend {
-  min-width: 20vw;
+  min-width: 280px;
   background-color: var(--contentGroundColor);
   border-radius: 5px;
   box-shadow: var(--el-box-shadow);

@@ -6,12 +6,19 @@ import { computed, onMounted } from "vue";
 const color = ref(localStorage.getItem("currentColor") || "#06a6ff");
 const predefineColors = ref([
   "#06a6ff",
-  "#ff4500",
-  "#ff8c00",
-  "#ffd700",
-  "#90ee90",
-  "#00ced1",
-  "#c71585",
+  "#0e6fc7",
+  "#009fd6",
+  "#08d1db",
+  "#10ce9b",
+  "#7dcb65",
+  "#a8c54c",
+
+  "#eecfda",
+  "#e3cbd3",
+  "#ecd0c5",
+  "#e3d5da",
+  "#f2e3fa",
+  "#cbbfd1",
 ]);
 let currentSteeingState = true; // 点击设置弹出的按钮状态
 let currentButtonGroupState = false; // 退回顶部按钮组的状态 true 显示
@@ -181,7 +188,7 @@ function toggleSideBar() {
 </script>
 
 <template>
-  <div id="right_side_button_box">
+  <div id="right_side_button_box" class="showAnimation">
     <div
       id="change_modle"
       @click="changeDisplayModle"

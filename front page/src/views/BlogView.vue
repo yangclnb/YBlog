@@ -53,7 +53,6 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
       justify-content: space-between;
       align-content: center;
       
-
       svg{
         color: var(--themeColor);
       }

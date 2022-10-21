@@ -19,7 +19,7 @@ const searchError = () => {
 input {
   width: 500px;
   height: 40px;
-  border: 3px solid #06a6ff;
+  border: 3px solid var(--themeColor);
   border-right: none;
   font-size: 18px;
   padding-left: 10px;
@@ -31,7 +31,7 @@ input:focus-visible {
 }
 
 button {
-  background-color: #06a6ff;
+  background-color: var(--themeColor);
   border-radius: 0 20px 20px 0;
   font-size: 16px;
   color: white;
@@ -41,7 +41,7 @@ button {
 }
 
 button:hover {
-  background-color: #008dda;
+  filter: contrast(120%);
 }
 
 #searchBox {
