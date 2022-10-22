@@ -15,7 +15,6 @@ onMounted(() => {
         titleArr.value.push({
           id,
           index,
-          // TODO t1 t2 t3...
           tag: "t" + node.tagName[1],
           text: node.textContent,
           active: id == 0 ? true : false, // 初始化时高亮第一条数据

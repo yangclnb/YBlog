@@ -34,6 +34,7 @@ let currentSider = ref("digest");
 
 // 记录访客信息
 addVisitorInfo(currentID);
+
 // 从缓存中获取数据
 let BlogData = getBlogByCache(currentID);
 if (BlogData == null) {
@@ -57,13 +58,18 @@ onMounted(() => {
   window.scrollTo(0, 0);
 });
 
-function changeSiderContent(event) {
+/**
+ * @function: changeSiderContent
+ * @description: 切换侧边栏的内容 摘要 | 评论
+ * @return {*}
+ * @author: Banana
+ */
+function changeSiderContent() {
   // 清除所有active类的样式
   document.querySelector("#siderBar_title").childNodes.forEach((node) => {
     node.classList.toggle("active");
   });
 
-  // event.target.classList.toggle("active");
   if (currentSider.value === "comment") currentSider.value = "digest";
   else currentSider.value = "comment";
 }

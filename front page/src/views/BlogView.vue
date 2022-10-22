@@ -20,7 +20,13 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
     <navigationBarVue />
     <div id="rightBox">
       <div id="logo">
-        <div><IconLogoVue width="120" height="50" style="padding-left:10px"/></div>
+        <div>
+          <IconLogoVue
+            width="120"
+            height="50"
+            style="padding-left: 10px; padding-top: 5px"
+          />
+        </div>
         <a href="https://github.com/yangclnb" target="_blank">
           <IconGitVue width="55" height="55" />
         </a>
@@ -52,8 +58,8 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
       display: flex;
       justify-content: space-between;
       align-content: center;
-      
-      svg{
+
+      svg {
         color: var(--themeColor);
       }
     }
