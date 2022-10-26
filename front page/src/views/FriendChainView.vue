@@ -1,14 +1,24 @@
 <script setup>
 import { ref } from "@vue/reactivity";
+import { onMounted } from "vue";
+import {ElIcon,ElMessage} from "element-plus";
 import { getFriendChain } from "../api/friend";
 
 let friendChainArray = ref([]);
+
+onMounted(()=>{
+  document.documentElement.scrollTop = 0;
+})
 
 getFriendChain().then((results) => {
   console.log(results.data);
   friendChainArray.value = results.data;
   console.log(friendChainArray.value);
 });
+
+function applicationFriendChain(){
+  ElMessage.error("Features are still under development");
+}
 </script>
 
 <template>
@@ -18,6 +28,10 @@ getFriendChain().then((results) => {
       <img :src="item.photo" v-else />
       <h3>{{ item.name }}</h3>
       <p>{{ item.describe }}</p>
+    </a>
+    <a class="friendBox" @click="applicationFriendChain">
+      <el-icon :size="40"><DocumentAdd /></el-icon>
+      <h3>申请友链</h3>
     </a>
   </div>
 </template>
@@ -30,7 +44,9 @@ getFriendChain().then((results) => {
   min-height: 100vh;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   // background-color: aqua;
+
 
   // animation ----------------------------
   .dispalyFriendChain(@name) {
