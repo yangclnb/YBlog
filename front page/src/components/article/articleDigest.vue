@@ -4,6 +4,9 @@ import { onMounted, onUnmounted } from "vue";
 
 let titleArr = ref([]);
 
+// 由于使用了节流导致直接 清除事件 throttle() 会因为闭包导致出现无法清除事件的情况 
+let theScorllFunction = throttle();
+
 onMounted(() => {
   setTimeout(() => {
     // 格式化 h 标签，并且存入数组中
@@ -28,7 +31,7 @@ onMounted(() => {
 
     // 若是 摘要列表中存在内容 则添加滚动高亮摘要的事件
     if (titleArr.value.length > 0) {
-      window.addEventListener("scroll", throttle());
+      window.addEventListener("scroll", theScorllFunction);
     } else {
       // 没有标签关闭标签栏
       document.querySelector("#digest").style.display = "none";
@@ -38,7 +41,8 @@ onMounted(() => {
 
 // 关闭页面时清除绑定的scroll事件
 onUnmounted(() => {
-  window.removeEventListener("scroll", throttle());
+  console.log('解绑滚动效果');
+  window.removeEventListener("scroll", theScorllFunction);
 });
 
 /**

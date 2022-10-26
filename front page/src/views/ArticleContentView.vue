@@ -76,7 +76,6 @@ function changeSiderContent() {
 
 /**
  * @description: 格式化发布时间事件
- * @param {*} computed
  * @return {*}
  * @author: Banana
  */
@@ -89,6 +88,13 @@ let articleReleaseTime = computed(() => {
   );
 });
 
+
+
+/**
+ * @function: 格式化文章字数
+ * @return {*}
+ * @author: Banana
+ */
 let articleWordNums = computed(() => {
   let wordNums = articleInfo.value.content.length;
   if (wordNums > 1000) {

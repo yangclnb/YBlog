@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import articleContent from "../views/ArticleContentView.vue";
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -43,7 +44,7 @@ const router = createRouter({
     {
       path: "/articlePage/:articleID",
       name: "articleContent",
-      component: () => import("../views/ArticleContentView.vue"),
+      component: articleContent,
     },
   ],
 });

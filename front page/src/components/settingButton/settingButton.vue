@@ -195,7 +195,7 @@ function toggleSideBar() {
       class="setting_operation hiddenAnimation"
     >
       <el-icon :size="25" color="white"><Sunny /></el-icon>
-      <el-icon :size="25" color="white" class="hidden"><Moon /></el-icon>
+      <el-icon :size="25" color="white" style="display:none;"><Moon /></el-icon>
     </div>
     <div id="change_theme" class="setting_operation hiddenAnimation">
       <el-color-picker
