@@ -186,9 +186,9 @@ function toggleSideBar() {
  */
 function showCommentBox() {
   const commentBox = document.querySelector("#containerBox");
-  const currentCommentStatus = getComputedStyle(commentBox).visibility;
-  commentBox.style.visibility =
-    currentCommentStatus === "hidden" ? "visible" : "hidden";
+  const currentCommentStatus = getComputedStyle(commentBox).display;
+  commentBox.style.display =
+    currentCommentStatus === "none" ? "flex" : "none";
 }
 </script>
 

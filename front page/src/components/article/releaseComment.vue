@@ -11,6 +11,10 @@ const form = reactive({
 const onSubmit = () => {
   console.log("submit~");
 };
+
+const cancelBox = () => {
+  document.querySelector("#containerBox").style.display = "none";
+};
 </script>
 
 <template>
@@ -31,7 +35,7 @@ const onSubmit = () => {
         <el-button color="var(--themeColor)" type="primary" @click="onSubmit"
           >Create</el-button
         >
-        <el-button>Cancel</el-button>
+        <el-button @click="cancelBox">Cancel</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -40,13 +44,12 @@ const onSubmit = () => {
 <style lang="less" scoped>
 #containerBox {
   // 默认隐藏发布评论框
-  visibility: hidden;
 
   position: fixed;
   width: 100vw;
   height: 100vh;
 
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 
@@ -57,22 +60,32 @@ const onSubmit = () => {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgb(178, 178, 178);
-    opacity: 0.9;
-    filter: blur(50px);
+    background: rgba(2, 2, 2, 0.5);
+    backdrop-filter: blur(15px);
     z-index: -1;
   }
 
   #commentBox {
     width: 400px;
     padding: 20px;
-    height: 200px;
+    min-height: 200px;
     border-radius: 10px;
     background-color: var(--contentGroundColor);
+
+    animation: showBox 0.5s;
 
     @media screen and (max-width: 576px) {
       width: 85vw;
     }
+  }
+}
+
+@keyframes showBox {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>
