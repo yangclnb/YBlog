@@ -5,6 +5,7 @@ import { computed } from "@vue/reactivity";
 import router from "../router";
 import articleDigestVue from "../components/article/articleDigest.vue"; // 引入文章摘要模块
 import articleCommentVue from "../components/article/articleComment.vue"; // 引入文章评论模块
+import releaseCommentVue from "../components/article/releaseComment.vue"; // 发表评论模块
 import settingButtonVue from "../components/settingButton/settingButton.vue"; // 引入侧边按钮框
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
 import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
@@ -88,8 +89,6 @@ let articleReleaseTime = computed(() => {
   );
 });
 
-
-
 /**
  * @function: 格式化文章字数
  * @return {*}
@@ -148,6 +147,7 @@ let articleWordNums = computed(() => {
       </div>
     </div>
     <settingButtonVue />
+    <releaseCommentVue />
   </div>
 </template>
 
@@ -225,8 +225,6 @@ let articleWordNums = computed(() => {
         padding-top: 10px;
         // padding-bottom: 20px;
         display: flex;
-        
-
 
         div {
           padding-right: 15px;

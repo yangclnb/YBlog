@@ -59,20 +59,6 @@ function changeColor() {
 function backTop() {
   document.documentElement.scrollTop = 0;
   ElMessage.info("返回顶部");
-
-  //   scrollToptimer = setInterval(function () {
-  //     console.log("定时循环回到顶部");
-  //     var top = document.body.scrollTop || document.documentElement.scrollTop;
-  //     var speed = top / 4;
-  //     if (document.body.scrollTop != 0) {
-  //       document.body.scrollTop -= speed;
-  //     } else {
-  //       document.documentElement.scrollTop -= speed;
-  //     }
-  //     if (top == 0) {
-  //       clearInterval(scrollToptimer);
-  //     }
-  //   }, 30);
 }
 
 /**
@@ -163,6 +149,12 @@ function settingOperation() {
   currentSteeingState = !currentSteeingState;
 }
 
+/**
+ * @function: toggleSideBar
+ * @description: 切换侧边栏的显示与隐藏
+ * @return {*}
+ * @author: Banana
+ */
 function toggleSideBar() {
   let buttonNode = document.querySelector("#display_side_bar > i");
   buttonNode.classList.toggle("showSideBarIcon");
@@ -171,7 +163,7 @@ function toggleSideBar() {
   let SideBar = hasSideBar.value;
   let currentIsDisplay = getComputedStyle(SideBar).display;
 
-  if (currentIsDisplay === 'block') {
+  if (currentIsDisplay === "block") {
     SideBar.classList.add("hiddenSideBar");
     SideBar.classList.remove("displaySideBar");
     setTimeout(() => {
@@ -185,6 +177,19 @@ function toggleSideBar() {
     }, 200);
   }
 }
+
+/**
+ * @function: showCommentBox
+ * @description: 显示评论框
+ * @return {*}
+ * @author: Banana
+ */
+function showCommentBox() {
+  const commentBox = document.querySelector("#containerBox");
+  const currentCommentStatus = getComputedStyle(commentBox).visibility;
+  commentBox.style.visibility =
+    currentCommentStatus === "hidden" ? "visible" : "hidden";
+}
 </script>
 
 <template>
@@ -194,8 +199,12 @@ function toggleSideBar() {
       @click="changeDisplayModle"
       class="setting_operation hiddenAnimation"
     >
-      <el-icon :size="25" color="white"><Sunny /></el-icon>
-      <el-icon :size="25" color="white" style="display:none;"><Moon /></el-icon>
+      <el-icon :size="25" color="white">
+        <Sunny />
+      </el-icon>
+      <el-icon :size="25" color="white" style="display: none">
+        <Moon />
+      </el-icon>
     </div>
     <div id="change_theme" class="setting_operation hiddenAnimation">
       <el-color-picker
@@ -206,19 +215,26 @@ function toggleSideBar() {
       />
     </div>
     <div id="seting_button" @click="settingOperation">
-      <el-icon :size="25" color="white" class="is-loading"><Setting /></el-icon>
+      <el-icon :size="25" color="white" class="is-loading">
+        <Setting />
+      </el-icon>
     </div>
     <div
       id="display_side_bar"
       @click="toggleSideBar"
       v-show="hasSideBar != null"
     >
-      <el-icon class="showSideBarIcon" :size="25" color="white"
-        ><Download
-      /></el-icon>
+      <el-icon class="showSideBarIcon" :size="25" color="white">
+        <Download />
+      </el-icon>
+    </div>
+    <div id="commitComment" @click="showCommentBox" v-show="hasSideBar != null">
+      <el-icon :size="25" color="white"><ChatLineSquare /></el-icon>
     </div>
     <div id="back_top" class="hiddenAnimation" @click="backTop">
-      <el-icon :size="25" color="white"><CaretTop /></el-icon>
+      <el-icon :size="25" color="white">
+        <CaretTop />
+      </el-icon>
     </div>
   </div>
 </template>
@@ -236,6 +252,7 @@ function toggleSideBar() {
 .showAnimation {
   animation: show_right_button 0.5s;
 }
+
 .hiddenAnimation {
   animation: hidden_right_button 0.5s;
 }
@@ -243,6 +260,7 @@ function toggleSideBar() {
 .showSideBarIcon {
   transform: rotate(-90deg);
 }
+
 .hiddenSideBarIcon {
   transform: rotate(90deg);
 }
@@ -251,6 +269,8 @@ function toggleSideBar() {
   position: fixed;
   right: 20px;
   bottom: 100px;
+
+  z-index: 9;
 
   /* translate: 1s; */
 }
@@ -274,6 +294,7 @@ function toggleSideBar() {
   from {
     transform: translateX(100px);
   }
+
   to {
     transform: translateX(0px);
   }
@@ -283,6 +304,7 @@ function toggleSideBar() {
   from {
     transform: translateX(0px);
   }
+
   to {
     transform: translateX(100px);
   }
