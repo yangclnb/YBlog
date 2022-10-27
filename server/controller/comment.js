@@ -1,5 +1,6 @@
 const { query } = require("../db/mysqlConnectPool");
 const express = require("express");
+const { escape } = require("mysql");
 
 /**
  * @function getCurrentArticleComment
@@ -8,21 +9,42 @@ const express = require("express");
  * @author: Banana
  */
 function getCurrentArticleComment(ArticleID, req, res) {
-  query(`select * from comment where blogId = ?`, [ArticleID], (err, results) => {
-    if (err) throw err;
-    res.setHeader('Cache-Control', 'max-age=3600');
-    res.json({ code: 200, data: results });
-  });
+  query(
+    `select * from comment where blogId = ?`,
+    [ArticleID],
+    (err, results) => {
+      if (err) throw err;
+      res.json({ code: 200, data: results });
+    }
+  );
 }
 
 /**
  * @function setCurrentArticleComment
- * @description: 设置当前评论的内容
- * @param {Number} commentID
- * @param {String} newComment
+ * @description: 设置当前评论的内容，防止sql注入
+ * @param {Number} articleID
+ * @param {String} userAddress
+ * @param {String} userName
+ * @param {String} comment
  * @author: Banana
  */
-function setCurrentArticleComment(commentID, newComment) {}
+function setCurrentArticleComment(
+  res,
+  articleID,
+  userAddress,
+  userName,
+  comment
+) {
+  // console.log(res, articleID, userAddress, userName, comment);
+  query(
+    `INSERT INTO comment VALUES (null, ${articleID}, ?, ?, ?, now());`,
+    [escape(userName), userAddress, escape(comment)],
+    (err) => {
+      if (err) res.json({ code: 404, data: "comment failed" });
+      else res.json({ code: 200, data: "add success!" });
+    }
+  );
+}
 
 /**
  * @function deleteCurrentArticleComment
@@ -32,4 +54,4 @@ function setCurrentArticleComment(commentID, newComment) {}
  */
 function deleteCurrentArticleComment(commentID) {}
 
-module.exports = { getCurrentArticleComment };
+module.exports = { getCurrentArticleComment, setCurrentArticleComment };
