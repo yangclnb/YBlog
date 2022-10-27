@@ -9,15 +9,19 @@ getCurrentArticalComment(currentID).then((results) => {
   // console.log("results :>> ", results);
   commentList.value = results.data;
 });
+
+const eraseStringSign = (string) => {
+  return string.slice(1, string.length - 1);
+};
 </script>
 
 
 <template>
   <div>
     <div class="comment" v-for="(item, i) of commentList" :key="i">
-      <h3 class="comment_title">{{ item.userName }}</h3>
+      <h3 class="comment_title">{{ eraseStringSign(item.userName) }}</h3>
       <p class="comment_content">
-        {{ item.content }}
+        {{ eraseStringSign(item.content) }}
       </p>
       <span class="comment_time">{{ item.pubTime }}</span>
     </div>

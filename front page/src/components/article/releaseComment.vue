@@ -1,6 +1,9 @@
 <script setup>
 import { reactive } from "@vue/reactivity";
-import { ElForm, ElFormItem, ElInput, ElButton } from "element-plus";
+import { ElForm, ElFormItem, ElInput, ElButton, ElMessage } from "element-plus";
+
+import { releaseComment } from "../../api/comment.js";
+import router from "../../router/index.js";
 
 const form = reactive({
   name: "",
@@ -9,7 +12,18 @@ const form = reactive({
 });
 
 const onSubmit = () => {
-  console.log("submit~");
+  if (form.name != "" && form.comment != "") {
+    let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
+    releaseComment(currentID, form.name, form.blogURL, form.comment).then(
+      (data) => {
+        console.log("data :>> ", data);
+        if (data.code == 200) ElMessage.success("评论发布成功~");
+        else ElMessage.error("评论发布失败，请稍后重试");
+      }
+    );
+  }else{
+    ElMessage.error("请确保您的输入昵称和评论内容不为空");
+  }
 };
 
 const cancelBox = () => {
