@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage } from "element-plus";
 
 import { releaseComment } from "../../api/comment.js";
@@ -10,6 +10,7 @@ const form = reactive({
   blogURL: "",
   comment: "",
 });
+const commentContainer = ref();
 
 const onSubmit = () => {
   if (form.name != "" && form.comment != "") {
@@ -17,39 +18,47 @@ const onSubmit = () => {
     releaseComment(currentID, form.name, form.blogURL, form.comment).then(
       (data) => {
         console.log("data :>> ", data);
-        if (data.code == 200) ElMessage.success("评论发布成功~");
+        if (data.code === 200) {
+          commentContainer.value.style.display = "none";
+          ElMessage.success("评论发布成功~");
+        }
         else ElMessage.error("评论发布失败，请稍后重试");
       }
     );
-  }else{
+  } else {
     ElMessage.error("请确保您的输入昵称和评论内容不为空");
   }
 };
 
 const cancelBox = () => {
-  document.querySelector("#containerBox").style.display = "none";
+  commentContainer.value.style.display = "none";
 };
 </script>
 
 <template>
-  <div id="containerBox">
+  <div id="containerBox" ref="commentContainer">
     <el-form id="commentBox" :model="form">
-      <el-form-item label="Your name">
-        <el-input v-model="form.name" />
+      <el-form-item>
+        <el-input v-model="form.name" placeholder="您的昵称" />
       </el-form-item>
-      <el-form-item label="Your blog">
-        <el-input v-model="form.blogURL" placeholder="Please input">
-          <template #prepend>Http://</template>
+      <el-form-item>
+        <el-input v-model="form.blogURL" placeholder="您的博客地址（非必填）">
+          <template #prepend>http://</template>
         </el-input>
       </el-form-item>
-      <el-form-item label="Comment">
-        <el-input v-model="form.comment" type="textarea" />
+      <el-form-item>
+        <el-input
+          :autosize="{ minRows: 2, maxRows: 4 }"
+          v-model="form.comment"
+          type="textarea"
+          placeholder="您评论的内容"
+        />
       </el-form-item>
       <el-form-item>
         <el-button color="var(--themeColor)" type="primary" @click="onSubmit"
-          >Create</el-button
+          >发布评论</el-button
         >
-        <el-button @click="cancelBox">Cancel</el-button>
+        <el-button @click="cancelBox">取消</el-button>
       </el-form-item>
     </el-form>
   </div>

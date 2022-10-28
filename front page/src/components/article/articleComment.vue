@@ -1,17 +1,42 @@
 <script setup>
 import { ref } from "@vue/reactivity";
+import { computed } from "vue";
 import { getCurrentArticalComment } from "../../api/comment.js";
 import router from "../../router/index.js";
 
 let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
 let commentList = ref([]);
+
+// 请求评论 api
 getCurrentArticalComment(currentID).then((results) => {
-  // console.log("results :>> ", results);
   commentList.value = results.data;
 });
 
+
+/**
+ * @function: eraseStringSign
+ * @description: 格式化输出的字符串 'yan' => yan
+ * @param {*} string
+ * @return {*}
+ * @author: Banana
+ */
 const eraseStringSign = (string) => {
   return string.slice(1, string.length - 1);
+};
+
+
+/**
+ * @function: getTime
+ * @description: 格式化当前时间
+ * @param {*} time
+ * @return {*}
+ * @author: Banana
+ */
+let getTime = function computed(time) {
+  let releaseTime = new Date(Date.parse(time));
+  return `${releaseTime.getFullYear()}-${
+    releaseTime.getMonth() + 1
+  }-${releaseTime.getDate()}`;
 };
 </script>
 
@@ -23,7 +48,7 @@ const eraseStringSign = (string) => {
       <p class="comment_content">
         {{ eraseStringSign(item.content) }}
       </p>
-      <span class="comment_time">{{ item.pubTime }}</span>
+      <span class="comment_time">{{ getTime(item.pubtime) }}</span>
     </div>
     <div id="commentInfo" v-if="!commentList.length">
       暂无评论<br />你不考虑占个一楼吗?
@@ -59,7 +84,7 @@ const eraseStringSign = (string) => {
   }
 
   .comment_time {
-    font-size: medium;
+    font-size: 10px;
     font-weight: 300;
     align-self: flex-end;
   }
