@@ -1,6 +1,7 @@
 <script setup>
 import searchBoxVue from "../components/Search/searchBox.vue";
 import articalListVue from "../components/Home/articalList.vue";
+import { onMounted } from "vue";
 
 // 滚动到顶部
 onMounted(()=>{

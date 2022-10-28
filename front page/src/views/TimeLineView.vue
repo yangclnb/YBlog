@@ -2,9 +2,14 @@
 import { ElTimeline, ElTimelineItem, ElCard } from "element-plus";
 import { getArticleTimeLine } from "@/api/artical.js";
 import { getAllBlog } from "../cache/cache.js";
-import { computed, onBeforeMount, ref } from "vue";
+import { computed, onBeforeMount,onMounted, ref } from "vue";
 
 let timeline = ref([]);
+
+// 滚动到顶部
+onMounted(()=>{
+  document.documentElement.scrollTop = 0;
+})
 
 onBeforeMount(() => {
   timeline.value = getAllBlog();

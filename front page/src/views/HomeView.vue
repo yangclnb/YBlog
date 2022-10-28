@@ -3,6 +3,8 @@ import articalListVue from "../components/Home/articalList.vue";
 import recommendVue from "../components/Home/recommend.vue";
 import chartsVue from "../components/Home/charts.vue";
 import { addArticleCache } from "../cache/cache.js";
+import { onMounted } from "vue";
+
 
 // 滚动到顶部
 onMounted(()=>{

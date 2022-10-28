@@ -2,6 +2,7 @@
 import { ref } from "@vue/reactivity";
 import { getAllBlog, addArticleCache } from "../cache/cache.js";
 import { getAllArtical } from "../api/artical";
+import { onMounted } from "vue";
 
 let typeData = ref([]);
 

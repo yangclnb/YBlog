@@ -2,17 +2,19 @@
 import { ElSkeleton, ElSkeletonItem } from "element-plus";
 import { getAbout } from "@/api/about.js";
 import { ref } from "@vue/reactivity";
-import { onBeforeMount } from "vue";
+import { onBeforeMount, onMounted } from "vue";
 
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 
 let content = ref("");
 let loading = ref(true);
 
+
+
 // 滚动到顶部
-onMounted(()=>{
+onMounted(() => {
   document.documentElement.scrollTop = 0;
-})
+});
 
 getAbout().then((results) => {
   let data = results.data[0].PersonalIntroduction;
@@ -24,12 +26,17 @@ getAbout().then((results) => {
 
 <template>
   <div class="about">
-    <el-skeleton :rows="10" :loading="loading" animated :count="5" :throttle="500"> 
+    <el-skeleton
+      :rows="10"
+      :loading="loading"
+      animated
+      :count="5"
+      :throttle="500"
+    >
       <template #default>
         <div id="aboutBox" v-html="content"></div>
       </template>
     </el-skeleton>
-
   </div>
 </template>
 
@@ -38,7 +45,6 @@ getAbout().then((results) => {
   min-height: 100vh;
   padding: 40px;
   animation: displayAbout 0.75s;
-
 
   #aboutBox {
     overflow: hidden;
@@ -284,13 +290,13 @@ getAbout().then((results) => {
 }
 
 @keyframes displayAbout {
-      0% {
-        transform: translateY(100px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0px);
-        opacity: 1;
-      }
-    }
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
 </style>
