@@ -9,6 +9,11 @@ import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 let content = ref("");
 let loading = ref(true);
 
+// 滚动到顶部
+onMounted(()=>{
+  document.documentElement.scrollTop = 0;
+})
+
 getAbout().then((results) => {
   let data = results.data[0].PersonalIntroduction;
   let md = new MarkdownIt();

@@ -5,6 +5,11 @@ import { getAllArtical } from "../api/artical";
 
 let typeData = ref([]);
 
+// 滚动到顶部
+onMounted(()=>{
+  document.documentElement.scrollTop = 0;
+})
+
 // 更新本地存储
 addArticleCache();
 

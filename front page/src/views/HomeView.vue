@@ -4,6 +4,11 @@ import recommendVue from "../components/Home/recommend.vue";
 import chartsVue from "../components/Home/charts.vue";
 import { addArticleCache } from "../cache/cache.js";
 
+// 滚动到顶部
+onMounted(()=>{
+  document.documentElement.scrollTop = 0;
+})
+
 addArticleCache();
 </script>
 

@@ -6,6 +6,7 @@ import { getFriendChain } from "../api/friend";
 
 let friendChainArray = ref([]);
 
+// 滚动到顶部
 onMounted(()=>{
   document.documentElement.scrollTop = 0;
 })

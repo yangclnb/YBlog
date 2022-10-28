@@ -1,6 +1,11 @@
 <script setup>
 import searchBoxVue from "../components/Search/searchBox.vue";
 import articalListVue from "../components/Home/articalList.vue";
+
+// 滚动到顶部
+onMounted(()=>{
+  document.documentElement.scrollTop = 0;
+})
 </script>
 
 <template>
