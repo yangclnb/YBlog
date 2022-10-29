@@ -52,12 +52,12 @@ let getRouter = function computed(blogID) {
   min-width: 280px;
   background-color: var(--contentGroundColor);
   border-radius: 5px;
-  box-shadow: var(--el-box-shadow);
+  /* box-shadow: var(--el-box-shadow); */
 }
 
 #title {
   text-align: center;
-  background-color: #aab5cb;
+  background-color: var(--themeColor);
   color: white;
   padding: 5px 0;
   font-size: 20px;

@@ -1,15 +1,15 @@
 <script setup>
 import articalListVue from "../components/Home/articalList.vue";
+import personCardVue from "../components/Home/personCard.vue";
 import recommendVue from "../components/Home/recommend.vue";
 import chartsVue from "../components/Home/charts.vue";
 import { addArticleCache } from "../cache/cache.js";
 import { onMounted } from "vue";
 
-
 // 滚动到顶部
-onMounted(()=>{
+onMounted(() => {
   document.documentElement.scrollTop = 0;
-})
+});
 
 addArticleCache();
 </script>
@@ -19,6 +19,8 @@ addArticleCache();
     <articalListVue />
     <div id="homeRightBar">
       <recommendVue />
+      <hr />
+      <personCardVue />
       <hr />
       <chartsVue />
       <hr />
@@ -48,7 +50,7 @@ hr {
   animation: 0.75s displayRightBar;
 }
 
-#pageInfo{
+#pageInfo {
   color: var(--secondaryFontColor);
   text-align: center;
 }

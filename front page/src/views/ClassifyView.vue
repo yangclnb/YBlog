@@ -124,7 +124,7 @@ function handleData(data) {
     width: 45%;
     min-height: 220px;
     margin: 10px;
-    box-shadow: var(--el-box-shadow);
+    // box-shadow: var(--el-box-shadow);
     background-color: var(--contentGroundColor);
     border-radius: 5px;
 

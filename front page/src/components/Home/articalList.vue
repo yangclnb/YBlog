@@ -162,13 +162,13 @@ a {
   transition: 0.5s linear;
   display: flex;
   background-color: var(--contentGroundColor);
-  box-shadow: var(--el-box-shadow);
 
   border-radius: 5px;
 }
 
 .articialInfo:hover {
-  background-color: #e7eaf0;
+  /* background-color: #e7eaf0; */
+  box-shadow: var(--el-box-shadow);
 }
 
 .articialInfo > img {

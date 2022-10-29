@@ -66,6 +66,7 @@ window.addEventListener("resize", () => {
 
 <template>
   <div id="chartBox">
+    <p>近期访问数据</p>
     <div id="chart"></div>
   </div>
 </template>
@@ -76,12 +77,18 @@ window.addEventListener("resize", () => {
   min-width: 20vw;
   background-color: var(--contentGroundColor);
   border-radius: 5px;
-  box-shadow: var(--el-box-shadow);
+  // box-shadow: var(--el-box-shadow);
   height: 300px;
   #chart {
     width: 95%;
     height: 100%;
     margin: 0 auto;
+  }
+
+  p{
+    position:relative;
+    top: 20px;
+    left: 20px;
   }
 }
 </style>
