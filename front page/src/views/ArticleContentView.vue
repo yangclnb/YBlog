@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, onUnmounted } from "vue";
 import { ElDescriptions, ElDescriptionsItem } from "element-plus";
-import { computed } from "@vue/reactivity";
+import { computed, reactive } from "@vue/reactivity";
 import router from "../router";
 import articleDigestVue from "../components/article/articleDigest.vue"; // 引入文章摘要模块
 import articleCommentVue from "../components/article/articleComment.vue"; // 引入文章评论模块
@@ -30,13 +30,17 @@ let md = new MarkdownIt({
   },
 }); // 文章内容 markdown 格式化  | 代码高亮
 let articleInfo = ref([]);
-let titleArr = ref([]);
 let currentSider = ref("digest");
 
 // 记录访客信息
 addVisitorInfo(currentID);
 
-// 从缓存中获取数据
+onMounted(() => {
+  // 滚动至顶部
+  window.scrollTo(0, 0);
+});
+
+// 从缓存中获取文章数据
 let BlogData = getBlogByCache(currentID);
 if (BlogData == null) {
   // 从服务器中获取文章数据
@@ -53,11 +57,6 @@ if (BlogData == null) {
   articleInfo.value = BlogData;
   console.log("cacheData :>> ", BlogData);
 }
-
-onMounted(() => {
-  // 滚动至顶部
-  window.scrollTo(0, 0);
-});
 
 /**
  * @function: changeSiderContent
@@ -100,6 +99,38 @@ let articleWordNums = computed(() => {
     return (wordNums / 1000).toFixed(0) + "k";
   }
 });
+
+/**
+ * @function: displayComment
+ * @description: 子组件发布了评论后，切换侧边栏显示为评论
+ * @return {*}
+ * @author: Banana
+ */
+function displayComment() {
+  document
+    .querySelector("#siderBar_title")
+    .childNodes[0].classList.remove("active");
+  document
+    .querySelector("#siderBar_title")
+    .childNodes[1].classList.add("active");
+  currentSider.value = "comment";
+}
+
+/**
+ * @function: getCommentData
+ * @description: 从子组件中获取评论的数据
+ * @return {*}
+ * @author: Banana
+ */
+function getCommentData() {}
+
+/**
+ * @function: 在用户添加评论成功后，在DOM中添加用户刚才的评论
+ * @description:
+ * @return {*}
+ * @author: Banana
+ */
+function addComment() {}
 </script>
 
 
@@ -147,7 +178,7 @@ let articleWordNums = computed(() => {
       </div>
     </div>
     <settingButtonVue />
-    <releaseCommentVue />
+    <releaseCommentVue :displayComment="displayComment" />
   </div>
 </template>
 

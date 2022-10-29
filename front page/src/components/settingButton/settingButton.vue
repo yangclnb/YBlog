@@ -82,7 +82,7 @@ window.addEventListener(
   "scroll",
   debounce(() => {
     let currentScrollNum = document.documentElement.scrollTop;
-    console.log("currentScrollNum :>> ", currentScrollNum);
+    // console.log("currentScrollNum :>> ", currentScrollNum);
 
     if (currentScrollNum <= 2 && currentButtonGroupState) {
       let buttonNode = document.querySelector("#back_top");

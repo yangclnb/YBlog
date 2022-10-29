@@ -11,6 +11,11 @@ const form = reactive({
   comment: "",
 });
 const commentContainer = ref();
+const props = defineProps({
+  displayComment: Function,
+});
+
+// console.log('props :>> ', props.displayComment());
 
 const onSubmit = () => {
   if (form.name != "" && form.comment != "") {
@@ -20,6 +25,7 @@ const onSubmit = () => {
         console.log("data :>> ", data);
         if (data.code === 200) {
           commentContainer.value.style.display = "none";
+          props.displayComment()
           ElMessage.success("评论发布成功~");
         }
         else ElMessage.error("评论发布失败，请稍后重试");

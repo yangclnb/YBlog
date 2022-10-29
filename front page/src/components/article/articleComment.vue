@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import { computed } from "vue";
-import { getCurrentArticalComment } from "../../api/comment.js";
 import router from "../../router/index.js";
+import { getCurrentArticalComment } from "../../api/comment.js";
 
 let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
 let commentList = ref([]);
@@ -10,8 +10,8 @@ let commentList = ref([]);
 // 请求评论 api
 getCurrentArticalComment(currentID).then((results) => {
   commentList.value = results.data;
+  // console.log(commentList.value);
 });
-
 
 /**
  * @function: eraseStringSign
@@ -23,7 +23,6 @@ getCurrentArticalComment(currentID).then((results) => {
 const eraseStringSign = (string) => {
   return string.slice(1, string.length - 1);
 };
-
 
 /**
  * @function: getTime

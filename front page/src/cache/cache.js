@@ -54,7 +54,7 @@ export function addArticleCache() {
     // 存在则向服务器中查询文章的数量 与本地的数量对比
     const currentNums = JSON.parse(localStorage.getItem("blogData")).length;
     const blogNums = results.data[0].nums;
-    console.log("currentNums,blogNums :>> ", currentNums, blogNums);
+    // console.log("currentNums,blogNums :>> ", currentNums, blogNums);
     if (currentNums != blogNums) {
       console.log("更新博客缓存");
       getAllArtical().then((results) => {

@@ -51,7 +51,7 @@ getVisitorData().then((results) => {
 
   option && myChart.setOption(option);
 
-  console.log("option :>> ", option);
+  // console.log("option :>> ", option);
 });
 
 // 改变页面大小时重新渲染chart && 页面防抖

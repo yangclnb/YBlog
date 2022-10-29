@@ -27,8 +27,6 @@ onMounted(() => {
       index++;
     }
 
-    console.log("titleArr.value :>> ", titleArr.value);
-
     // 若是 摘要列表中存在内容 则添加滚动高亮摘要的事件
     if (titleArr.value.length > 0) {
       window.addEventListener("scroll", theScorllFunction);
