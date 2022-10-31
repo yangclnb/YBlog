@@ -247,6 +247,15 @@ function addComment() {}
             border-right: 1px solid rgb(160, 160, 160); */
       margin: 0 auto;
 
+      background-image: linear-gradient(
+          90deg,
+          rgba(60, 10, 30, 0.04) 5%,
+          transparent 0
+        ),
+        linear-gradient(1turn, rgba(60, 10, 30, 0.04) 5%, transparent 0);
+      background-size: 20px 20px;
+      background-position: 50%;
+
       h1 {
         padding: 0 0 10px 0;
         border-bottom: var(--secondaryFontColor) 1px solid;

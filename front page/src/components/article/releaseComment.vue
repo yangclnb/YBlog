@@ -14,26 +14,55 @@ const commentContainer = ref();
 const props = defineProps({
   displayComment: Function,
 });
+const currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
+let lodaing = ref(false);
 
 // console.log('props :>> ', props.displayComment());
 
-const onSubmit = () => {
+/**
+ * 节流函数 一个函数执行一次后，只有大于设定的执行周期才会执行第二次。有个需要频繁触发的函数，出于优化性能的角度，在规定时间内，只让函数触发的第一次生效，后面的不生效。
+ * @param fn要被节流的函数
+ * @param delay规定的时间
+ */
+function throttle(delay) {
+  //记录上一次函数触发的时间
+  var lastTime = 0;
+  return function () {
+    //记录当前函数触发的时间
+    var nowTime = Date.now();
+    if (nowTime - lastTime > delay) {
+      submitData();
+      //同步执行结束时间
+      lastTime = nowTime;
+    }
+  };
+}
+
+const submitData = () => {
   if (form.name != "" && form.comment != "") {
-    let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
+    lodaing.value = true;
     releaseComment(currentID, form.name, form.blogURL, form.comment).then(
       (data) => {
         console.log("data :>> ", data);
         if (data.code === 200) {
           commentContainer.value.style.display = "none";
-          props.displayComment()
+          props.displayComment();
           ElMessage.success("评论发布成功~");
-        }
-        else ElMessage.error("评论发布失败，请稍后重试");
+          form.blogURL = "";
+          form.comment = "";
+          form.name = "";
+        } else ElMessage.error("评论发布失败，请稍后重试");
       }
     );
   } else {
     ElMessage.error("请确保您的输入昵称和评论内容不为空");
   }
+  lodaing.value = false;
+};
+
+const temp = throttle(2000);
+const onSubmit = () => {
+  temp();
 };
 
 const cancelBox = () => {
@@ -61,7 +90,11 @@ const cancelBox = () => {
         />
       </el-form-item>
       <el-form-item>
-        <el-button color="var(--themeColor)" type="primary" @click="onSubmit"
+        <el-button
+          color="var(--themeColor)"
+          type="primary"
+          @click="onSubmit"
+          :loading="lodaing"
           >发布评论</el-button
         >
         <el-button @click="cancelBox">取消</el-button>
