@@ -9,6 +9,7 @@ import releaseCommentVue from "../components/article/releaseComment.vue"; // 发
 import settingButtonVue from "../components/settingButton/settingButton.vue"; // 引入侧边按钮框
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
 import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
+import DynamicContent from "../components/dynamicContent/dynamicContent.vue";
 
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 import hljs from "highlight.js"; // 引入高亮模块
@@ -154,7 +155,7 @@ function addComment() {}
         alt=""
       />
       <div id="articleContent">
-        <h1>{{ articleInfo.title }}</h1>
+        <DynamicContent :text="articleInfo.title"/>
         <div id="articleInfoBox">
           <div>
             <Calendar style="width: 1em; height: 1em; margin-right: 8px" />

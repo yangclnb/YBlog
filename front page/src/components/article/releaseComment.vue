@@ -52,12 +52,12 @@ const submitData = () => {
           form.comment = "";
           form.name = "";
         } else ElMessage.error("评论发布失败，请稍后重试");
+        lodaing.value = false;
       }
     );
   } else {
     ElMessage.error("请确保您的输入昵称和评论内容不为空");
   }
-  lodaing.value = false;
 };
 
 const temp = throttle(2000);

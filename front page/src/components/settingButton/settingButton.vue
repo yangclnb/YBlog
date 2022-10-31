@@ -3,8 +3,15 @@ import { ref } from "@vue/reactivity";
 import { ElIcon, ElColorPicker, ElMessage } from "element-plus";
 import { computed, onMounted } from "vue";
 
-const color = ref(localStorage.getItem("currentColor") || "#06a6ff");
+const color = ref(localStorage.getItem("currentColor") || "#eecfda");
 const predefineColors = ref([
+  "#eecfda",
+  "#e3cbd3",
+  "#ecd0c5",
+  "#e3d5da",
+  "#f2e3fa",
+  "#cbbfd1",
+
   "#06a6ff",
   "#0e6fc7",
   "#009fd6",
@@ -12,13 +19,6 @@ const predefineColors = ref([
   "#10ce9b",
   "#7dcb65",
   "#a8c54c",
-
-  "#eecfda",
-  "#e3cbd3",
-  "#ecd0c5",
-  "#e3d5da",
-  "#f2e3fa",
-  "#cbbfd1",
 ]);
 let currentSteeingState = true; // 点击设置弹出的按钮状态
 let currentButtonGroupState = false; // 退回顶部按钮组的状态 true 显示
@@ -187,8 +187,7 @@ function toggleSideBar() {
 function showCommentBox() {
   const commentBox = document.querySelector("#containerBox");
   const currentCommentStatus = getComputedStyle(commentBox).display;
-  commentBox.style.display =
-    currentCommentStatus === "none" ? "flex" : "none";
+  commentBox.style.display = currentCommentStatus === "none" ? "flex" : "none";
 }
 </script>
 
