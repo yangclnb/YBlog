@@ -55,15 +55,25 @@ const getRandomChar = (length) => {
 
 const getRandomColorSpan = (char) => {
   let randomColorIndex = (Math.random() * colors.length).toFixed(0);
-  return `<span style='color:${colors[randomColorIndex]}'>${char}</span>`
+  return `<span style='color:${colors[randomColorIndex]}'>${char}</span>`;
 };
-
-
 </script>
 
 <template>
-  <h1 v-html="outputTitle"></h1>
+  <div id="text_tag_container">
+    <h1 v-if="props.tagName == 'h1'" v-html="outputTitle"></h1>
+    <h2 v-if="props.tagName == 'h2'" v-html="outputTitle"></h2>
+    <h3 v-if="props.tagName == 'h3'" v-html="outputTitle"></h3>
+    <h4 v-if="props.tagName == 'h4'" v-html="outputTitle"></h4>
+    <h5 v-if="props.tagName == 'h5'" v-html="outputTitle"></h5>
+    <p v-if="props.tagName == 'p'" v-html="outputTitle"></p>
+    <span v-if="props.tagName == 'span'" v-html="outputTitle"></span>
+  </div>
 </template>
 
 <style>
+#text_tag_container {
+  display: inline;
+  overflow: hidden;
+}
 </style>

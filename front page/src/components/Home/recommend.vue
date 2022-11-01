@@ -21,7 +21,7 @@ let getRouter = function computed(blogID) {
 <template>
   <div id="recommend">
     <div id="title">推荐阅读</div>
-    <el-skeleton :loading="loading" animated :count="5" :throttle="500">
+    <el-skeleton :loading="loading" animated :count="5">
       <template #template>
         <div style="padding: 14px">
           <el-skeleton-item

@@ -1,5 +1,6 @@
 <script setup>
 import { ElButtonGroup, ElButton, ElIcon } from "element-plus";
+import DynamicContent from "../dynamicContent/dynamicContent.vue";
 
 // 收藏本站
 function _addFavorite() {
@@ -35,7 +36,8 @@ function _addFavorite() {
         alt=""
       />
       <div>
-        <h3>yancdrag</h3>
+        <DynamicContent text="yancdrag" tagName="h3"/>
+        <!-- <h3>yancdrag</h3> -->
         <p>The world is mine oyster.</p>
       </div>
       <!-- 头像 介绍 -->
@@ -50,7 +52,7 @@ function _addFavorite() {
     <div id="infoBox">
       <!-- 文章被浏览 -->
       <el-icon :size="20" color="var(--themeColor)"><StarFilled /></el-icon>
-      <p>文章被浏览 : 114514次</p>
+      <p>文章被浏览 : <DynamicContent text="114514" tagName="span"/>次</p>
     </div>
   </div>
 </template>

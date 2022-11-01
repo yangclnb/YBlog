@@ -155,7 +155,8 @@ function addComment() {}
         alt=""
       />
       <div id="articleContent">
-        <DynamicContent :text="articleInfo.title"/>
+        <DynamicContent :text="articleInfo.title" tagName="h1">
+        </DynamicContent>
         <div id="articleInfoBox">
           <div>
             <Calendar style="width: 1em; height: 1em; margin-right: 8px" />
