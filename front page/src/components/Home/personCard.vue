@@ -62,6 +62,7 @@ function _addFavorite() {
 
 <style lang="less" scoped>
 #personCard {
+  border-radius: 5px;
   padding: 20px;
   max-width: 280px;
   background-color: var(--contentGroundColor);
@@ -92,7 +93,6 @@ function _addFavorite() {
 
   #infoBox {
     margin-top: 20px;
-
     display: flex;
   }
 }

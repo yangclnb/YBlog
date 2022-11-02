@@ -13,7 +13,7 @@ echarts.use([GridComponent, LineChart, SVGRenderer, UniversalTransition]);
 let option = {
   xAxis: {
     type: "category",
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    data: ["date"],
   },
   yAxis: {
     type: "value",
@@ -85,10 +85,9 @@ window.addEventListener("resize", () => {
     margin: 0 auto;
   }
 
-  p{
-    position:relative;
-    top: 20px;
-    left: 20px;
+  p {
+    padding-top: 20px;
+    padding-left: 20px;
   }
 }
 </style>
