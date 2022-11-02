@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import indexPage from "../views/BlogView.vue";
 import homePage from "../views/HomeView.vue";
 import aboutPage from "../views/AboutView.vue";
@@ -9,7 +9,7 @@ import timeLinePage from "../views/TimeLineView.vue";
 import articleContent from "../views/ArticleContentView.vue";
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
