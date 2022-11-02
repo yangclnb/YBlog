@@ -1,4 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import indexPage from "../views/BlogView.vue";
+import homePage from "../views/HomeView.vue";
+import aboutPage from "../views/AboutView.vue";
+import classiftPage from "../views/ClassifyView.vue";
+import friendChainPage from "../views/FriendChainView.vue";
+import searchPage from "../views/SearchView.vue";
+import timeLinePage from "../views/TimeLineView.vue";
 import articleContent from "../views/ArticleContentView.vue";
 
 const router = createRouter({
@@ -7,37 +14,37 @@ const router = createRouter({
     {
       path: "/",
       redirect: "/home",
-      component: () => import("../views/BlogView.vue"),
+      component: indexPage,
       children: [
         {
           path: "/home",
           name: "home",
-          component: () => import("../views/HomeView.vue"),
+          component: homePage,
         },
         {
           path: "/about",
           name: "about",
-          component: () => import("../views/AboutView.vue"),
+          component: aboutPage,
         },
         {
           path: "/classify",
           name: "classify",
-          component: () => import("../views/ClassifyView.vue"),
+          component: classiftPage,
         },
         {
           path: "/friendChain",
           name: "friendChain",
-          component: () => import("../views/FriendChainView.vue"),
+          component: friendChainPage,
         },
         {
           path: "/search",
           name: "search",
-          component: () => import("../views/SearchView.vue"),
+          component: searchPage,
         },
         {
           path: "/timeLine",
           name: "timeLine",
-          component: () => import("../views/TimeLineView.vue"),
+          component: timeLinePage,
         },
       ],
     },

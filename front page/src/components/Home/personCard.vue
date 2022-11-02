@@ -1,6 +1,8 @@
 <script setup>
 import { ElButtonGroup, ElButton, ElIcon } from "element-plus";
 import DynamicContent from "../dynamicContent/dynamicContent.vue";
+import scrollingNumberVue from "../dynamicContent/scrollingNumber.vue";
+
 
 // 收藏本站
 function _addFavorite() {
@@ -53,6 +55,7 @@ function _addFavorite() {
       <!-- 文章被浏览 -->
       <el-icon :size="20" color="var(--themeColor)"><StarFilled /></el-icon>
       <p>文章被浏览 : <DynamicContent text="114514" tagName="span"/>次</p>
+      <!-- <scrollingNumberVue i="6"/> -->
     </div>
   </div>
 </template>
