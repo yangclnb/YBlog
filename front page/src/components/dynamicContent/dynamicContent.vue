@@ -39,7 +39,7 @@ onMounted(() => {
     setTimeout(() => {
       alreadyOutput += newArr[i];
       outputTitle.value = alreadyOutput + getRandomChar(newArr.length - i);
-    }, (i + 1) * 200);
+    }, (i + 1) * 100);
   }
 });
 

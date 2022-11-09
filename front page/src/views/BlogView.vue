@@ -13,22 +13,20 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
 // onUnmounted(() => {
 //   console.log("页面关闭");
 // });
+
+// TODO 导航栏背景模糊效果
 </script>
 
 <template>
   <div id="page">
     <navigationBarVue />
     <div id="rightBox">
-      <div id="logo">
-        <div>
-          <IconLogoVue
-            width="120"
-            height="50"
-            style="padding-left: 10px; padding-top: 5px"
-          />
+      <div id="headerBox">
+        <div id="logo">
+          <IconLogoVue width="90" />
         </div>
         <a href="https://github.com/yangclnb" target="_blank">
-          <IconGitVue width="55" height="55" />
+          <IconGitVue width="30" />
         </a>
       </div>
       <RouterView />
@@ -53,11 +51,31 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
       order: -1;
     }
 
-    #logo {
-      height: 55px;
+    #headerBox {
+      height: 45px;
       display: flex;
       justify-content: space-between;
       align-content: center;
+      padding: 10px;
+      border-bottom: 1px solid rgb(230, 230, 230);
+
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(6px);
+      z-index: 99;
+
+      @media screen and (max-width: 768px) {
+        position:static;
+        backdrop-filter: none;
+      }
+
+      #logo {
+        display: flex;
+      }
+
+      a {
+        display: flex;
+      }
 
       svg {
         color: var(--themeColor);

@@ -189,6 +189,8 @@ function showCommentBox() {
   const currentCommentStatus = getComputedStyle(commentBox).display;
   commentBox.style.display = currentCommentStatus === "none" ? "flex" : "none";
 }
+
+// TODO 主题颜色
 </script>
 
 <template>

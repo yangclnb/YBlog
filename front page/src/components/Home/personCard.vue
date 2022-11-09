@@ -1,8 +1,21 @@
 <script setup>
 import { ElButtonGroup, ElButton, ElIcon } from "element-plus";
+import { onMounted, ref } from "vue";
+import { getAllVisitorAmount } from "../../api/artical";
 import DynamicContent from "../dynamicContent/dynamicContent.vue";
 import scrollingNumberVue from "../dynamicContent/scrollingNumber.vue";
+import { ElSkeleton, ElSkeletonItem } from "element-plus";
 
+let visitorAmount = ref(0);
+let loading = ref(true);
+
+onMounted(() => {
+  getAllVisitorAmount().then((data) => {
+    // console.log('data :>> ', data.data[0]);
+    visitorAmount.value = data.data[0].amount;
+    loading.value = false;
+  });
+});
 
 // 收藏本站
 function _addFavorite() {
@@ -38,7 +51,7 @@ function _addFavorite() {
         alt=""
       />
       <div>
-        <DynamicContent text="yancdrag" tagName="h3"/>
+        <DynamicContent text="yancdrag" tagName="h3" />
         <!-- <h3>yancdrag</h3> -->
         <p>The world is mine oyster.</p>
       </div>
@@ -47,14 +60,29 @@ function _addFavorite() {
     <div id="buttonBox">
       <!-- 关注我 发消息  -->
       <el-button-group>
-        <el-button type="primary" color="var(--themeColor)" @click="_addFavorite">关注我</el-button>
+        <el-button
+          type="primary"
+          color="var(--themeColor)"
+          @click="_addFavorite"
+          >关注我</el-button
+        >
         <el-button>发消息</el-button>
       </el-button-group>
     </div>
     <div id="infoBox">
-      <!-- 文章被浏览 -->
       <el-icon :size="20" color="var(--themeColor)"><StarFilled /></el-icon>
-      <p>文章被浏览 : <DynamicContent text="114514" tagName="span"/>次</p>
+      <p>
+        文章被浏览 :
+        <el-skeleton style="width: 20px;display: inline;" :loading="loading" animated>
+          <template #template>
+            <el-skeleton-item variant="span" style="width: 40px" />
+          </template>
+          <template #default>
+            <span>{{ visitorAmount }}</span>
+          </template>
+        </el-skeleton>
+        次
+      </p>
       <!-- <scrollingNumberVue i="6"/> -->
     </div>
   </div>
