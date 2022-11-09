@@ -8,6 +8,7 @@ var {
   getArticleTotalTimeLine,
   addVisitorInfo,
   getVisitorData,
+  getAllVisitorAmount,
 } = require("../controller/article");
 var router = express.Router();
 
@@ -24,6 +25,10 @@ router.get("/visitorData", (req, res, next) => {
 // 文章访问数量，依照次排序推荐列表 (api/article/recommendList)
 router.get("/recommendList", (req, res, next) => {
   getArticalByVisitorInfo(req, res);
+});
+
+router.get("/getAllVisitorAmount", (req, res, next) => {
+  getAllVisitorAmount(req, res);
 });
 
 // 根据文章ID增加文章的访问量 (api/article/addVisitorInfo/文章ID)

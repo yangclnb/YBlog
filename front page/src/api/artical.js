@@ -126,3 +126,18 @@ export async function getVisitorData(){
   let data = respone.json();
   return data;
 }
+
+export async function getAllVisitorAmount(){
+  let respone = await fetch(
+    `${apiAddress}/api/article/getAllVisitorAmount`,
+    {
+      headers: {
+        "user-agent": "PostmanRuntime/7.29.2",
+        "content-type": "application/json",
+      },
+      method: "get",
+    }
+  );
+  let data = respone.json();
+  return data;
+}

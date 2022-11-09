@@ -8,10 +8,13 @@ const express = require("express");
  * @author: Banana
  */
 function getAllArticle(req, res) {
-  query("select * from blog b INNER JOIN type t on t.typeId = b.typeId", (err, results) => {
-    if (err) throw err;
-    res.json({ code: 200, data: results });
-  });
+  query(
+    "select * from blog b INNER JOIN type t on t.typeId = b.typeId",
+    (err, results) => {
+      if (err) throw err;
+      res.json({ code: 200, data: results });
+    }
+  );
 }
 
 /**
@@ -23,7 +26,7 @@ function getAllArticle(req, res) {
 function getArticalNums(req, res) {
   query("SELECT COUNT(blogId) nums FROM blog", (err, results) => {
     if (err) throw err;
-    res.setHeader('Cache-Control', 'max-age=3600');
+    res.setHeader("Cache-Control", "max-age=3600");
     res.json({ code: 200, data: results });
   });
 }
@@ -43,10 +46,24 @@ function getVisitorData(req, res) {
     [],
     (err, results) => {
       if (err) throw err;
-      res.setHeader('Cache-Control', 'max-age=3600');
+      res.setHeader("Cache-Control", "max-age=3600");
       res.json({ code: 200, data: results });
     }
   );
+}
+
+/**
+ * @function: getAllVisitorAmount
+ * @description: 获取总体访问数量
+ * @return {*}
+ * @author: Banana
+ */
+function getAllVisitorAmount(req, res) {
+  query("SELECT COUNT(visitorId) amount from visitor", [], (err, results) => {
+    if (err) throw err;
+    res.setHeader("Cache-Control", "max-age=3600");
+    res.json({ code: 200, data: results });
+  });
 }
 
 /**
@@ -57,12 +74,16 @@ function getVisitorData(req, res) {
  * @author: Banana
  */
 function getArticleByID(req, res, articalID) {
-  query("select * from blog b INNER JOIN type t on t.typeId = b.typeId where blogId = ?", [articalID], (err, results) => {
-    if (err) throw err;
-    // 返回数据
-    res.setHeader('Cache-Control', 'max-age=3600');
-    res.json({ code: 200, data: results });
-  });
+  query(
+    "select * from blog b INNER JOIN type t on t.typeId = b.typeId where blogId = ?",
+    [articalID],
+    (err, results) => {
+      if (err) throw err;
+      // 返回数据
+      res.setHeader("Cache-Control", "max-age=3600");
+      res.json({ code: 200, data: results });
+    }
+  );
 }
 
 /**
@@ -139,7 +160,7 @@ function getArticalByVisitorInfo(req, res) {
     [],
     (err, results) => {
       if (err) throw err;
-      res.setHeader('Cache-Control', 'max-age=3600');
+      res.setHeader("Cache-Control", "max-age=3600");
       res.json({ code: 200, data: results });
     }
   );
@@ -179,4 +200,5 @@ module.exports = {
   addVisitorInfo,
   updateArticle,
   getVisitorData,
+  getAllVisitorAmount,
 };
