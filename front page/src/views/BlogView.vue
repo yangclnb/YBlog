@@ -13,8 +13,6 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
 // onUnmounted(() => {
 //   console.log("页面关闭");
 // });
-
-// TODO 导航栏背景模糊效果
 </script>
 
 <template>
@@ -59,13 +57,15 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
       padding: 10px;
       border-bottom: 1px solid rgb(230, 230, 230);
 
+      background-image: radial-gradient(transparent 1px, white 1px);
+      background-size: 4px 4px;
+      backdrop-filter: saturate(50%) blur(4px);
       position: sticky;
       top: 0;
-      backdrop-filter: blur(6px);
       z-index: 99;
 
       @media screen and (max-width: 768px) {
-        position:static;
+        position: static;
         backdrop-filter: none;
       }
 
