@@ -20,6 +20,7 @@ input {
   width: 500px;
   height: 40px;
   border: 3px solid var(--themeColor);
+  background-color: var(--backGroundColor);
   border-right: none;
   font-size: 18px;
   padding-left: 10px;
@@ -47,6 +48,7 @@ button:hover {
 #searchBox {
   display: flex;
   align-content: center;
+  margin-bottom: 30px;
 }
 
 @media screen and (max-width: 768px) {
