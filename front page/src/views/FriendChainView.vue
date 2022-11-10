@@ -84,6 +84,7 @@ function applicationFriendChain(){
     align-items: center;
     transition: 0.5s all;
     background-color: var(--contentGroundColor);
+    color:var(--fontColor);
 
     img {
       width: 100px;

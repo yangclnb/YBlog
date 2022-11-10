@@ -192,6 +192,8 @@ a {
   display: flex;
   background-color: var(--contentGroundColor);
 
+  color:var(--fontColor);
+
   border-radius: 5px;
 }
 

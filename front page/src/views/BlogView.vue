@@ -57,7 +57,7 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
       padding: 10px;
       border-bottom: 1px solid rgb(230, 230, 230);
 
-      background-image: radial-gradient(transparent 1px, white 1px);
+      background-image: radial-gradient(transparent 1px, var(--backGroundColor) 1px);
       background-size: 4px 4px;
       backdrop-filter: saturate(50%) blur(4px);
       position: sticky;

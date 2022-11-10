@@ -61,7 +61,7 @@ let getTime = function computed(time) {
 .comment {
   margin: 10px;
   padding: 10px;
-  background-color: rgb(241, 241, 241);
+  background-color: var(--contentGroundColor);
   border-radius: 10px;
 
   display: flex;

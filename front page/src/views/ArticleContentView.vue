@@ -187,6 +187,8 @@ function addComment() {}
 <style lang="less">
 #container {
   display: flex;
+  color:var(--fontColor);
+  background-color: var(--backGroundColor);
 
   /* 侧边栏 */
 
@@ -195,7 +197,7 @@ function addComment() {}
     width: 250px;
     height: 100vh;
     box-shadow: var(--el-box-shadow);
-    background-color: white;
+    background-color: var(--backGroundColor);
     display: block;
     overflow-y: auto;
     overflow-x: hidden;
@@ -304,6 +306,10 @@ function addComment() {}
 
         .md-image img[alt|="shadow"] {
           box-shadow: #84a1a8 0px 10px 15px;
+        }
+
+        a{
+          color: var(--fontColor);
         }
 
         h1,
@@ -514,12 +520,14 @@ function addComment() {}
 
         code {
           padding: 2px 0.4em;
+          margin: 0 4px;
           overflow-x: auto;
           color: var(--themeColor);
           font-weight: 700;
           word-break: break-word;
           font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
-          background-color: #f1f1f1;
+          background-color: var(--contentGroundColor);
+          border-radius: 5px;
         }
 
         pre {
@@ -543,6 +551,7 @@ function addComment() {}
             background-color: #343434;
             border-radius: 2px;
             scroll-behavior: smooth;
+            border-radius: 5px;
           }
         }
       }

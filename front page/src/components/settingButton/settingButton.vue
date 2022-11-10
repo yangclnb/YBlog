@@ -4,6 +4,9 @@ import { ElIcon, ElColorPicker, ElMessage } from "element-plus";
 import { computed, onMounted } from "vue";
 
 const color = ref(localStorage.getItem("currentColor") || "#eecfda");
+const displayType = ref(localStorage.getItem("displayType") || "day"); // day || night
+const model_icon_box = ref();
+console.log(model_icon_box);
 const predefineColors = ref([
   "#eecfda",
   "#e3cbd3",
@@ -36,6 +39,12 @@ onMounted(() => {
 
   // DOM是否存在 文章访问页面的侧边栏 有就位该元素 否则为空
   hasSideBar.value = document.querySelector("#sideBar") || null;
+
+  if (displayType.value === "day") {
+    becomeDayModel();
+  } else {
+    becomeNightModel();
+  }
 });
 
 /**
@@ -67,9 +76,35 @@ function backTop() {
  * @return {*}
  * @author: Banana
  */
-function changeDisplayModle() {
+function changeDisplayModel() {
   // document.documentElement.style.setProperty("--backGroundColor", "black");
-  ElMessage.error("Features are still under development");
+  // ElMessage.error("Features are still under development");
+
+  if (displayType.value === "day") {
+    becomeNightModel();
+  } else {
+    becomeDayModel();
+  }
+}
+
+function becomeDayModel() {
+  model_icon_box.value.style.right = "0px";
+  displayType.value = "day";
+  localStorage.setItem("displayType", displayType.value);
+
+  document.documentElement.style.setProperty("--backGroundColor", "#f4f5f5");
+  document.documentElement.style.setProperty("--contentGroundColor", "white");
+  document.documentElement.style.setProperty("--fontColor", "rgb(75, 75, 75)");
+}
+
+function becomeNightModel() {
+  model_icon_box.value.style.right = "28px";
+  displayType.value = "night";
+  localStorage.setItem("displayType", displayType.value);
+
+  document.documentElement.style.setProperty("--backGroundColor", "#3d3d3d");
+  document.documentElement.style.setProperty("--contentGroundColor", "#535353");
+  document.documentElement.style.setProperty("--fontColor", "white");
 }
 
 /**
@@ -197,15 +232,18 @@ function showCommentBox() {
   <div id="right_side_button_box" class="showAnimation">
     <div
       id="change_modle"
-      @click="changeDisplayModle"
+      @click="changeDisplayModel"
       class="setting_operation hiddenAnimation"
     >
-      <el-icon :size="25" color="white">
-        <Sunny />
-      </el-icon>
-      <el-icon :size="25" color="white" style="display: none">
-        <Moon />
-      </el-icon>
+      <div id="model_icon_box" ref="model_icon_box">
+        <el-icon :size="25" color="white">
+          <Sunny />
+        </el-icon>
+        &nbsp;
+        <el-icon :size="25" color="white">
+          <Moon />
+        </el-icon>
+      </div>
     </div>
     <div id="change_theme" class="setting_operation hiddenAnimation">
       <el-color-picker
@@ -278,6 +316,7 @@ function showCommentBox() {
 
 #right_side_button_box > div {
   background-color: var(--themeColor);
+  width: 25px;
   padding: 5px;
   margin-bottom: 5px;
   border-radius: 5px;
@@ -285,9 +324,20 @@ function showCommentBox() {
 
   display: flex;
   align-items: center;
+
+  overflow-x: hidden;
 }
 
 #display_side_bar > i {
+  transition: all 0.5s;
+}
+
+#model_icon_box {
+  display: flex;
+  position: relative;
+  /* right: 28px; */
+  right: 0px;
+
   transition: all 0.5s;
 }
 

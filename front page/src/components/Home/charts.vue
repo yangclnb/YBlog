@@ -88,6 +88,7 @@ window.addEventListener("resize", () => {
   p {
     padding-top: 20px;
     padding-left: 20px;
+    color:var(--fontColor);
   }
 }
 </style>

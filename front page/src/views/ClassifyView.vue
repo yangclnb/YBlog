@@ -127,6 +127,7 @@ function handleData(data) {
     // box-shadow: var(--el-box-shadow);
     background-color: var(--contentGroundColor);
     border-radius: 5px;
+    color:var(--fontColor);
 
     .classTitle {
       margin: 0 10px;
@@ -158,6 +159,7 @@ function handleData(data) {
         display: flex;
         align-items: center;
         cursor: pointer;
+        color:var(--fontColor);
 
         &:hover {
           color: var(--themeColor);

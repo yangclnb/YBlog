@@ -77,6 +77,7 @@ ul > li {
 ul > li > a {
   /* background-color: antiquewhite; */
   display: block;
+  color:var(--fontColor);
 }
 
 ul > li:hover {

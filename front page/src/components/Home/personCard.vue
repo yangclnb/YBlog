@@ -94,6 +94,7 @@ function _addFavorite() {
   padding: 20px;
   max-width: 280px;
   background-color: var(--contentGroundColor);
+  color:var(--fontColor);
 
   @media screen and (max-width: 768px) {
     max-width: none;

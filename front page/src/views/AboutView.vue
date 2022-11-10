@@ -51,6 +51,7 @@ getAbout().then((results) => {
     word-wrap: break-word;
     word-break: break-all;
     white-space: normal;
+    color:var(--fontColor);
 
     @media screen and (max-width: 1000px) {
       max-width: 90vw;
@@ -74,6 +75,10 @@ getAbout().then((results) => {
 
     .md-image img[alt|="shadow"] {
       box-shadow: #84a1a8 0px 10px 15px;
+    }
+
+    a{
+      color:var(--fontColor);
     }
 
     h1,

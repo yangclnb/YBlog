@@ -61,6 +61,10 @@ let getTime = function computed(time) {
   animation: playTimeLine 0.75s;
 }
 
+h4{
+  color:var(--fontColor);
+}
+
 @keyframes playTimeLine {
   from {
     transform: translateY(100px);
