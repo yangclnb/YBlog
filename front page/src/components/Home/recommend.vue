@@ -58,7 +58,7 @@ let getRouter = function computed(blogID) {
 #title {
   text-align: center;
   background-color: var(--themeColor);
-  color: white;
+  color: var(--backGroundColor);
   padding: 5px 0;
   font-size: 20px;
 }

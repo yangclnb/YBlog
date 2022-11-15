@@ -57,7 +57,7 @@ function changeColor() {
   document.documentElement.style.setProperty("--themeColor", color.value);
   localStorage.setItem("currentColor", color.value);
 
-  ElMessage.success("主题色更改成功");
+  ElMessage.success("主题色更改成功~");
 }
 
 /**
@@ -67,7 +67,6 @@ function changeColor() {
  */
 function backTop() {
   document.documentElement.scrollTop = 0;
-  ElMessage.info("返回顶部");
 }
 
 /**
@@ -87,6 +86,13 @@ function changeDisplayModel() {
   }
 }
 
+
+/**
+ * @function: becomeDayModel
+ * @description: 切换白天模式
+ * @return {*}
+ * @author: Banana
+ */
 function becomeDayModel() {
   model_icon_box.value.style.right = "0px";
   displayType.value = "day";
@@ -97,6 +103,14 @@ function becomeDayModel() {
   document.documentElement.style.setProperty("--fontColor", "rgb(75, 75, 75)");
 }
 
+
+
+/**
+ * @function: becomeNightModel
+ * @description: 切换夜间模式
+ * @return {*}
+ * @author: Banana
+ */
 function becomeNightModel() {
   model_icon_box.value.style.right = "28px";
   displayType.value = "night";
@@ -236,11 +250,11 @@ function showCommentBox() {
       class="setting_operation hiddenAnimation"
     >
       <div id="model_icon_box" ref="model_icon_box">
-        <el-icon :size="25" color="white">
+        <el-icon :size="25" color="var(--contentGroundColor)">
           <Sunny />
         </el-icon>
         &nbsp;
-        <el-icon :size="25" color="white">
+        <el-icon :size="25" color="var(--contentGroundColor)">
           <Moon />
         </el-icon>
       </div>
@@ -254,7 +268,7 @@ function showCommentBox() {
       />
     </div>
     <div id="seting_button" @click="settingOperation">
-      <el-icon :size="25" color="white" class="is-loading">
+      <el-icon :size="25" color="var(--contentGroundColor)" class="is-loading">
         <Setting />
       </el-icon>
     </div>
@@ -263,15 +277,15 @@ function showCommentBox() {
       @click="toggleSideBar"
       v-show="hasSideBar != null"
     >
-      <el-icon class="showSideBarIcon" :size="25" color="white">
+      <el-icon class="showSideBarIcon" :size="25" color="var(--contentGroundColor)">
         <Download />
       </el-icon>
     </div>
     <div id="commitComment" @click="showCommentBox" v-show="hasSideBar != null">
-      <el-icon :size="25" color="white"><ChatLineSquare /></el-icon>
+      <el-icon :size="25" color="var(--contentGroundColor)"><ChatLineSquare /></el-icon>
     </div>
     <div id="back_top" class="hiddenAnimation" @click="backTop">
-      <el-icon :size="25" color="white">
+      <el-icon :size="25" color="var(--contentGroundColor)">
         <CaretTop />
       </el-icon>
     </div>

@@ -152,31 +152,34 @@ ul {
     word-break: break-all;
     white-space: normal;
     margin-bottom: 10px;
+    border-left: 4px solid transparent;
+    border-radius: 8px;
     cursor: pointer;
   }
 
   .active {
     color: var(--themeColor);
+    border-left: 4px solid var(--themeColor);
   }
 
   .t2 {
-    margin-left: 10px;
+    padding-left: 10px;
   }
 
   .t3 {
-    margin-left: 20px;
+    padding-left: 20px;
   }
 
   .t4 {
-    margin-left: 30px;
+    padding-left: 30px;
   }
 
   .t5 {
-    margin-left: 40px;
+    padding-left: 40px;
   }
 
   .t6 {
-    margin-left: 50px;
+    padding-left: 50px;
   }
 }
 
