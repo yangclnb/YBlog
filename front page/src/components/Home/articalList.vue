@@ -1,6 +1,7 @@
 <script setup>
 import { ElIcon } from "element-plus";
 import { getArtical } from "@/api/artical.js";
+import { encode } from "../../utils/articleEncoding";
 import { ElMessage, ElSkeleton, ElSkeletonItem } from "element-plus";
 import { getBlogList } from "../../cache/cache.js";
 import { useStore } from "../../store/pinia.js";
@@ -22,7 +23,7 @@ onBeforeMount(() => {
     getArtical(4, currentCount.value).then((data) => {
       currentArticalList.value = data.data;
       currentCount.value += currentArticalList.value.length;
-      loading.value = false
+      loading.value = false;
       console.log("fetch data :>> ", data.data);
     });
   } else {
@@ -101,8 +102,11 @@ function onMore() {
               "
             >
               <el-skeleton-item variant="h1" />
-              <el-skeleton-item style="margin-top:20px;margin-bottom:5px;" variant="p" />
-              <el-skeleton-item style="margin-bottom:20px;" variant="p" />
+              <el-skeleton-item
+                style="margin-top: 20px; margin-bottom: 5px"
+                variant="p"
+              />
+              <el-skeleton-item style="margin-bottom: 20px" variant="p" />
               <el-skeleton-item variant="p" style="width: 60px; height: 15px" />
               &nbsp; &nbsp; &nbsp;
               <el-skeleton-item variant="p" style="width: 60px; height: 15px" />
@@ -114,7 +118,10 @@ function onMore() {
       <template #default>
         <div v-for="(item, i) of currentArticalList" :key="i">
           <router-link
-            :to="{ name: 'articleContent', params: { articleID: item.blogId } }"
+            :to="{
+              name: 'articleContent',
+              params: { articleID: encode(item.blogId) },
+            }"
             class="articialInfo"
           >
             <img v-if="item.titleImg" :src="item.titleImg" alt="" />
@@ -192,7 +199,7 @@ a {
   display: flex;
   background-color: var(--contentGroundColor);
 
-  color:var(--fontColor);
+  color: var(--fontColor);
 
   border-radius: 5px;
 }

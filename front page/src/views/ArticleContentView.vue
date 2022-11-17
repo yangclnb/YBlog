@@ -1,14 +1,15 @@
 <script setup>
-import { onMounted, ref, onUnmounted } from "vue";
-import { ElDescriptions, ElDescriptionsItem } from "element-plus";
-import { computed, reactive } from "@vue/reactivity";
+import { onMounted, ref } from "vue";
 import router from "../router";
+import { computed } from "@vue/reactivity";
+import { ElDescriptions, ElDescriptionsItem } from "element-plus";
+import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
+import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
+
 import articleDigestVue from "../components/article/articleDigest.vue"; // 引入文章摘要模块
 import articleCommentVue from "../components/article/articleComment.vue"; // 引入文章评论模块
 import releaseCommentVue from "../components/article/releaseComment.vue"; // 发表评论模块
 import settingButtonVue from "../components/settingButton/settingButton.vue"; // 引入侧边按钮框
-import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
-import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
 import DynamicContent from "../components/dynamicContent/dynamicContent.vue";
 
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
@@ -16,7 +17,9 @@ import hljs from "highlight.js"; // 引入高亮模块
 import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/atom-one-light.css"; //引入一种语法的高亮
 
-let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
+import { decode } from "../utils/articleEncoding";
+let currentID = decode(router.currentRoute.value.params.articleID);
+
 let md = new MarkdownIt({
   html: true,
   linkify: true,
@@ -43,14 +46,18 @@ onMounted(() => {
 
 // 从缓存中获取文章数据
 let BlogData = getBlogByCache(currentID);
-if (BlogData == null) {
+if (isNaN(currentID)) {
+  toErrorPage();
+} else if (BlogData == null) {
   // 从服务器中获取文章数据
   getArticleByID(currentID).then((data) => {
-    let result = md.render(data.data[0].content);
-    data.data[0].content = result;
+    if (data.data.length == 0) toErrorPage();
+    const articleData = data.data[0];
+    let result = md.render(articleData.content);
+    articleData.content = result;
     // 替换更改后的内容
-    articleInfo.value = data.data[0];
-    console.log("fetchData :>> ", data.data[0]);
+    articleInfo.value = articleData;
+    console.log("fetchData :>> ", articleData);
   });
 } else {
   // 直接返回缓存中的数据
@@ -132,6 +139,19 @@ function getCommentData() {}
  * @author: Banana
  */
 function addComment() {}
+
+/**
+ * @function: toErrorPage
+ * @description: 跳转到错误页面
+ * @return {*}
+ * @author: Banana
+ */
+function toErrorPage() {
+  router.push({
+    name: "home",
+  });
+  // alert("toErrorPage");
+}
 </script>
 
 
@@ -187,7 +207,7 @@ function addComment() {}
 <style lang="less">
 #container {
   display: flex;
-  color:var(--fontColor);
+  color: var(--fontColor);
   background-color: var(--backGroundColor);
 
   /* 侧边栏 */
@@ -308,7 +328,7 @@ function addComment() {}
           box-shadow: #84a1a8 0px 10px 15px;
         }
 
-        a{
+        a {
           color: var(--fontColor);
         }
 

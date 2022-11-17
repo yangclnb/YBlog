@@ -1,11 +1,12 @@
 <script setup>
-import { getRecommendList } from "@/api/artical.js";
-import { ElSkeleton, ElSkeletonItem } from "element-plus";
+import { computed } from "vue";
 import { ref } from "@vue/reactivity";
-import { computed, onMounted } from "vue";
+import { getRecommendList } from "@/api/artical.js";
+import { encode } from "../../utils/articleEncoding";
+import { ElSkeleton, ElSkeletonItem } from "element-plus";
+
 let recommendList = ref([]);
 let loading = ref(true);
-
 
 getRecommendList().then((results) => {
   recommendList.value = results.data;
@@ -36,7 +37,7 @@ let getRouter = function computed(blogID) {
             <router-link
               :to="{
                 name: 'articleContent',
-                params: { articleID: item.blogid },
+                params: { articleID: encode(item.blogid) },
               }"
               >{{ item.title }}</router-link
             >
@@ -77,7 +78,7 @@ ul > li {
 ul > li > a {
   /* background-color: antiquewhite; */
   display: block;
-  color:var(--fontColor);
+  color: var(--fontColor);
 }
 
 ul > li:hover {

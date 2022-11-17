@@ -3,8 +3,8 @@ import { ref } from "@vue/reactivity";
 import { computed } from "vue";
 import router from "../../router/index.js";
 import { getCurrentArticalComment } from "../../api/comment.js";
-
-let currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
+import { decode } from "../../utils/articleEncoding";
+let currentID = decode(router.currentRoute.value.params.articleID);
 let commentList = ref([]);
 
 // 请求评论 api

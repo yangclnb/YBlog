@@ -1,15 +1,17 @@
 <script setup>
 import { ref } from "@vue/reactivity";
+import { encode } from "../utils/articleEncoding";
 import { getAllBlog, addArticleCache } from "../cache/cache.js";
+
 import { getAllArtical } from "../api/artical";
 import { onMounted } from "vue";
 
 let typeData = ref([]);
 
 // 滚动到顶部
-onMounted(()=>{
+onMounted(() => {
   document.documentElement.scrollTop = 0;
-})
+});
 
 // 更新本地存储
 addArticleCache();
@@ -66,7 +68,7 @@ function handleData(data) {
       <ul>
         <template v-for="(list, j) of item.list" :key="j">
           <router-link
-            :to="{ name: 'articleContent', params: { articleID: list.id } }"
+            :to="{ name: 'articleContent', params: { articleID: encode(list.id) } }"
             v-if="j < 4 || item.displayMore"
           >
             <li>
@@ -127,7 +129,7 @@ function handleData(data) {
     // box-shadow: var(--el-box-shadow);
     background-color: var(--contentGroundColor);
     border-radius: 5px;
-    color:var(--fontColor);
+    color: var(--fontColor);
 
     .classTitle {
       margin: 0 10px;
@@ -159,7 +161,7 @@ function handleData(data) {
         display: flex;
         align-items: center;
         cursor: pointer;
-        color:var(--fontColor);
+        color: var(--fontColor);
 
         &:hover {
           color: var(--themeColor);

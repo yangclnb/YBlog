@@ -1,9 +1,11 @@
 <script setup>
 import { reactive, ref } from "@vue/reactivity";
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage } from "element-plus";
-
 import { releaseComment } from "../../api/comment.js";
+import { decode } from "../../utils/articleEncoding";
 import router from "../../router/index.js";
+
+let currentID = decode(router.currentRoute.value.params.articleID);
 
 const form = reactive({
   name: "",
@@ -14,7 +16,6 @@ const commentContainer = ref();
 const props = defineProps({
   displayComment: Function,
 });
-const currentID = router.currentRoute.value.params.articleID; // 从路由中获取文章id
 let lodaing = ref(false);
 
 // console.log('props :>> ', props.displayComment());
