@@ -152,14 +152,18 @@ ul {
     word-break: break-all;
     white-space: normal;
     margin-bottom: 10px;
-    border-left: 4px solid transparent;
-    border-radius: 8px;
+    border-left: 1.5px solid transparent;
+    // border-radius: 8px;
     cursor: pointer;
   }
 
   .active {
     color: var(--themeColor);
     border-left: 4px solid var(--themeColor);
+  }
+
+  .t1 {
+    padding-left: 5px;
   }
 
   .t2 {

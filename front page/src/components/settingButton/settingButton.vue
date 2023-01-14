@@ -339,7 +339,7 @@ function showCommentBox() {
   display: flex;
   align-items: center;
 
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 #display_side_bar > i {

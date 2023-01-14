@@ -36,6 +36,7 @@ let md = new MarkdownIt({
 let articleInfo = ref([]);
 let currentSider = ref("digest");
 
+// TODO 读取 https://whois.pconline.com.cn/ipJson.jsp 中的城市信息并传入访客数据
 // 记录访客信息
 addVisitorInfo(currentID);
 
@@ -328,6 +329,10 @@ function toErrorPage() {
           box-shadow: #84a1a8 0px 10px 15px;
         }
 
+        img{
+          width: 100%;
+        }
+
         a {
           color: var(--fontColor);
         }
@@ -552,8 +557,8 @@ function toErrorPage() {
 
         pre {
           font-size: 16px;
-          padding: 10px;
-          width: 95%;
+          // padding: 10px;
+          width: 100%;
           margin: 0 auto;
           // background-color: #f6f6f6;
           overflow-x: auto;
@@ -566,7 +571,7 @@ function toErrorPage() {
             font-style: normal;
             font-weight: 400;
             font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
-            line-height: 18px;
+            line-height: 20px;
             color: #f1f1f1;
             background-color: #343434;
             border-radius: 2px;
