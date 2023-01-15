@@ -14,27 +14,27 @@ import DynamicContent from "../components/dynamicContent/dynamicContent.vue";
 
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 import hljs from "highlight.js"; // 引入高亮模块
-import "github-markdown-css/github-markdown.css";
-import "highlight.js/styles/atom-one-light.css"; //引入一种语法的高亮
+import "highlight.js/styles/atom-one-dark-reasonable.css";
 
 import { decode } from "../utils/articleEncoding";
 let currentID = decode(router.currentRoute.value.params.articleID);
 
 let md = new MarkdownIt({
-  html: true,
-  linkify: true,
-  typographer: true,
   highlight: function (str, lang) {
-    // 得到经过highlight.js之后的html代码
-    const code = hljs.highlight(str, {
-      language: lang || "javascript",
-      ignoreIllegals: true,
-    }).value;
-    return code;
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    return ""; // 使用额外的默认转义
   },
 }); // 文章内容 markdown 格式化  | 代码高亮
 let articleInfo = ref([]);
 let currentSider = ref("digest");
+let originArticle = "";
 
 // TODO 读取 https://whois.pconline.com.cn/ipJson.jsp 中的城市信息并传入访客数据
 // 记录访客信息
@@ -54,6 +54,7 @@ if (isNaN(currentID)) {
   getArticleByID(currentID).then((data) => {
     if (data.data.length == 0) toErrorPage();
     const articleData = data.data[0];
+    originArticle = articleData.content;
     let result = md.render(articleData.content);
     articleData.content = result;
     // 替换更改后的内容
@@ -62,6 +63,7 @@ if (isNaN(currentID)) {
   });
 } else {
   // 直接返回缓存中的数据
+  originArticle = BlogData.content;
   BlogData.content = md.render(BlogData.content);
   articleInfo.value = BlogData;
   console.log("cacheData :>> ", BlogData);
@@ -102,12 +104,28 @@ let articleReleaseTime = computed(() => {
  * @return {*}
  * @author: Banana
  */
-let articleWordNums = computed(() => {
-  let wordNums = articleInfo.value.content.length;
-  if (wordNums > 1000) {
-    return (wordNums / 1000).toFixed(0) + "k";
+let articleWordNums = () => {
+  let wordNums = originArticle.length;
+
+  function toThousands(num) {
+    var result = "",
+      counter = 0;
+    num = (num || 0).toString();
+    for (var i = num.length - 1; i >= 0; i--) {
+      counter++;
+      result = num.charAt(i) + result;
+      if (!(counter % 3) && i != 0) {
+        result = "," + result;
+      }
+    }
+    return result;
   }
-});
+  // alert(wordNums)
+  // if (wordNums > 1000) {
+  //   return (wordNums / 1000).toFixed(0) + "k";
+  // }
+  return toThousands(wordNums);
+};
 
 /**
  * @function: displayComment
@@ -189,7 +207,7 @@ function toErrorPage() {
           </div>
           <div>
             <Paperclip style="width: 1em; height: 1em; margin-right: 8px" />
-            字数总计：{{ articleWordNums }}
+            字数总计：{{ articleWordNums() }}
           </div>
           <!-- <p>
             <Magnet style="width: 1em; height: 1em; margin-right: 8px" />
@@ -329,7 +347,7 @@ function toErrorPage() {
           box-shadow: #84a1a8 0px 10px 15px;
         }
 
-        img{
+        img {
           width: 100%;
         }
 
