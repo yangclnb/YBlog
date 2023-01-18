@@ -92,7 +92,6 @@ function _addFavorite() {
 #personCard {
   border-radius: 5px;
   padding: 20px;
-  max-width: 280px;
   background-color: var(--contentGroundColor);
   color:var(--fontColor);
 
