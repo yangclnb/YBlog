@@ -236,7 +236,7 @@ function toErrorPage() {
     width: 250px;
     height: 100vh;
     box-shadow: var(--el-box-shadow);
-    background-color: var(--backGroundColor);
+    background-color: var(--contentGroundColor);
     display: block;
     overflow-y: auto;
     overflow-x: hidden;
@@ -281,6 +281,7 @@ function toErrorPage() {
   #rightContent {
     width: 100%;
     background: url("../assets/foreground.webp") repeat-x bottom;
+
 
     /* 文章展示 */
     #articleContent {
