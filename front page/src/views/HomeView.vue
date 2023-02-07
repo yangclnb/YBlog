@@ -24,7 +24,8 @@ addArticleCache();
       <hr />
       <chartsVue />
       <hr />
-      <p id="pageInfo">粤ICP备2022015715号-1</p>
+      <div id="pageInfo"><a id="recordInfo" href="https://beian.miit.gov.cn/#/Integrated/index">粤ICP备2022015715号-1</a></div>
+      
     </div>
   </div>
 </template>
@@ -51,8 +52,11 @@ hr {
 }
 
 #pageInfo {
-  color: var(--secondaryFontColor);
   text-align: center;
+}
+
+#recordInfo{
+  color: var(--secondaryFontColor);
 }
 
 @keyframes displayRightBar {
