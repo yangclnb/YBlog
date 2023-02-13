@@ -33,9 +33,10 @@ addArticleCache();
 
 <style scoped>
 hr {
-  margin: 15px 10px;
-  border-top: none;
-  background-color: rgb(201, 201, 201);
+  margin: 15px 0px;
+  height: 1px;
+  border: none;
+  background-color:  var(--contentGroundColor);
 }
 
 #content {
