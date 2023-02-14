@@ -55,7 +55,7 @@ import IconLogoVue from "../components/icons/iconLogo.vue";
       justify-content: space-between;
       align-content: center;
       padding: 10px;
-      border-bottom: 1px solid rgb(230, 230, 230);
+      border-bottom: 1px solid var(--contentGroundColor);
 
       background-image: radial-gradient(transparent 1px, var(--backGroundColor) 1px);
       background-size: 4px 4px;

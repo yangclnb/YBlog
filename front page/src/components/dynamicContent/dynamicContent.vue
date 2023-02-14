@@ -34,7 +34,7 @@ let alreadyOutput = "";
 let randomChar = "";
 
 onMounted(() => {
-  let newArr = props.text.split("");
+  const newArr = props.text.split("");
   for (let i = 0; i < newArr.length; i++) {
     setTimeout(() => {
       alreadyOutput += newArr[i];
@@ -46,15 +46,15 @@ onMounted(() => {
 const getRandomChar = (length) => {
   let string = "";
   for (let i = 1; i < length; i++) {
-    let randomChar = String.fromCharCode((Math.random() * 100).toFixed(0));
+    const randomNum = 33 + parseInt((Math.random() * 10));
+    const randomChar = String.fromCharCode(randomNum);
     string += getRandomColorSpan(randomChar);
   }
-  //   console.log(string);
   return string;
 };
 
 const getRandomColorSpan = (char) => {
-  let randomColorIndex = (Math.random() * colors.length).toFixed(0);
+  const randomColorIndex = (Math.random() * colors.length).toFixed(0);
   return `<span style='color:${colors[randomColorIndex]}'>${char}</span>`;
 };
 </script>

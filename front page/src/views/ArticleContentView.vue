@@ -1,10 +1,12 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, onUnmounted, ref } from "vue";
 import router from "../router";
 import { computed } from "@vue/reactivity";
 import { ElDescriptions, ElDescriptionsItem } from "element-plus";
 import { getBlogByCache } from "../cache/cache.js"; // 从缓存中获取文章内容
 import { getArticleByID, addVisitorInfo } from "../api/artical.js"; // 读取文章信息
+
+import { getTime, setTime } from "@/utils/recordReadTime.js";
 
 import articleDigestVue from "../components/article/articleDigest.vue"; // 引入文章摘要模块
 import articleCommentVue from "../components/article/articleComment.vue"; // 引入文章评论模块
@@ -35,14 +37,29 @@ let md = new MarkdownIt({
 let articleInfo = ref([]);
 let currentSider = ref("digest");
 let originArticle = "";
+// 记录阅读时间
+let readingTime = 0;
 
 // TODO 读取 https://whois.pconline.com.cn/ipJson.jsp 中的城市信息并传入访客数据
 // 记录访客信息
 addVisitorInfo(currentID);
 
 onMounted(() => {
+  // 记录开始时间
+  readingTime = Date.now();
   // 滚动至顶部
   window.scrollTo(0, 0);
+});
+
+
+
+onBeforeUnmount(() => {
+  let id = currentID;
+  // 记录结束时间
+  readingTime = Date.now() - readingTime;
+  console.log('readingTime: ', readingTime);
+  console.log(this);
+  setTime(id, readingTime);
 });
 
 // 从缓存中获取文章数据
@@ -68,6 +85,11 @@ if (isNaN(currentID)) {
   articleInfo.value = BlogData;
   console.log("cacheData :>> ", BlogData);
 }
+
+const currentReadingTime = computed(() => {
+  const date = new Date(getTime(currentID));
+  return `${date.getMinutes()}分钟` ;
+});
 
 /**
  * @function: changeSiderContent
@@ -202,12 +224,16 @@ function toErrorPage() {
             发布于：{{ articleReleaseTime }}
           </div>
           <div>
-            <CollectionTag style="width: 1em; height: 1em; margin-right: 8px" />
-            {{ articleInfo.typeName }}
-          </div>
-          <div>
             <Paperclip style="width: 1em; height: 1em; margin-right: 8px" />
             字数总计：{{ articleWordNums() }}
+          </div>
+          <div>
+            <Clock style="width: 1em; height: 1em; margin-right: 8px" />
+            阅读时长：{{ currentReadingTime }}
+          </div>
+          <div>
+            <CollectionTag style="width: 1em; height: 1em; margin-right: 8px" />
+            {{ articleInfo.typeName }}
           </div>
           <!-- <p>
             <Magnet style="width: 1em; height: 1em; margin-right: 8px" />
@@ -281,7 +307,6 @@ function toErrorPage() {
   #rightContent {
     width: 100%;
     background: url("../assets/foreground.webp") repeat-x bottom;
-
 
     /* 文章展示 */
     #articleContent {
