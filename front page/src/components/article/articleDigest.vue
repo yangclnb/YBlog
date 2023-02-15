@@ -155,6 +155,7 @@ ul {
     border-left: 1.5px solid transparent;
     // border-radius: 8px;
     cursor: pointer;
+    transition: all 0.5s;
   }
 
   .active {

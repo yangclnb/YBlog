@@ -216,7 +216,8 @@ function toErrorPage() {
         alt=""
       />
       <div id="articleContent">
-        <DynamicContent :text="articleInfo.title" tagName="h1">
+        <DynamicContent>
+          <h1>{{ articleInfo.title }}</h1>
         </DynamicContent>
         <div id="articleInfoBox">
           <div>
@@ -253,16 +254,15 @@ function toErrorPage() {
 #container {
   display: flex;
   color: var(--fontColor);
-  background-color: var(--backGroundColor);
-
+  background-color: var(--contentGroundColor);
   /* 侧边栏 */
 
   #sideBar {
     min-width: 250px;
     width: 250px;
     height: 100vh;
-    box-shadow: var(--el-box-shadow);
-    background-color: var(--contentGroundColor);
+    // box-shadow: var(--el-box-shadow);
+    background-color: var(--backGroundColor);
     display: block;
     overflow-y: auto;
     overflow-x: hidden;

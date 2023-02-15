@@ -1,11 +1,6 @@
 <script setup>
-import { ref, toRefs } from "@vue/reactivity";
+import { ref } from "@vue/reactivity";
 import { onMounted } from "vue";
-
-let props = defineProps({
-  text: String,
-  tagName: String,
-});
 
 let colors = [
   "rgb(110,64,170)",
@@ -29,16 +24,17 @@ let colors = [
   "rgb(76,110,219)",
   "rgb(96,84,200)",
 ];
-let outputTitle = ref("");
+
+const dynamicBox = ref();
 let alreadyOutput = "";
-let randomChar = "";
 
 onMounted(() => {
-  const newArr = props.text.split("");
-  for (let i = 0; i < newArr.length; i++) {
+  const dynamicElement = dynamicBox.value.firstElementChild;
+  const currentContent = dynamicElement.innerHTML;
+  for (let i = 0; i < currentContent.length; i++) {
     setTimeout(() => {
-      alreadyOutput += newArr[i];
-      outputTitle.value = alreadyOutput + getRandomChar(newArr.length - i);
+      alreadyOutput += currentContent[i];
+      dynamicElement.innerHTML = alreadyOutput + getRandomChar(currentContent.length - i);
     }, (i + 1) * 100);
   }
 });
@@ -60,14 +56,8 @@ const getRandomColorSpan = (char) => {
 </script>
 
 <template>
-  <div id="text_tag_container">
-    <h1 v-if="props.tagName == 'h1'" v-html="outputTitle"></h1>
-    <h2 v-if="props.tagName == 'h2'" v-html="outputTitle"></h2>
-    <h3 v-if="props.tagName == 'h3'" v-html="outputTitle"></h3>
-    <h4 v-if="props.tagName == 'h4'" v-html="outputTitle"></h4>
-    <h5 v-if="props.tagName == 'h5'" v-html="outputTitle"></h5>
-    <p v-if="props.tagName == 'p'" v-html="outputTitle"></p>
-    <span v-if="props.tagName == 'span'" v-html="outputTitle"></span>
+  <div id="text_tag_container" ref="dynamicBox">
+    <slot></slot>
   </div>
 </template>
 
