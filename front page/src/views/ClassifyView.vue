@@ -2,7 +2,7 @@
 import { ref } from "@vue/reactivity";
 import { encode } from "../utils/articleEncoding";
 import { getAllBlog, addArticleCache } from "../cache/cache.js";
-
+import title from "../utils/changeTitle";
 import { getAllArtical } from "../api/artical";
 import { onMounted } from "vue";
 
@@ -11,6 +11,7 @@ let typeData = ref([]);
 // 滚动到顶部
 onMounted(() => {
   document.documentElement.scrollTop = 0;
+  title("分类");
 });
 
 // 更新本地存储

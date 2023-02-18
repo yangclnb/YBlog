@@ -2,6 +2,7 @@
 import { ElTimeline, ElTimelineItem, ElCard } from "element-plus";
 import { getArticleTimeLine } from "@/api/artical.js";
 import { getAllBlog } from "../cache/cache.js";
+import title from "../utils/changeTitle";
 import { computed, onBeforeMount,onMounted, ref } from "vue";
 
 let timeline = ref([]);
@@ -9,6 +10,7 @@ let timeline = ref([]);
 // 滚动到顶部
 onMounted(()=>{
   document.documentElement.scrollTop = 0;
+  title("归档");
 })
 
 onBeforeMount(() => {

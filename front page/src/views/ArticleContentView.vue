@@ -13,6 +13,7 @@ import articleCommentVue from "../components/article/articleComment.vue"; // 引
 import releaseCommentVue from "../components/article/releaseComment.vue"; // 发表评论模块
 import settingButtonVue from "../components/settingButton/settingButton.vue"; // 引入侧边按钮框
 import DynamicContent from "../components/dynamicContent/dynamicContent.vue";
+import title from "../utils/changeTitle";
 
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 import hljs from "highlight.js"; // 引入高亮模块
@@ -77,6 +78,7 @@ if (isNaN(currentID)) {
     // 替换更改后的内容
     articleInfo.value = articleData;
     console.log("fetchData :>> ", articleData);
+    title(articleInfo.value.title);
   });
 } else {
   // 直接返回缓存中的数据
@@ -84,6 +86,7 @@ if (isNaN(currentID)) {
   BlogData.content = md.render(BlogData.content);
   articleInfo.value = BlogData;
   console.log("cacheData :>> ", BlogData);
+  title(articleInfo.value.title);
 }
 
 const currentReadingTime = computed(() => {

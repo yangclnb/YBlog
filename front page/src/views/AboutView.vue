@@ -3,7 +3,7 @@ import { ElSkeleton, ElSkeletonItem } from "element-plus";
 import { getAbout } from "@/api/about.js";
 import { ref } from "@vue/reactivity";
 import { onBeforeMount, onMounted } from "vue";
-
+import title from "../utils/changeTitle";
 import MarkdownIt from "markdown-it"; // 引入 markdown 模块
 
 let content = ref("");
@@ -14,6 +14,7 @@ let loading = ref(true);
 // 滚动到顶部
 onMounted(() => {
   document.documentElement.scrollTop = 0;
+  title("关于");
 });
 
 getAbout().then((results) => {

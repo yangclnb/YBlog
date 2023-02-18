@@ -3,12 +3,13 @@ import { ref } from "@vue/reactivity";
 import { onMounted } from "vue";
 import {ElIcon,ElMessage} from "element-plus";
 import { getFriendChain } from "../api/friend";
-
+import title from "../utils/changeTitle";
 let friendChainArray = ref([]);
 
 // 滚动到顶部
 onMounted(()=>{
   document.documentElement.scrollTop = 0;
+  title("友链");
 })
 
 getFriendChain().then((results) => {

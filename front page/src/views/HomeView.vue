@@ -3,12 +3,14 @@ import articalListVue from "../components/Home/articalList.vue";
 import personCardVue from "../components/Home/personCard.vue";
 import recommendVue from "../components/Home/recommend.vue";
 import chartsVue from "../components/Home/charts.vue";
+import title from "../utils/changeTitle";
 import { addArticleCache } from "../cache/cache.js";
 import { onMounted } from "vue";
 
 // 滚动到顶部
 onMounted(() => {
   document.documentElement.scrollTop = 0;
+  title("首页");
 });
 
 addArticleCache();
