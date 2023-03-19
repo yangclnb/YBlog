@@ -52,7 +52,8 @@ let getRouter = function computed(blogID) {
 #recommend {
   min-width: 280px;
   background-color: var(--contentGroundColor);
-  border-radius: 5px;
+  border-radius: 10px;
+  overflow: hidden;
   /* box-shadow: var(--el-box-shadow); */
 }
 
@@ -72,7 +73,7 @@ ul > li {
   padding: 10px;
   font-size: 15px;
   cursor: pointer;
-  transition: 0.5s linear;
+  transition: 0.2s linear;
 }
 
 ul > li > a {
@@ -82,6 +83,6 @@ ul > li > a {
 }
 
 ul > li:hover {
-  background-color: #e7eaf0;
+  background-color: var(--backGroundColor);
 }
 </style>

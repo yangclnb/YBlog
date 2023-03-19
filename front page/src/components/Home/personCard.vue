@@ -78,7 +78,7 @@ function sendMessage() {
 
 <style lang="less" scoped>
 #personCard {
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 20px;
   background-color: var(--contentGroundColor);
   color: var(--fontColor);

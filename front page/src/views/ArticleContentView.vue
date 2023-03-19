@@ -52,13 +52,11 @@ onMounted(() => {
   window.scrollTo(0, 0);
 });
 
-
-
 onBeforeUnmount(() => {
   let id = currentID;
   // 记录结束时间
   readingTime = Date.now() - readingTime;
-  console.log('readingTime: ', readingTime);
+  console.log("readingTime: ", readingTime);
   console.log(this);
   setTime(id, readingTime);
 });
@@ -91,7 +89,7 @@ if (isNaN(currentID)) {
 
 const currentReadingTime = computed(() => {
   const date = new Date(getTime(currentID));
-  return `${date.getMinutes()}分钟` ;
+  return `${date.getMinutes()}分钟`;
 });
 
 /**
@@ -212,16 +210,18 @@ function toErrorPage() {
       <articleCommentVue v-show="currentSider == 'comment'" />
     </div>
     <div id="rightContent">
-      <img
-        v-if="articleInfo.titleImg"
-        style="width: 100%"
-        :src="articleInfo.titleImg"
-        alt=""
-      />
       <div id="articleContent">
+        <div id="articleTitleImageBox">
+          <img
+            v-if="articleInfo.titleImg"
+            :src="articleInfo.titleImg"
+            :alt="articleInfo.title"
+          />
+        </div>
         <DynamicContent>
           <h1>{{ articleInfo.title }}</h1>
         </DynamicContent>
+
         <div id="articleInfoBox">
           <div>
             <Calendar style="width: 1em; height: 1em; margin-right: 8px" />
@@ -311,6 +311,25 @@ function toErrorPage() {
     width: 100%;
     background: url("../assets/foreground.webp") repeat-x bottom;
 
+    #articleTitleImageBox {
+      display: flex;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 40px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: var(--el-box-shadow);
+
+        @media screen and (max-width: 576px) {
+          height: 200px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+
     /* 文章展示 */
     #articleContent {
       padding: 10px 10px 200px 10px;
@@ -337,11 +356,13 @@ function toErrorPage() {
         padding-top: 10px;
         // padding-bottom: 20px;
         display: flex;
+        flex-wrap: wrap;
 
         div {
           padding-right: 15px;
           display: flex;
           align-items: center;
+          color: var(--secondaryFontColor);
 
           @media screen and (max-width: 576px) {
             padding-bottom: 5px;

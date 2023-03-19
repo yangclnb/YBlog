@@ -124,7 +124,7 @@ function onMore() {
             }"
             class="articialInfo"
           >
-            <img v-if="item.titleImg" :src="item.titleImg" alt="" />
+            <img class="articleTitleImage" v-if="item.titleImg" :src="item.titleImg" :alt="item.title" />
             <div class="content">
               <h1>{{ item.title }}</h1>
               <p class="pageDescribe">{{ item.content.slice(0, 150) }}</p>
@@ -181,6 +181,7 @@ a {
   animation: playArticle 0.75s;
 }
 
+
 @keyframes playArticle {
   from {
     transform: translateY(100px);
@@ -196,13 +197,14 @@ a {
   /* background-color: bisque; */
   /* border: 1px solid #aab5cb; */
   cursor: pointer;
-  transition: 0.5s linear;
+  transition: .2s linear;
   display: flex;
   background-color: var(--contentGroundColor);
 
   color: var(--fontColor);
 
-  border-radius: 5px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .articialInfo:hover {
@@ -213,6 +215,7 @@ a {
 .articialInfo > img {
   margin-right: 10px;
   width: 30%;
+  object-fit: cover;
 }
 
 .content {
